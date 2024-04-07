@@ -4,22 +4,25 @@
 
 #ifndef PROJECT_BASE_MEMORYALLOCATOR_HPP
 #define PROJECT_BASE_MEMORYALLOCATOR_HPP
+
 #include "../lib/hw.h"
 
 class MemoryAllocator {
 private:
-    MemoryAllocator();
+    MemoryAllocator() = default;
     MemoryAllocator(MemoryAllocator&) = delete;
     MemoryAllocator& operator==(MemoryAllocator&) = delete;
 
     struct MemoryBlock {
         MemoryBlock* next;
         MemoryBlock* prev;
-        uint64 size;
+        size_t size;
     };
 
     static MemoryBlock* free_mem_head;
     static MemoryBlock* used_mem_head;
+
+    static int tryToJoin(MemoryBlock*);
 
 public:
 
@@ -30,7 +33,6 @@ public:
     static int mem_free(const void*);
 
 };
-
 
 
 #endif //PROJECT_BASE_MEMORYALLOCATOR_HPP

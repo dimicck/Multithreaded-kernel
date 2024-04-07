@@ -3,9 +3,8 @@
 //
 
 #include "../lib/console.h"
+#include "../h/MemoryAllocator.hpp"
+
 int main() {
-    __putc('a');
-    __putc('\n');
-    __putc('\n');
     return 0;
 }

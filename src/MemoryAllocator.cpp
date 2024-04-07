@@ -57,7 +57,7 @@ void* MemoryAllocator::mem_alloc(size_t size) {
                 curr->next = prev->next;
                 prev->next = curr;
             }
-            else used_mem_head = curr; // da li je kruzna lista ?
+            else used_mem_head = curr;
             if (curr->next) curr->next->prev = curr;
             return (void*)((char*)curr + sizeof(MemoryBlock));
             // pokazivac na memoriju za alociranje: bez zaglavlja
@@ -66,3 +66,73 @@ void* MemoryAllocator::mem_alloc(size_t size) {
     // nije pronadjen odgovarajuc blok memorije
     return 0;
 }
+
+int MemoryAllocator::mem_free(const void* addr) {
+    if (addr == 0 || addr > HEAP_END_ADDR || addr < HEAP_START_ADDR) return -1; // error
+
+    MemoryBlock* block = (MemoryBlock*)((char*)addr - sizeof(MemoryBlock));
+    MemoryBlock* tmp = used_mem_head;
+
+    for (; tmp && block > tmp; tmp = tmp->next);
+    if (block != tmp || tmp == 0) return -1;
+
+    // used mem lista
+    if (tmp->prev) tmp->prev->next = tmp->next;
+    else used_mem_head = tmp->next;
+    if (tmp->next) tmp->next->prev = tmp->prev;
+
+    // free mem lista
+    if (free_mem_head == 0 || (char*)block < (char*)free_mem_head) tmp = nullptr;
+    else for (tmp = free_mem_head; tmp->next != 0 && (char*)block > (char*)(tmp->next); tmp = tmp->next);
+    // tmp je pozicija iza koje se uvezuje novi slobodan blok
+
+    if (tmp == nullptr) {
+        block -> prev = tmp;
+        if (free_mem_head) {
+            free_mem_head->prev = block;
+            block->next = free_mem_head;
+            tryToJoin(block);
+        }
+        else block -> next = nullptr;
+        free_mem_head = block;
+        tryToJoin(free_mem_head);
+
+    } else {
+        // tmp je prethodnik
+
+        block->next = tmp->next;
+        block->prev = tmp;
+        tmp->next = block;
+        if (block->next) block->next->prev = block;
+        tryToJoin(block);
+        tryToJoin(tmp);
+    }
+    return 0;
+}
+
+//tryToJoin metoda pokusava spajanje sa narednim elementom
+int MemoryAllocator::tryToJoin(MemoryAllocator::MemoryBlock *curr) {
+    if (curr == 0) return 0;
+    if (curr->next && (char*)curr + curr->size == (char*)curr->next) {
+        curr->size += curr->next->size;
+        curr->next = curr->next->next;
+        if (curr->next) curr->next->prev = curr;
+        return 1;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
