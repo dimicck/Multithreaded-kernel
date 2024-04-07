@@ -37,6 +37,7 @@ public:
     static void* mem_alloc(size_t);
     static int mem_free(const void*);
 
+    // pomocne -> brisi
     static void printfree();
     static void printused();
 

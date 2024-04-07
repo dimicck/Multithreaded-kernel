@@ -50,4 +50,6 @@ public:
     static void putc (char);
 };
 
+
+
 #endif
