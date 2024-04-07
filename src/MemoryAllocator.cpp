@@ -1,16 +1,19 @@
 
-#include "../h/MemoryAllocator.hpp"
-MemoryAllocator* allocator = nullptr;
+#include "../h/Memoryallocator.hpp"
+#include "../lib/console.h"
+
+MemoryAllocator* MemoryAllocator::allocator = nullptr;
+MemoryAllocator::MemoryBlock* MemoryAllocator::free_mem_head = nullptr;
+MemoryAllocator::MemoryBlock* MemoryAllocator::used_mem_head = nullptr;
 
 MemoryAllocator* MemoryAllocator::getAllocator() {
 
     if (allocator == 0) {
-        used_mem_head = 0;
         free_mem_head = (MemoryBlock*)HEAP_START_ADDR;
         free_mem_head->next = nullptr;
         free_mem_head->prev = nullptr;
         free_mem_head->size = (size_t)HEAP_END_ADDR - (size_t)HEAP_START_ADDR + 1;
-        allocator = (MemoryAllocator*)MemoryAllocator::mem_alloc((sizeof(MemoryAllocator)+MEM_BLOCK_SIZE-1)/MEM_BLOCK_SIZE);
+        allocator = (MemoryAllocator*)MemoryAllocator::mem_alloc(sizeof(MemoryAllocator));
     }
     return allocator;
 }
@@ -20,7 +23,7 @@ void* MemoryAllocator::mem_alloc(size_t size) {
     if (size <= 0) return nullptr;
 
     MemoryBlock* curr = 0;
-    size_t byte_size = size*MEM_BLOCK_SIZE;
+    size_t byte_size = ((size + sizeof(MemoryBlock) + MEM_BLOCK_SIZE - 1) / MEM_BLOCK_SIZE) * MEM_BLOCK_SIZE;
     for (curr = free_mem_head; curr != 0; curr = curr -> next) {
 
         if (curr->size >= byte_size) {
@@ -51,7 +54,7 @@ void* MemoryAllocator::mem_alloc(size_t size) {
             if (curr < used_mem_head || used_mem_head == 0) prev = 0;
             else for (prev = used_mem_head; prev->next != 0; prev = prev->next);
 
-            curr->size = size*MEM_BLOCK_SIZE;
+            curr->size = byte_size;
             curr->prev = prev;
             if (prev) {
                 curr->next = prev->next;
@@ -120,6 +123,21 @@ int MemoryAllocator::tryToJoin(MemoryAllocator::MemoryBlock *curr) {
         return 1;
     }
     return 0;
+}
+
+void MemoryAllocator::printfree() {
+
+    for (MemoryBlock* b = free_mem_head; b != nullptr; b = b->next) {
+        __putc('f');
+        __putc('\n');
+    }
+
+    if (!used_mem_head) __putc('d');
+
+    for (MemoryBlock* b = used_mem_head; b != nullptr; b = b->next) {
+        __putc('u');
+        __putc('\n');
+    }
 }
 
 
