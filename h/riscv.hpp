@@ -12,6 +12,7 @@ extern "C" void supervisorTrap();
 
 class RISCV {
 public:
+
     static uint64 rd_scause();
     static void wr_scause(uint64 scause);
 
@@ -29,6 +30,17 @@ public:
 
     static uint64 rd_sstatus();
     static void wr_sstatus(uint64 sstatus);
+
+    enum mask_sstatus {
+        SIE = (1 << 1),
+        SPIE =(1 << 5),
+        SSP = (1 << 8)
+    };
+
+    enum mask_sip_sie {
+        SS = (1 << 1),
+        SE = (1 << 9)
+    };
 
 };
 
