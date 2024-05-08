@@ -1,4 +1,4 @@
-GAS LISTING /tmp/ccljVNHA.s 			page 1
+GAS LISTING /tmp/ccpuE7Yi.s 			page 1
 
 
    1              		.file	"main.cpp"
@@ -7,190 +7,635 @@ GAS LISTING /tmp/ccljVNHA.s 			page 1
    4              		.text
    5              	.Ltext0:
    6              		.align	2
-   7              		.globl	main
-   9              	main:
-  10              	.LFB0:
+   7              		.globl	_Z19testMemoryAllocatorv
+   9              	_Z19testMemoryAllocatorv:
+  10              	.LFB17:
   11              		.file 1 "src/main.cpp"
    1:src/main.cpp  **** 
    2:src/main.cpp  **** #include "../h/Memoryallocator.hpp"
-   3:src/main.cpp  **** #include "../lib/console.h"
-   4:src/main.cpp  **** 
-   5:src/main.cpp  **** int main() {
-  12              		.loc 1 5 12
+   3:src/main.cpp  **** #include "../h/syscall_c.h"
+   4:src/main.cpp  **** #include "../lib/console.h"
+   5:src/main.cpp  **** #include "../h/thread.hpp"
+   6:src/main.cpp  **** #include "../h/riscv.hpp"
+   7:src/main.cpp  **** 
+   8:src/main.cpp  **** 
+   9:src/main.cpp  **** void testMemoryAllocator() {
+  12              		.loc 1 9 28
   13              		.cfi_startproc
-  14 0000 130101FF 		addi	sp,sp,-16
-  15              		.cfi_def_cfa_offset 16
-  16 0004 23341100 		sd	ra,8(sp)
-  17 0008 23308100 		sd	s0,0(sp)
-  18              		.cfi_offset 1, -8
-  19              		.cfi_offset 8, -16
-  20 000c 13040101 		addi	s0,sp,16
-  21              		.cfi_def_cfa 8, 0
-   6:src/main.cpp  ****     __putc('\n');
-  22              		.loc 1 6 5
-  23              		.loc 1 6 11 is_stmt 0
-  24 0010 1305A000 		li	a0,10
-  25 0014 97000000 		call	__putc@plt
-  25      E7800000 
-  26              	.LVL0:
-   7:src/main.cpp  ****     MemoryAllocator::getAllocator();
-  27              		.loc 1 7 5 is_stmt 1
-  28              		.loc 1 7 34 is_stmt 0
-  29 001c 97000000 		call	_ZN15MemoryAllocator12getAllocatorEv@plt
+  14 0000 130101FE 		addi	sp,sp,-32
+  15              		.cfi_def_cfa_offset 32
+  16 0004 233C1100 		sd	ra,24(sp)
+  17 0008 23388100 		sd	s0,16(sp)
+  18 000c 23349100 		sd	s1,8(sp)
+  19 0010 23302101 		sd	s2,0(sp)
+  20              		.cfi_offset 1, -8
+  21              		.cfi_offset 8, -16
+  22              		.cfi_offset 9, -24
+  23              		.cfi_offset 18, -32
+  24 0014 13040102 		addi	s0,sp,32
+  25              		.cfi_def_cfa 8, 0
+  10:src/main.cpp  **** 
+  11:src/main.cpp  ****     void *addr = MemoryAllocator::mem_alloc(1);
+  26              		.loc 1 11 5
+  27              		.loc 1 11 44 is_stmt 0
+  28 0018 13051000 		li	a0,1
+  29 001c 97000000 		call	_ZN15MemoryAllocator9mem_allocEm@plt
   29      E7800000 
-  30              	.LVL1:
-   8:src/main.cpp  ****     MemoryAllocator::mem_alloc(15);
-  31              		.loc 1 8 5 is_stmt 1
-  32              		.loc 1 8 31 is_stmt 0
-  33 0024 1305F000 		li	a0,15
-  34 0028 97000000 		call	_ZN15MemoryAllocator9mem_allocEm@plt
-  34      E7800000 
-  35              	.LVL2:
-   9:src/main.cpp  ****     MemoryAllocator::printfree();
-  36              		.loc 1 9 5 is_stmt 1
-  37              		.loc 1 9 31 is_stmt 0
-  38 0030 97000000 		call	_ZN15MemoryAllocator9printfreeEv@plt
-  38      E7800000 
-  39              	.LVL3:
-  10:src/main.cpp  ****     MemoryAllocator::mem_free((void*)(1*MEM_BLOCK_SIZE+ sizeof(MemoryAllocator::MemoryBlock)+(char*
-  40              		.loc 1 10 5 is_stmt 1
-  41              		.loc 1 10 30 is_stmt 0
-  42 0038 97070000 		la	a5,HEAP_START_ADDR
-  42      83B70700 
-  43 0040 03B50700 		ld	a0,0(a5)
-GAS LISTING /tmp/ccljVNHA.s 			page 2
+  30              	.LVL0:
+  31 0024 93040500 		mv	s1,a0
+  32              	.LVL1:
+  12:src/main.cpp  ****     MemoryAllocator::print();
+  33              		.loc 1 12 5 is_stmt 1
+  34              		.loc 1 12 27 is_stmt 0
+  35 0028 97000000 		call	_ZN15MemoryAllocator5printEv@plt
+  35      E7800000 
+  36              	.LVL2:
+  13:src/main.cpp  ****     int ret1 = MemoryAllocator::mem_free(addr);
+  37              		.loc 1 13 5 is_stmt 1
+  38              		.loc 1 13 41 is_stmt 0
+  39 0030 13850400 		mv	a0,s1
+  40 0034 97000000 		call	_ZN15MemoryAllocator8mem_freeEPKv@plt
+  40      E7800000 
+  41              	.LVL3:
+  42 003c 13090500 		mv	s2,a0
+GAS LISTING /tmp/ccpuE7Yi.s 			page 2
 
 
-  44 0044 13058505 		addi	a0,a0,88
-  45 0048 97000000 		call	_ZN15MemoryAllocator8mem_freeEPKv@plt
-  45      E7800000 
-  46              	.LVL4:
-  11:src/main.cpp  ****     MemoryAllocator::printfree();
-  47              		.loc 1 11 5 is_stmt 1
-  48              		.loc 1 11 31 is_stmt 0
-  49 0050 97000000 		call	_ZN15MemoryAllocator9printfreeEv@plt
-  49      E7800000 
-  50              	.LVL5:
-  12:src/main.cpp  **** 
-  13:src/main.cpp  ****     return 0;
-  51              		.loc 1 13 5 is_stmt 1
-  14:src/main.cpp  **** }
-  52              		.loc 1 14 1 is_stmt 0
-  53 0058 13050000 		li	a0,0
-  54 005c 83308100 		ld	ra,8(sp)
-  55              		.cfi_restore 1
-  56 0060 03340100 		ld	s0,0(sp)
-  57              		.cfi_restore 8
-  58              		.cfi_def_cfa 2, 16
-  59 0064 13010101 		addi	sp,sp,16
-  60              		.cfi_def_cfa_offset 0
-  61 0068 67800000 		jr	ra
-  62              		.cfi_endproc
-  63              	.LFE0:
-  65              	.Letext0:
-  66              		.file 2 "src/../h/../lib/hw.h"
-  67              		.file 3 "src/../h/Memoryallocator.hpp"
-  68              		.file 4 "src/../lib/console.h"
-GAS LISTING /tmp/ccljVNHA.s 			page 3
+  43              	.LVL4:
+  14:src/main.cpp  ****     MemoryAllocator::print();
+  44              		.loc 1 14 5 is_stmt 1
+  45              		.loc 1 14 27 is_stmt 0
+  46 0040 97000000 		call	_ZN15MemoryAllocator5printEv@plt
+  46      E7800000 
+  47              	.LVL5:
+  15:src/main.cpp  **** 
+  16:src/main.cpp  ****     int ret2 = MemoryAllocator::mem_free(addr);
+  48              		.loc 1 16 5 is_stmt 1
+  49              		.loc 1 16 41 is_stmt 0
+  50 0048 13850400 		mv	a0,s1
+  51 004c 97000000 		call	_ZN15MemoryAllocator8mem_freeEPKv@plt
+  51      E7800000 
+  52              	.LVL6:
+  53 0054 93040500 		mv	s1,a0
+  54              	.LVL7:
+  17:src/main.cpp  ****     MemoryAllocator::print();
+  55              		.loc 1 17 5 is_stmt 1
+  56              		.loc 1 17 27 is_stmt 0
+  57 0058 97000000 		call	_ZN15MemoryAllocator5printEv@plt
+  57      E7800000 
+  58              	.LVL8:
+  18:src/main.cpp  **** 
+  19:src/main.cpp  ****     if (ret1 == 0) __putc('G');
+  59              		.loc 1 19 5 is_stmt 1
+  60 0060 63000902 		beqz	s2,.L5
+  61              	.L2:
+  20:src/main.cpp  ****     if (ret2 < 0) __putc('G');
+  62              		.loc 1 20 5
+  63 0064 63C60402 		bltz	s1,.L6
+  64              	.L1:
+  21:src/main.cpp  **** 
+  22:src/main.cpp  **** }
+  65              		.loc 1 22 1 is_stmt 0
+  66 0068 83308101 		ld	ra,24(sp)
+  67              		.cfi_remember_state
+  68              		.cfi_restore 1
+  69 006c 03340101 		ld	s0,16(sp)
+  70              		.cfi_restore 8
+  71              		.cfi_def_cfa 2, 32
+  72 0070 83348100 		ld	s1,8(sp)
+  73              		.cfi_restore 9
+  74              	.LVL9:
+  75 0074 03390100 		ld	s2,0(sp)
+  76              		.cfi_restore 18
+  77              	.LVL10:
+  78 0078 13010102 		addi	sp,sp,32
+  79              		.cfi_def_cfa_offset 0
+  80 007c 67800000 		jr	ra
+  81              	.LVL11:
+  82              	.L5:
+  83              		.cfi_restore_state
+  19:src/main.cpp  ****     if (ret2 < 0) __putc('G');
+  84              		.loc 1 19 20 is_stmt 1 discriminator 1
+  19:src/main.cpp  ****     if (ret2 < 0) __putc('G');
+  85              		.loc 1 19 26 is_stmt 0 discriminator 1
+GAS LISTING /tmp/ccpuE7Yi.s 			page 3
+
+
+  86 0080 13057004 		li	a0,71
+  87 0084 97000000 		call	__putc@plt
+  87      E7800000 
+  88              	.LVL12:
+  89 008c 6FF09FFD 		j	.L2
+  90              	.L6:
+  20:src/main.cpp  ****     if (ret2 < 0) __putc('G');
+  91              		.loc 1 20 19 is_stmt 1 discriminator 1
+  20:src/main.cpp  ****     if (ret2 < 0) __putc('G');
+  92              		.loc 1 20 25 is_stmt 0 discriminator 1
+  93 0090 13057004 		li	a0,71
+  94 0094 97000000 		call	__putc@plt
+  94      E7800000 
+  95              	.LVL13:
+  96              		.loc 1 22 1 discriminator 1
+  97 009c 6FF0DFFC 		j	.L1
+  98              		.cfi_endproc
+  99              	.LFE17:
+ 101              		.align	2
+ 102              		.globl	_Z11testCMemoryv
+ 104              	_Z11testCMemoryv:
+ 105              	.LFB18:
+  23:src/main.cpp  **** 
+  24:src/main.cpp  **** void testCMemory() {
+ 106              		.loc 1 24 20 is_stmt 1
+ 107              		.cfi_startproc
+ 108 00a0 130101FE 		addi	sp,sp,-32
+ 109              		.cfi_def_cfa_offset 32
+ 110 00a4 233C1100 		sd	ra,24(sp)
+ 111 00a8 23388100 		sd	s0,16(sp)
+ 112 00ac 23349100 		sd	s1,8(sp)
+ 113              		.cfi_offset 1, -8
+ 114              		.cfi_offset 8, -16
+ 115              		.cfi_offset 9, -24
+ 116 00b0 13040102 		addi	s0,sp,32
+ 117              		.cfi_def_cfa 8, 0
+  25:src/main.cpp  ****     MemoryAllocator::print();
+ 118              		.loc 1 25 5
+ 119              		.loc 1 25 27 is_stmt 0
+ 120 00b4 97000000 		call	_ZN15MemoryAllocator5printEv@plt
+ 120      E7800000 
+ 121              	.LVL14:
+  26:src/main.cpp  ****     void* addr = mem_alloc(50);
+ 122              		.loc 1 26 5 is_stmt 1
+ 123              		.loc 1 26 27 is_stmt 0
+ 124 00bc 13052003 		li	a0,50
+ 125 00c0 97000000 		call	_Z9mem_allocm@plt
+ 125      E7800000 
+ 126              	.LVL15:
+ 127 00c8 93040500 		mv	s1,a0
+ 128              	.LVL16:
+  27:src/main.cpp  ****     MemoryAllocator::print();
+ 129              		.loc 1 27 5 is_stmt 1
+ 130              		.loc 1 27 27 is_stmt 0
+ 131 00cc 97000000 		call	_ZN15MemoryAllocator5printEv@plt
+ 131      E7800000 
+ 132              	.LVL17:
+GAS LISTING /tmp/ccpuE7Yi.s 			page 4
+
+
+  28:src/main.cpp  ****     mem_free(addr);
+ 133              		.loc 1 28 5 is_stmt 1
+ 134              		.loc 1 28 13 is_stmt 0
+ 135 00d4 13850400 		mv	a0,s1
+ 136 00d8 97000000 		call	_Z8mem_freePv@plt
+ 136      E7800000 
+ 137              	.LVL18:
+  29:src/main.cpp  ****     MemoryAllocator::print();
+ 138              		.loc 1 29 5 is_stmt 1
+ 139              		.loc 1 29 27 is_stmt 0
+ 140 00e0 97000000 		call	_ZN15MemoryAllocator5printEv@plt
+ 140      E7800000 
+ 141              	.LVL19:
+  30:src/main.cpp  **** }
+ 142              		.loc 1 30 1
+ 143 00e8 83308101 		ld	ra,24(sp)
+ 144              		.cfi_restore 1
+ 145 00ec 03340101 		ld	s0,16(sp)
+ 146              		.cfi_restore 8
+ 147              		.cfi_def_cfa 2, 32
+ 148 00f0 83348100 		ld	s1,8(sp)
+ 149              		.cfi_restore 9
+ 150              	.LVL20:
+ 151 00f4 13010102 		addi	sp,sp,32
+ 152              		.cfi_def_cfa_offset 0
+ 153 00f8 67800000 		jr	ra
+ 154              		.cfi_endproc
+ 155              	.LFE18:
+ 157              		.align	2
+ 158              		.globl	main
+ 160              	main:
+ 161              	.LFB19:
+  31:src/main.cpp  **** 
+  32:src/main.cpp  **** int main() {
+ 162              		.loc 1 32 12 is_stmt 1
+ 163              		.cfi_startproc
+ 164 00fc 130101FF 		addi	sp,sp,-16
+ 165              		.cfi_def_cfa_offset 16
+ 166 0100 23341100 		sd	ra,8(sp)
+ 167 0104 23308100 		sd	s0,0(sp)
+ 168              		.cfi_offset 1, -8
+ 169              		.cfi_offset 8, -16
+ 170 0108 13040101 		addi	s0,sp,16
+ 171              		.cfi_def_cfa 8, 0
+  33:src/main.cpp  **** 
+  34:src/main.cpp  ****     RISCV::wr_stvec((uint64)&RISCV::handle_interrupt);
+ 172              		.loc 1 34 5
+ 173              		.loc 1 34 20 is_stmt 0
+ 174 010c 97070000 		la	a5,_ZN5RISCV16handle_interruptEv
+ 174      83B70700 
+ 175              	.LVL21:
+ 176              	.LBB4:
+ 177              	.LBB5:
+ 178              		.file 2 "src/../h/../h/riscv.hpp"
+   1:src/../h/../h/riscv.hpp **** //
+   2:src/../h/../h/riscv.hpp **** // Created by os on 4/7/24.
+   3:src/../h/../h/riscv.hpp **** //
+GAS LISTING /tmp/ccpuE7Yi.s 			page 5
+
+
+   4:src/../h/../h/riscv.hpp **** 
+   5:src/../h/../h/riscv.hpp **** #ifndef PROJECT_BASE_RISCV_HPP
+   6:src/../h/../h/riscv.hpp **** #define PROJECT_BASE_RISCV_HPP
+   7:src/../h/../h/riscv.hpp **** 
+   8:src/../h/../h/riscv.hpp **** #include "../lib/hw.h"
+   9:src/../h/../h/riscv.hpp **** 
+  10:src/../h/../h/riscv.hpp **** class RISCV {
+  11:src/../h/../h/riscv.hpp **** public:
+  12:src/../h/../h/riscv.hpp **** 
+  13:src/../h/../h/riscv.hpp ****     enum causes {
+  14:src/../h/../h/riscv.hpp ****         SOFTWARE = 0x800000000000001UL,
+  15:src/../h/../h/riscv.hpp ****         EXTERNAL = 0x800000000000009UL,
+  16:src/../h/../h/riscv.hpp ****         U_ECALL  = 0x000000000000008UL,
+  17:src/../h/../h/riscv.hpp ****         S_ECALL  = 0x000000000000009UL
+  18:src/../h/../h/riscv.hpp ****     };
+  19:src/../h/../h/riscv.hpp **** 
+  20:src/../h/../h/riscv.hpp ****     static void supervisor_trap();
+  21:src/../h/../h/riscv.hpp **** 
+  22:src/../h/../h/riscv.hpp ****     static void push_regs();
+  23:src/../h/../h/riscv.hpp ****     static void pop_regs();
+  24:src/../h/../h/riscv.hpp **** 
+  25:src/../h/../h/riscv.hpp ****     static void handle_interrupt();
+  26:src/../h/../h/riscv.hpp ****     static void handle_trap();
+  27:src/../h/../h/riscv.hpp **** 
+  28:src/../h/../h/riscv.hpp ****     static uint64 rd_scause();
+  29:src/../h/../h/riscv.hpp ****     static void wr_scause(uint64 scause);
+  30:src/../h/../h/riscv.hpp **** 
+  31:src/../h/../h/riscv.hpp ****     static uint64 rd_sepc();
+  32:src/../h/../h/riscv.hpp ****     static void wr_sepc(uint64 sepc);
+  33:src/../h/../h/riscv.hpp **** 
+  34:src/../h/../h/riscv.hpp ****     static uint64 rd_stvec();
+  35:src/../h/../h/riscv.hpp ****     static void wr_stvec(uint64 stvec);
+  36:src/../h/../h/riscv.hpp **** 
+  37:src/../h/../h/riscv.hpp ****     static uint64 rd_stval();
+  38:src/../h/../h/riscv.hpp ****     static void wr_stval(uint64 stval);
+  39:src/../h/../h/riscv.hpp **** 
+  40:src/../h/../h/riscv.hpp ****     static uint64 rd_sip();
+  41:src/../h/../h/riscv.hpp ****     static void wr_sip(uint64 sip);
+  42:src/../h/../h/riscv.hpp **** 
+  43:src/../h/../h/riscv.hpp ****     static uint64 rd_sstatus();
+  44:src/../h/../h/riscv.hpp ****     static void wr_sstatus(uint64 sstatus);
+  45:src/../h/../h/riscv.hpp **** 
+  46:src/../h/../h/riscv.hpp ****     static inline void mask_sip(uint64 mask) {
+  47:src/../h/../h/riscv.hpp ****         __asm__ volatile("csrc sip, %0" : : "r"(mask));
+  48:src/../h/../h/riscv.hpp ****     }
+  49:src/../h/../h/riscv.hpp **** 
+  50:src/../h/../h/riscv.hpp ****     static void popSppSpie();
+  51:src/../h/../h/riscv.hpp ****     // pop sstatus.spp and sstatus.spie bits
+  52:src/../h/../h/riscv.hpp ****     // must be in cpp !!!
+  53:src/../h/../h/riscv.hpp **** 
+  54:src/../h/../h/riscv.hpp ****     enum mask_sstatus {
+  55:src/../h/../h/riscv.hpp ****         SIE = (1 << 1),
+  56:src/../h/../h/riscv.hpp ****         SPIE =(1 << 5),
+  57:src/../h/../h/riscv.hpp ****         SSP = (1 << 8)
+  58:src/../h/../h/riscv.hpp ****     };
+  59:src/../h/../h/riscv.hpp **** 
+  60:src/../h/../h/riscv.hpp ****     enum mask_sip_sie {
+GAS LISTING /tmp/ccpuE7Yi.s 			page 6
+
+
+  61:src/../h/../h/riscv.hpp ****         SS = (1 << 1),
+  62:src/../h/../h/riscv.hpp ****         SE = (1 << 9)
+  63:src/../h/../h/riscv.hpp ****     };
+  64:src/../h/../h/riscv.hpp **** 
+  65:src/../h/../h/riscv.hpp **** };
+  66:src/../h/../h/riscv.hpp **** 
+  67:src/../h/../h/riscv.hpp **** inline uint64 RISCV::rd_scause() {
+  68:src/../h/../h/riscv.hpp ****     uint64 volatile value;
+  69:src/../h/../h/riscv.hpp ****     __asm__ volatile ("csrr %0, scause" : "=r"(value));
+  70:src/../h/../h/riscv.hpp ****     return value;
+  71:src/../h/../h/riscv.hpp **** }
+  72:src/../h/../h/riscv.hpp **** 
+  73:src/../h/../h/riscv.hpp **** inline void RISCV::wr_scause(uint64 value) {
+  74:src/../h/../h/riscv.hpp ****     __asm__ volatile ("csrw scause, %0" : : "r"(value));
+  75:src/../h/../h/riscv.hpp **** }
+  76:src/../h/../h/riscv.hpp **** 
+  77:src/../h/../h/riscv.hpp **** inline uint64 RISCV::rd_sepc() {
+  78:src/../h/../h/riscv.hpp ****     uint64 volatile value;
+  79:src/../h/../h/riscv.hpp ****     __asm__ volatile ("csrr %0, sepc" : "=r"(value));
+  80:src/../h/../h/riscv.hpp ****     return value;
+  81:src/../h/../h/riscv.hpp **** }
+  82:src/../h/../h/riscv.hpp **** 
+  83:src/../h/../h/riscv.hpp **** inline void RISCV::wr_sepc(uint64 value) {
+  84:src/../h/../h/riscv.hpp ****     __asm__ volatile ("csrw sepc, %0" : : "r"(value));
+  85:src/../h/../h/riscv.hpp **** }
+  86:src/../h/../h/riscv.hpp **** 
+  87:src/../h/../h/riscv.hpp **** inline uint64 RISCV::rd_stvec() {
+  88:src/../h/../h/riscv.hpp ****     uint64 volatile value;
+  89:src/../h/../h/riscv.hpp ****     __asm__ volatile ("csrr %0, stvec" : "=r"(value));
+  90:src/../h/../h/riscv.hpp ****     return value;
+  91:src/../h/../h/riscv.hpp **** }
+  92:src/../h/../h/riscv.hpp **** 
+  93:src/../h/../h/riscv.hpp **** inline void RISCV::wr_stvec(uint64 value) {
+  94:src/../h/../h/riscv.hpp ****     __asm__ volatile ("csrw stvec, %0" : : "r"(value));
+ 179              		.loc 2 94 5 is_stmt 1
+ 180              		.loc 2 94 55 is_stmt 0
+ 181              	#APP
+ 182              	# 94 "src/../h/../h/riscv.hpp" 1
+  95              	}
+ 183              		csrw stvec, a5
+ 184              	# 0 "" 2
+ 185              	.LVL22:
+ 186              	#NO_APP
+ 187              	.LBE5:
+ 188              	.LBE4:
+  35:src/main.cpp  ****     // ecall jumps to addres in stvec reg
+  36:src/main.cpp  **** 
+  37:src/main.cpp  ****     MemoryAllocator::getAllocator();
+ 189              		.loc 1 37 5 is_stmt 1
+ 190              		.loc 1 37 34 is_stmt 0
+ 191 0118 97000000 		call	_ZN15MemoryAllocator12getAllocatorEv@plt
+ 191      E7800000 
+ 192              	.LVL23:
+  38:src/main.cpp  **** 
+  39:src/main.cpp  ****     // testMemoryAllocator();
+  40:src/main.cpp  ****     testCMemory();
+ 193              		.loc 1 40 5 is_stmt 1
+GAS LISTING /tmp/ccpuE7Yi.s 			page 7
+
+
+ 194              		.loc 1 40 16 is_stmt 0
+ 195 0120 97000000 		call	_Z11testCMemoryv
+ 195      E7800000 
+ 196              	.LVL24:
+  41:src/main.cpp  **** 
+  42:src/main.cpp  ****     return 0;
+ 197              		.loc 1 42 5 is_stmt 1
+  43:src/main.cpp  **** }
+ 198              		.loc 1 43 1 is_stmt 0
+ 199 0128 13050000 		li	a0,0
+ 200 012c 83308100 		ld	ra,8(sp)
+ 201              		.cfi_restore 1
+ 202 0130 03340100 		ld	s0,0(sp)
+ 203              		.cfi_restore 8
+ 204              		.cfi_def_cfa 2, 16
+ 205 0134 13010101 		addi	sp,sp,16
+ 206              		.cfi_def_cfa_offset 0
+ 207 0138 67800000 		jr	ra
+ 208              		.cfi_endproc
+ 209              	.LFE19:
+ 211              	.Letext0:
+ 212              		.file 3 "src/../h/../lib/hw.h"
+ 213              		.file 4 "src/../h/Memoryallocator.hpp"
+ 214              		.file 5 "src/../h/syscall_c.h"
+ 215              		.file 6 "src/../lib/console.h"
+GAS LISTING /tmp/ccpuE7Yi.s 			page 8
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.cpp
-     /tmp/ccljVNHA.s:9      .text:0000000000000000 main
-     /tmp/ccljVNHA.s:13     .text:0000000000000000 .L0 
-     /tmp/ccljVNHA.s:14     .text:0000000000000000 .L0 
-     /tmp/ccljVNHA.s:15     .text:0000000000000004 .L0 
-     /tmp/ccljVNHA.s:18     .text:000000000000000c .L0 
-     /tmp/ccljVNHA.s:19     .text:000000000000000c .L0 
-     /tmp/ccljVNHA.s:21     .text:0000000000000010 .L0 
-     /tmp/ccljVNHA.s:23     .text:0000000000000010 .L0 
-     /tmp/ccljVNHA.s:24     .text:0000000000000010 .L0 
-     /tmp/ccljVNHA.s:28     .text:000000000000001c .L0 
-     /tmp/ccljVNHA.s:29     .text:000000000000001c .L0 
-     /tmp/ccljVNHA.s:32     .text:0000000000000024 .L0 
-     /tmp/ccljVNHA.s:33     .text:0000000000000024 .L0 
-     /tmp/ccljVNHA.s:37     .text:0000000000000030 .L0 
-     /tmp/ccljVNHA.s:38     .text:0000000000000030 .L0 
-     /tmp/ccljVNHA.s:41     .text:0000000000000038 .L0 
-     /tmp/ccljVNHA.s:42     .text:0000000000000038 .L0 
-     /tmp/ccljVNHA.s:48     .text:0000000000000050 .L0 
-     /tmp/ccljVNHA.s:49     .text:0000000000000050 .L0 
-     /tmp/ccljVNHA.s:52     .text:0000000000000058 .L0 
-     /tmp/ccljVNHA.s:53     .text:0000000000000058 .L0 
-     /tmp/ccljVNHA.s:55     .text:0000000000000060 .L0 
-     /tmp/ccljVNHA.s:57     .text:0000000000000064 .L0 
-     /tmp/ccljVNHA.s:58     .text:0000000000000064 .L0 
-     /tmp/ccljVNHA.s:60     .text:0000000000000068 .L0 
-     /tmp/ccljVNHA.s:62     .text:000000000000006c .L0 
-     /tmp/ccljVNHA.s:69     .text:000000000000006c .L0 
-     /tmp/ccljVNHA.s:42     .text:0000000000000038 .L0 
-     /tmp/ccljVNHA.s:411    .debug_abbrev:0000000000000000 .Ldebug_abbrev0
-     /tmp/ccljVNHA.s:967    .debug_str:000000000000016d .LASF35
-     /tmp/ccljVNHA.s:975    .debug_str:0000000000000274 .LASF36
-     /tmp/ccljVNHA.s:993    .debug_str:0000000000000301 .LASF37
-     /tmp/ccljVNHA.s:5      .text:0000000000000000 .Ltext0
-     /tmp/ccljVNHA.s:65     .text:000000000000006c .Letext0
-     /tmp/ccljVNHA.s:925    .debug_line:0000000000000000 .Ldebug_line0
-     /tmp/ccljVNHA.s:977    .debug_str:0000000000000281 .LASF0
-     /tmp/ccljVNHA.s:961    .debug_str:0000000000000141 .LASF1
-     /tmp/ccljVNHA.s:955    .debug_str:00000000000000ef .LASF2
-     /tmp/ccljVNHA.s:943    .debug_str:000000000000008b .LASF4
-     /tmp/ccljVNHA.s:957    .debug_str:00000000000000fd .LASF3
-     /tmp/ccljVNHA.s:935    .debug_str:0000000000000066 .LASF5
-     /tmp/ccljVNHA.s:929    .debug_str:0000000000000021 .LASF6
-     /tmp/ccljVNHA.s:949    .debug_str:00000000000000b2 .LASF7
-     /tmp/ccljVNHA.s:987    .debug_str:00000000000002d2 .LASF8
-     /tmp/ccljVNHA.s:941    .debug_str:000000000000007d .LASF9
-     /tmp/ccljVNHA.s:1017   .debug_str:00000000000003b9 .LASF10
-     /tmp/ccljVNHA.s:951    .debug_str:00000000000000c5 .LASF11
-     /tmp/ccljVNHA.s:1005   .debug_str:000000000000037d .LASF12
-     /tmp/ccljVNHA.s:981    .debug_str:00000000000002af .LASF13
-     /tmp/ccljVNHA.s:963    .debug_str:0000000000000154 .LASF14
-     /tmp/ccljVNHA.s:947    .debug_str:000000000000009c .LASF15
-     /tmp/ccljVNHA.s:989    .debug_str:00000000000002e2 .LASF16
-     /tmp/ccljVNHA.s:933    .debug_str:0000000000000056 .LASF20
-     /tmp/ccljVNHA.s:985    .debug_str:00000000000002c6 .LASF38
-     /tmp/ccljVNHA.s:937    .debug_str:000000000000006d .LASF17
-GAS LISTING /tmp/ccljVNHA.s 			page 4
+     /tmp/ccpuE7Yi.s:9      .text:0000000000000000 _Z19testMemoryAllocatorv
+     /tmp/ccpuE7Yi.s:13     .text:0000000000000000 .L0 
+     /tmp/ccpuE7Yi.s:14     .text:0000000000000000 .L0 
+     /tmp/ccpuE7Yi.s:15     .text:0000000000000004 .L0 
+     /tmp/ccpuE7Yi.s:20     .text:0000000000000014 .L0 
+     /tmp/ccpuE7Yi.s:21     .text:0000000000000014 .L0 
+     /tmp/ccpuE7Yi.s:22     .text:0000000000000014 .L0 
+     /tmp/ccpuE7Yi.s:23     .text:0000000000000014 .L0 
+     /tmp/ccpuE7Yi.s:25     .text:0000000000000018 .L0 
+     /tmp/ccpuE7Yi.s:27     .text:0000000000000018 .L0 
+     /tmp/ccpuE7Yi.s:28     .text:0000000000000018 .L0 
+     /tmp/ccpuE7Yi.s:34     .text:0000000000000028 .L0 
+     /tmp/ccpuE7Yi.s:35     .text:0000000000000028 .L0 
+     /tmp/ccpuE7Yi.s:38     .text:0000000000000030 .L0 
+     /tmp/ccpuE7Yi.s:39     .text:0000000000000030 .L0 
+     /tmp/ccpuE7Yi.s:45     .text:0000000000000040 .L0 
+     /tmp/ccpuE7Yi.s:46     .text:0000000000000040 .L0 
+     /tmp/ccpuE7Yi.s:49     .text:0000000000000048 .L0 
+     /tmp/ccpuE7Yi.s:50     .text:0000000000000048 .L0 
+     /tmp/ccpuE7Yi.s:56     .text:0000000000000058 .L0 
+     /tmp/ccpuE7Yi.s:57     .text:0000000000000058 .L0 
+     /tmp/ccpuE7Yi.s:60     .text:0000000000000060 .L0 
+     /tmp/ccpuE7Yi.s:63     .text:0000000000000064 .L0 
+     /tmp/ccpuE7Yi.s:66     .text:0000000000000068 .L0 
+     /tmp/ccpuE7Yi.s:67     .text:000000000000006c .L0 
+     /tmp/ccpuE7Yi.s:68     .text:000000000000006c .L0 
+     /tmp/ccpuE7Yi.s:70     .text:0000000000000070 .L0 
+     /tmp/ccpuE7Yi.s:71     .text:0000000000000070 .L0 
+     /tmp/ccpuE7Yi.s:73     .text:0000000000000074 .L0 
+     /tmp/ccpuE7Yi.s:76     .text:0000000000000078 .L0 
+     /tmp/ccpuE7Yi.s:79     .text:000000000000007c .L0 
+     /tmp/ccpuE7Yi.s:83     .text:0000000000000080 .L0 
+     /tmp/ccpuE7Yi.s:85     .text:0000000000000080 .L0 
+     /tmp/ccpuE7Yi.s:86     .text:0000000000000080 .L0 
+     /tmp/ccpuE7Yi.s:92     .text:0000000000000090 .L0 
+     /tmp/ccpuE7Yi.s:93     .text:0000000000000090 .L0 
+     /tmp/ccpuE7Yi.s:97     .text:000000000000009c .L0 
+     /tmp/ccpuE7Yi.s:98     .text:00000000000000a0 .L0 
+     /tmp/ccpuE7Yi.s:104    .text:00000000000000a0 _Z11testCMemoryv
+     /tmp/ccpuE7Yi.s:107    .text:00000000000000a0 .L0 
+     /tmp/ccpuE7Yi.s:108    .text:00000000000000a0 .L0 
+     /tmp/ccpuE7Yi.s:109    .text:00000000000000a4 .L0 
+     /tmp/ccpuE7Yi.s:113    .text:00000000000000b0 .L0 
+     /tmp/ccpuE7Yi.s:114    .text:00000000000000b0 .L0 
+     /tmp/ccpuE7Yi.s:115    .text:00000000000000b0 .L0 
+     /tmp/ccpuE7Yi.s:117    .text:00000000000000b4 .L0 
+     /tmp/ccpuE7Yi.s:119    .text:00000000000000b4 .L0 
+     /tmp/ccpuE7Yi.s:120    .text:00000000000000b4 .L0 
+     /tmp/ccpuE7Yi.s:123    .text:00000000000000bc .L0 
+     /tmp/ccpuE7Yi.s:124    .text:00000000000000bc .L0 
+     /tmp/ccpuE7Yi.s:130    .text:00000000000000cc .L0 
+     /tmp/ccpuE7Yi.s:131    .text:00000000000000cc .L0 
+     /tmp/ccpuE7Yi.s:134    .text:00000000000000d4 .L0 
+     /tmp/ccpuE7Yi.s:135    .text:00000000000000d4 .L0 
+     /tmp/ccpuE7Yi.s:139    .text:00000000000000e0 .L0 
+GAS LISTING /tmp/ccpuE7Yi.s 			page 9
 
 
-     /tmp/ccljVNHA.s:1015   .debug_str:00000000000003b4 .LASF18
-     /tmp/ccljVNHA.s:1013   .debug_str:00000000000003af .LASF19
-     /tmp/ccljVNHA.s:971    .debug_str:0000000000000256 .LASF21
-     /tmp/ccljVNHA.s:953    .debug_str:00000000000000d4 .LASF22
-     /tmp/ccljVNHA.s:939    .debug_str:0000000000000072 .LASF33
-     /tmp/ccljVNHA.s:1001   .debug_str:0000000000000358 .LASF39
-     /tmp/ccljVNHA.s:1007   .debug_str:000000000000038d .LASF23
-     /tmp/ccljVNHA.s:995    .debug_str:000000000000031f .LASF24
-     /tmp/ccljVNHA.s:1003   .debug_str:0000000000000373 .LASF40
-     /tmp/ccljVNHA.s:959    .debug_str:000000000000010f .LASF41
-     /tmp/ccljVNHA.s:1011   .debug_str:00000000000003a5 .LASF42
-     /tmp/ccljVNHA.s:965    .debug_str:0000000000000160 .LASF43
-     /tmp/ccljVNHA.s:969    .debug_str:0000000000000231 .LASF44
-     /tmp/ccljVNHA.s:1009   .debug_str:000000000000039b .LASF25
-     /tmp/ccljVNHA.s:927    .debug_str:0000000000000000 .LASF26
-     /tmp/ccljVNHA.s:991    .debug_str:00000000000002f8 .LASF27
-     /tmp/ccljVNHA.s:931    .debug_str:0000000000000034 .LASF28
-     /tmp/ccljVNHA.s:945    .debug_str:0000000000000092 .LASF29
-     /tmp/ccljVNHA.s:979    .debug_str:000000000000028e .LASF31
-     /tmp/ccljVNHA.s:997    .debug_str:000000000000032d .LASF30
-     /tmp/ccljVNHA.s:999    .debug_str:0000000000000337 .LASF32
-     /tmp/ccljVNHA.s:973    .debug_str:000000000000026f .LASF34
-     /tmp/ccljVNHA.s:10     .text:0000000000000000 .LFB0
-     /tmp/ccljVNHA.s:63     .text:000000000000006c .LFE0
-     /tmp/ccljVNHA.s:26     .text:000000000000001c .LVL0
-     /tmp/ccljVNHA.s:30     .text:0000000000000024 .LVL1
-     /tmp/ccljVNHA.s:35     .text:0000000000000030 .LVL2
-     /tmp/ccljVNHA.s:39     .text:0000000000000038 .LVL3
-     /tmp/ccljVNHA.s:46     .text:0000000000000050 .LVL4
-     /tmp/ccljVNHA.s:50     .text:0000000000000058 .LVL5
-     /tmp/ccljVNHA.s:983    .debug_str:00000000000002bf .LASF45
-     /tmp/ccljVNHA.s:70     .debug_info:0000000000000000 .Ldebug_info0
+     /tmp/ccpuE7Yi.s:140    .text:00000000000000e0 .L0 
+     /tmp/ccpuE7Yi.s:143    .text:00000000000000e8 .L0 
+     /tmp/ccpuE7Yi.s:144    .text:00000000000000ec .L0 
+     /tmp/ccpuE7Yi.s:146    .text:00000000000000f0 .L0 
+     /tmp/ccpuE7Yi.s:147    .text:00000000000000f0 .L0 
+     /tmp/ccpuE7Yi.s:149    .text:00000000000000f4 .L0 
+     /tmp/ccpuE7Yi.s:152    .text:00000000000000f8 .L0 
+     /tmp/ccpuE7Yi.s:154    .text:00000000000000fc .L0 
+     /tmp/ccpuE7Yi.s:160    .text:00000000000000fc main
+     /tmp/ccpuE7Yi.s:163    .text:00000000000000fc .L0 
+     /tmp/ccpuE7Yi.s:164    .text:00000000000000fc .L0 
+     /tmp/ccpuE7Yi.s:165    .text:0000000000000100 .L0 
+     /tmp/ccpuE7Yi.s:168    .text:0000000000000108 .L0 
+     /tmp/ccpuE7Yi.s:169    .text:0000000000000108 .L0 
+     /tmp/ccpuE7Yi.s:171    .text:000000000000010c .L0 
+     /tmp/ccpuE7Yi.s:173    .text:000000000000010c .L0 
+     /tmp/ccpuE7Yi.s:174    .text:000000000000010c .L0 
+     /tmp/ccpuE7Yi.s:180    .text:0000000000000114 .L0 
+src/../h/../h/riscv.hpp:94     .text:0000000000000114 .L0 
+     /tmp/ccpuE7Yi.s:190    .text:0000000000000118 .L0 
+     /tmp/ccpuE7Yi.s:191    .text:0000000000000118 .L0 
+     /tmp/ccpuE7Yi.s:194    .text:0000000000000120 .L0 
+     /tmp/ccpuE7Yi.s:195    .text:0000000000000120 .L0 
+     /tmp/ccpuE7Yi.s:198    .text:0000000000000128 .L0 
+     /tmp/ccpuE7Yi.s:199    .text:0000000000000128 .L0 
+     /tmp/ccpuE7Yi.s:201    .text:0000000000000130 .L0 
+     /tmp/ccpuE7Yi.s:203    .text:0000000000000134 .L0 
+     /tmp/ccpuE7Yi.s:204    .text:0000000000000134 .L0 
+     /tmp/ccpuE7Yi.s:206    .text:0000000000000138 .L0 
+     /tmp/ccpuE7Yi.s:208    .text:000000000000013c .L0 
+     /tmp/ccpuE7Yi.s:216    .text:000000000000013c .L0 
+     /tmp/ccpuE7Yi.s:174    .text:000000000000010c .L0 
+     /tmp/ccpuE7Yi.s:82     .text:0000000000000080 .L5
+     /tmp/ccpuE7Yi.s:90     .text:0000000000000090 .L6
+     /tmp/ccpuE7Yi.s:61     .text:0000000000000064 .L2
+     /tmp/ccpuE7Yi.s:64     .text:0000000000000068 .L1
+     /tmp/ccpuE7Yi.s:901    .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+     /tmp/ccpuE7Yi.s:1764   .debug_str:000000000000050f .LASF89
+     /tmp/ccpuE7Yi.s:1678   .debug_str:0000000000000260 .LASF90
+     /tmp/ccpuE7Yi.s:1654   .debug_str:00000000000001a7 .LASF91
+     /tmp/ccpuE7Yi.s:5      .text:0000000000000000 .Ltext0
+     /tmp/ccpuE7Yi.s:211    .text:000000000000013c .Letext0
+     /tmp/ccpuE7Yi.s:1602   .debug_line:0000000000000000 .Ldebug_line0
+     /tmp/ccpuE7Yi.s:1706   .debug_str:0000000000000336 .LASF0
+     /tmp/ccpuE7Yi.s:1720   .debug_str:00000000000003c9 .LASF1
+     /tmp/ccpuE7Yi.s:1692   .debug_str:00000000000002d6 .LASF2
+     /tmp/ccpuE7Yi.s:1674   .debug_str:0000000000000244 .LASF4
+     /tmp/ccpuE7Yi.s:1746   .debug_str:000000000000047f .LASF3
+     /tmp/ccpuE7Yi.s:1620   .debug_str:00000000000000a4 .LASF5
+     /tmp/ccpuE7Yi.s:1722   .debug_str:00000000000003dc .LASF6
+     /tmp/ccpuE7Yi.s:1704   .debug_str:0000000000000323 .LASF7
+     /tmp/ccpuE7Yi.s:1774   .debug_str:000000000000060a .LASF8
+     /tmp/ccpuE7Yi.s:1660   .debug_str:00000000000001da .LASF9
+     /tmp/ccpuE7Yi.s:1728   .debug_str:0000000000000402 .LASF10
+     /tmp/ccpuE7Yi.s:1766   .debug_str:00000000000005d3 .LASF11
+     /tmp/ccpuE7Yi.s:1622   .debug_str:00000000000000ab .LASF12
+     /tmp/ccpuE7Yi.s:1606   .debug_str:0000000000000008 .LASF13
+GAS LISTING /tmp/ccpuE7Yi.s 			page 10
+
+
+     /tmp/ccpuE7Yi.s:1628   .debug_str:00000000000000dd .LASF14
+     /tmp/ccpuE7Yi.s:1742   .debug_str:000000000000044c .LASF15
+     /tmp/ccpuE7Yi.s:1636   .debug_str:0000000000000101 .LASF16
+     /tmp/ccpuE7Yi.s:1686   .debug_str:00000000000002a3 .LASF20
+     /tmp/ccpuE7Yi.s:1696   .debug_str:00000000000002fd .LASF92
+     /tmp/ccpuE7Yi.s:1790   .debug_str:0000000000000676 .LASF17
+     /tmp/ccpuE7Yi.s:1780   .debug_str:0000000000000629 .LASF18
+     /tmp/ccpuE7Yi.s:1760   .debug_str:00000000000004f2 .LASF19
+     /tmp/ccpuE7Yi.s:1640   .debug_str:0000000000000132 .LASF21
+     /tmp/ccpuE7Yi.s:1710   .debug_str:0000000000000357 .LASF22
+     /tmp/ccpuE7Yi.s:1698   .debug_str:0000000000000309 .LASF76
+     /tmp/ccpuE7Yi.s:1638   .debug_str:0000000000000117 .LASF79
+     /tmp/ccpuE7Yi.s:1666   .debug_str:000000000000020b .LASF23
+     /tmp/ccpuE7Yi.s:1690   .debug_str:00000000000002c8 .LASF24
+     /tmp/ccpuE7Yi.s:1648   .debug_str:0000000000000176 .LASF47
+     /tmp/ccpuE7Yi.s:1618   .debug_str:0000000000000072 .LASF49
+     /tmp/ccpuE7Yi.s:1616   .debug_str:0000000000000068 .LASF93
+     /tmp/ccpuE7Yi.s:1784   .debug_str:0000000000000634 .LASF43
+     /tmp/ccpuE7Yi.s:1608   .debug_str:0000000000000018 .LASF45
+     /tmp/ccpuE7Yi.s:1748   .debug_str:0000000000000491 .LASF25
+     /tmp/ccpuE7Yi.s:1758   .debug_str:00000000000004d1 .LASF26
+     /tmp/ccpuE7Yi.s:1732   .debug_str:0000000000000416 .LASF27
+     /tmp/ccpuE7Yi.s:1786   .debug_str:0000000000000641 .LASF28
+     /tmp/ccpuE7Yi.s:1702   .debug_str:000000000000031d .LASF31
+     /tmp/ccpuE7Yi.s:1664   .debug_str:00000000000001ee .LASF33
+     /tmp/ccpuE7Yi.s:1668   .debug_str:0000000000000219 .LASF29
+     /tmp/ccpuE7Yi.s:1662   .debug_str:00000000000001e8 .LASF30
+     /tmp/ccpuE7Yi.s:1610   .debug_str:000000000000003d .LASF32
+     /tmp/ccpuE7Yi.s:1744   .debug_str:0000000000000462 .LASF34
+     /tmp/ccpuE7Yi.s:1626   .debug_str:00000000000000d3 .LASF35
+     /tmp/ccpuE7Yi.s:1770   .debug_str:00000000000005eb .LASF36
+     /tmp/ccpuE7Yi.s:1642   .debug_str:000000000000014b .LASF37
+     /tmp/ccpuE7Yi.s:1754   .debug_str:00000000000004ab .LASF38
+     /tmp/ccpuE7Yi.s:1736   .debug_str:0000000000000429 .LASF39
+     /tmp/ccpuE7Yi.s:1718   .debug_str:00000000000003ab .LASF40
+     /tmp/ccpuE7Yi.s:1658   .debug_str:00000000000001ce .LASF41
+     /tmp/ccpuE7Yi.s:1714   .debug_str:000000000000037e .LASF42
+     /tmp/ccpuE7Yi.s:1644   .debug_str:0000000000000154 .LASF44
+     /tmp/ccpuE7Yi.s:1684   .debug_str:000000000000028d .LASF46
+     /tmp/ccpuE7Yi.s:1734   .debug_str:000000000000041f .LASF48
+     /tmp/ccpuE7Yi.s:1614   .debug_str:0000000000000052 .LASF50
+     /tmp/ccpuE7Yi.s:1776   .debug_str:000000000000061a .LASF51
+     /tmp/ccpuE7Yi.s:1716   .debug_str:0000000000000397 .LASF52
+     /tmp/ccpuE7Yi.s:1604   .debug_str:0000000000000000 .LASF53
+     /tmp/ccpuE7Yi.s:1708   .debug_str:0000000000000343 .LASF54
+     /tmp/ccpuE7Yi.s:1750   .debug_str:000000000000049b .LASF55
+     /tmp/ccpuE7Yi.s:1688   .debug_str:00000000000002b3 .LASF56
+     /tmp/ccpuE7Yi.s:1772   .debug_str:0000000000000601 .LASF57
+     /tmp/ccpuE7Yi.s:1680   .debug_str:000000000000026d .LASF58
+     /tmp/ccpuE7Yi.s:1700   .debug_str:0000000000000314 .LASF59
+     /tmp/ccpuE7Yi.s:1676   .debug_str:000000000000024b .LASF60
+     /tmp/ccpuE7Yi.s:1768   .debug_str:00000000000005e2 .LASF61
+     /tmp/ccpuE7Yi.s:1670   .debug_str:0000000000000224 .LASF62
+     /tmp/ccpuE7Yi.s:1778   .debug_str:0000000000000622 .LASF63
+     /tmp/ccpuE7Yi.s:1652   .debug_str:0000000000000194 .LASF64
+     /tmp/ccpuE7Yi.s:1752   .debug_str:00000000000004a4 .LASF65
+     /tmp/ccpuE7Yi.s:1788   .debug_str:0000000000000663 .LASF66
+GAS LISTING /tmp/ccpuE7Yi.s 			page 11
+
+
+     /tmp/ccpuE7Yi.s:1682   .debug_str:0000000000000282 .LASF67
+     /tmp/ccpuE7Yi.s:1762   .debug_str:00000000000004f7 .LASF68
+     /tmp/ccpuE7Yi.s:1672   .debug_str:0000000000000239 .LASF69
+     /tmp/ccpuE7Yi.s:1624   .debug_str:00000000000000bb .LASF70
+     /tmp/ccpuE7Yi.s:1656   .debug_str:00000000000001c5 .LASF71
+     /tmp/ccpuE7Yi.s:1792   .debug_str:000000000000067b .LASF72
+     /tmp/ccpuE7Yi.s:1738   .debug_str:000000000000043a .LASF73
+     /tmp/ccpuE7Yi.s:1646   .debug_str:000000000000015e .LASF74
+     /tmp/ccpuE7Yi.s:1612   .debug_str:000000000000004d .LASF75
+     /tmp/ccpuE7Yi.s:1724   .debug_str:00000000000003ef .LASF77
+     /tmp/ccpuE7Yi.s:161    .text:00000000000000fc .LFB19
+     /tmp/ccpuE7Yi.s:209    .text:000000000000013c .LFE19
+     /tmp/ccpuE7Yi.s:176    .text:0000000000000114 .LBB4
+     /tmp/ccpuE7Yi.s:188    .text:0000000000000118 .LBE4
+     /tmp/ccpuE7Yi.s:192    .text:0000000000000120 .LVL23
+     /tmp/ccpuE7Yi.s:196    .text:0000000000000128 .LVL24
+     /tmp/ccpuE7Yi.s:1712   .debug_str:0000000000000372 .LASF78
+     /tmp/ccpuE7Yi.s:1756   .debug_str:00000000000004c0 .LASF80
+     /tmp/ccpuE7Yi.s:105    .text:00000000000000a0 .LFB18
+     /tmp/ccpuE7Yi.s:155    .text:00000000000000fc .LFE18
+     /tmp/ccpuE7Yi.s:1730   .debug_str:0000000000000411 .LASF81
+     /tmp/ccpuE7Yi.s:1553   .debug_loc:0000000000000000 .LLST3
+     /tmp/ccpuE7Yi.s:121    .text:00000000000000bc .LVL14
+     /tmp/ccpuE7Yi.s:126    .text:00000000000000c8 .LVL15
+     /tmp/ccpuE7Yi.s:132    .text:00000000000000d4 .LVL17
+     /tmp/ccpuE7Yi.s:137    .text:00000000000000e0 .LVL18
+     /tmp/ccpuE7Yi.s:141    .text:00000000000000e8 .LVL19
+     /tmp/ccpuE7Yi.s:1650   .debug_str:0000000000000180 .LASF82
+     /tmp/ccpuE7Yi.s:1694   .debug_str:00000000000002e4 .LASF83
+     /tmp/ccpuE7Yi.s:10     .text:0000000000000000 .LFB17
+     /tmp/ccpuE7Yi.s:99     .text:00000000000000a0 .LFE17
+     /tmp/ccpuE7Yi.s:1560   .debug_loc:0000000000000023 .LLST0
+     /tmp/ccpuE7Yi.s:1632   .debug_str:00000000000000f7 .LASF84
+     /tmp/ccpuE7Yi.s:1567   .debug_loc:0000000000000046 .LLST1
+     /tmp/ccpuE7Yi.s:1634   .debug_str:00000000000000fc .LASF85
+     /tmp/ccpuE7Yi.s:1578   .debug_loc:000000000000007c .LLST2
+     /tmp/ccpuE7Yi.s:30     .text:0000000000000024 .LVL0
+     /tmp/ccpuE7Yi.s:36     .text:0000000000000030 .LVL2
+     /tmp/ccpuE7Yi.s:41     .text:000000000000003c .LVL3
+     /tmp/ccpuE7Yi.s:47     .text:0000000000000048 .LVL5
+     /tmp/ccpuE7Yi.s:52     .text:0000000000000054 .LVL6
+     /tmp/ccpuE7Yi.s:58     .text:0000000000000060 .LVL8
+     /tmp/ccpuE7Yi.s:88     .text:000000000000008c .LVL12
+     /tmp/ccpuE7Yi.s:95     .text:000000000000009c .LVL13
+     /tmp/ccpuE7Yi.s:1782   .debug_str:000000000000062e .LASF94
+     /tmp/ccpuE7Yi.s:1630   .debug_str:00000000000000e9 .LASF86
+     /tmp/ccpuE7Yi.s:1726   .debug_str:00000000000003f4 .LASF87
+     /tmp/ccpuE7Yi.s:1740   .debug_str:0000000000000445 .LASF88
+     /tmp/ccpuE7Yi.s:128    .text:00000000000000cc .LVL16
+     /tmp/ccpuE7Yi.s:150    .text:00000000000000f4 .LVL20
+     /tmp/ccpuE7Yi.s:32     .text:0000000000000028 .LVL1
+     /tmp/ccpuE7Yi.s:54     .text:0000000000000058 .LVL7
+     /tmp/ccpuE7Yi.s:43     .text:0000000000000040 .LVL4
+     /tmp/ccpuE7Yi.s:77     .text:0000000000000078 .LVL10
+     /tmp/ccpuE7Yi.s:81     .text:0000000000000080 .LVL11
+     /tmp/ccpuE7Yi.s:74     .text:0000000000000074 .LVL9
+     /tmp/ccpuE7Yi.s:217    .debug_info:0000000000000000 .Ldebug_info0
+GAS LISTING /tmp/ccpuE7Yi.s 			page 12
+
+
 
 UNDEFINED SYMBOLS
-__putc
-_ZN15MemoryAllocator12getAllocatorEv
 _ZN15MemoryAllocator9mem_allocEm
-_ZN15MemoryAllocator9printfreeEv
-HEAP_START_ADDR
+_ZN15MemoryAllocator5printEv
 _ZN15MemoryAllocator8mem_freeEPKv
+__putc
+_Z9mem_allocm
+_Z8mem_freePv
+_ZN5RISCV16handle_interruptEv
+_ZN15MemoryAllocator12getAllocatorEv

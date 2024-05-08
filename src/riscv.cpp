@@ -1,63 +1,106 @@
-
+#include "../lib/hw.h"
+#include "../lib/console.h"
 #include "../h/riscv.hpp"
+#include "../h/syscall_c.h"
+#include "../h/Memoryallocator.hpp"
+#include "../h/thread.hpp"
 
-inline uint64 RISCV::rd_scause() {
-    uint64 volatile value;
-    __asm__ volatile ("csrr %0, scause" : "=r"(value));
-    return value;
+// not inline ( ra reg )
+// first time running a thread, sepc inside of wrapper
+
+void RISCV::popSppSpie() {
+    __asm__ volatile ("csrw sepc, ra");
+    __asm__ volatile ("sret");
 }
 
-inline void RISCV::wr_scause(uint64 value) {
-    __asm__ volatile ("csrw scause, %0" : : "r"(value));
-}
+void RISCV::supervisor_trap() {
+    uint64 op, a1, a2, a3, a4;
+    __asm__ volatile("mv %0, a0" : "=r"(op));
+    __asm__ volatile("mv %0, a1" : "=r"(a1));
+    __asm__ volatile("mv %0, a2" : "=r"(a2));
+    __asm__ volatile("mv %0, a3" : "=r"(a3));
+    __asm__ volatile("mv %0, a4" : "=r"(a4));
 
-inline uint64 RISCV::rd_sepc() {
-    uint64 volatile value;
-    __asm__ volatile ("csrr %0, sepc" : "=r"(value));
-    return value;
-}
+    uint64 scause = rd_scause();
 
-inline void RISCV::wr_sepc(uint64 value) {
-    __asm__ volatile ("csrw scause, %0" : : "r"(value));
-}
+    if (scause == SOFTWARE) {
+        // software interrupt - timer
+        TCB::time_slice_count ++;
+        if (TCB::time_slice_count >= TCB::running->getTimeSlice())
+        {
+            uint64 sepc = rd_sepc();
+            uint64 sstatus = rd_sstatus();
 
-inline uint64 RISCV::rd_stvec() {
-    uint64 volatile value;
-    __asm__ volatile ("csrr %0, stvec" : "=r"(value));
-    return value;
-}
+            TCB::time_slice_count = 0; // new running thread
+            TCB::dispatch();
 
-inline void RISCV::wr_stvec(uint64 value) {
-    __asm__ volatile ("csrw stvec, %0" : : "r"(value));
-}
+            wr_sstatus(sstatus);
+            wr_sepc(sepc);
 
-inline uint64 RISCV::rd_stval() {
-    uint64 volatile value;
-    __asm__ volatile ("csrr %0, stval" : "=r"(value));
-    return value;
-}
+            // first time running thread -> context not saved
+            // next instruction: inside of wrapper function
+        }
+        mask_sip(mask_sip_sie::SS);
 
-inline void RISCV::wr_stval(uint64 value) {
-    __asm__ volatile ("csrw stval, %0" : : "r"(value));
-}
+    } else if (scause == EXTERNAL) {
+        // external interrupt - console
+        console_handler();
 
-inline uint64 RISCV::rd_sip() {
-    uint64 volatile value;
-    __asm__ volatile ("csrr %0, sip" : "=r"(value));
-    return value;
-}
+        // plus INVALID INTERRUPT
 
-inline void RISCV::wr_sip(uint64 value) {
-    __asm__ volatile ("csrw sip, %0" : : "r"(value));
-}
+    } else if (scause == U_ECALL || scause == S_ECALL){
+        // environment call from user / supervisor mode
 
-inline uint64 RISCV::rd_sstatus() {
-    uint64 volatile value;
-    __asm__ volatile ("csrr %0, sstatus" : "=r"(value));
-    return value;
-}
+//        TCB::time_slice_count = 0; // new running thread
+//        TCB::dispatch();
 
-inline void RISCV::wr_sstatus(uint64 value) {
-    __asm__ volatile ("csrw sstatus, %0" : : "r"(value));
+        uint64 sepc = rd_sepc() + 4;
+        uint64 sstatus = rd_sstatus();
+
+        switch (op) {
+            case MEM_ALLOC:
+                MemoryAllocator::mem_alloc((size_t)a1);
+                break;
+            case MEM_FREE:
+                MemoryAllocator::mem_free((void *)a1);
+                break;
+            case THREAD_CREATE:
+                TCB::_threadCreate((TCB**)a1, (routine_ptr)a2, (void *)a3, (void *)a4);
+                break;
+            case THREAD_EXIT:
+                break;
+            case THREAD_DISPATCH:
+                TCB::dispatch();
+                break;
+            case THREAD_CREATE_ONLY:
+                // ...
+                break;
+            case THREAD_START:
+                // ...
+                break;
+            case SEM_OPEN:
+                // ...
+                break;
+            case SEM_CLOSE:
+                // ...
+                break;
+            case SEM_WAIT:
+                // ...
+                break;
+            case SEM_SIGNAL:
+                // ...
+                break;
+            case GETC:
+                // ...
+                break;
+            case PUTC:
+                // ...
+                break;
+        }
+
+        wr_sepc(sepc);
+        wr_sstatus(sstatus);
+
+    }
 }
 

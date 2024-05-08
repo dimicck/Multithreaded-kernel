@@ -1,13 +1,43 @@
 
 #include "../h/Memoryallocator.hpp"
+#include "../h/syscall_c.h"
 #include "../lib/console.h"
+#include "../h/thread.hpp"
+#include "../h/riscv.hpp"
+
+
+void testMemoryAllocator() {
+
+    void *addr = MemoryAllocator::mem_alloc(1);
+    MemoryAllocator::print();
+    int ret1 = MemoryAllocator::mem_free(addr);
+    MemoryAllocator::print();
+
+    int ret2 = MemoryAllocator::mem_free(addr);
+    MemoryAllocator::print();
+
+    if (ret1 == 0) __putc('G');
+    if (ret2 < 0) __putc('G');
+
+}
+
+void testCMemory() {
+    MemoryAllocator::print();
+    void* addr = mem_alloc(50);
+    MemoryAllocator::print();
+    mem_free(addr);
+    MemoryAllocator::print();
+}
 
 int main() {
-    __putc('\n');
+
+    RISCV::wr_stvec((uint64)&RISCV::handle_interrupt);
+    // ecall jumps to addres in stvec reg
+
     MemoryAllocator::getAllocator();
-    MemoryAllocator::mem_alloc(15);
-    MemoryAllocator::printfree();
-    MemoryAllocator::mem_free((void*)(1*MEM_BLOCK_SIZE+ sizeof(MemoryAllocator::MemoryBlock)+(char*)HEAP_START_ADDR));
-    MemoryAllocator::printfree();
+
+    // testMemoryAllocator();
+    testCMemory();
+
     return 0;
 }

@@ -125,19 +125,21 @@ int MemoryAllocator::tryToJoin(MemoryAllocator::MemoryBlock *curr) {
     return 0;
 }
 
-void MemoryAllocator::printfree() {
+void MemoryAllocator::print() {
 
     for (MemoryBlock* b = free_mem_head; b != nullptr; b = b->next) {
         __putc('f');
         __putc('\n');
     }
 
-    if (!used_mem_head) __putc('d');
+    if (!used_mem_head) __putc('x');
 
     for (MemoryBlock* b = used_mem_head; b != nullptr; b = b->next) {
         __putc('u');
         __putc('\n');
     }
+
+    __putc('\n');
 }
 
 

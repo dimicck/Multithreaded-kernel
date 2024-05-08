@@ -38,10 +38,10 @@ public:
     static int mem_free(const void*);
 
     // pomocne -> brisi
-    static void printfree();
-    static void printused();
+    static void print();
 
 };
 
+const size_t mem_h_size = sizeof(MemoryAllocator::MemoryBlock);
 
 #endif
