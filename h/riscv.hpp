@@ -18,34 +18,36 @@ public:
     };
 
     static void supervisor_trap();
+    static void handle_interrupt();
 
     static void push_regs();
     static void pop_regs();
 
-    static void handle_interrupt();
-    static void handle_trap();
-
     static uint64 rd_scause();
-    static void wr_scause(uint64 scause);
+    static void wr_scause(uint64 value);
 
     static uint64 rd_sepc();
-    static void wr_sepc(uint64 sepc);
+    static void wr_sepc(uint64 value);
 
     static uint64 rd_stvec();
-    static void wr_stvec(uint64 stvec);
+    static void wr_stvec(uint64 value);
 
     static uint64 rd_stval();
-    static void wr_stval(uint64 stval);
+    static void wr_stval(uint64 value);
 
     static uint64 rd_sip();
-    static void wr_sip(uint64 sip);
+    static void wr_sip(uint64 value);
 
     static uint64 rd_sstatus();
-    static void wr_sstatus(uint64 sstatus);
+    static void wr_sstatus(uint64 value);
 
     static inline void mask_sip(uint64 mask) {
         __asm__ volatile("csrc sip, %0" : : "r"(mask));
     }
+
+    static inline void mask_status(uint64 mask) {
+        __asm__ volatile("csrc sstatus, %0" : : "r"(mask));
+    };
 
     static void popSppSpie();
     // pop sstatus.spp and sstatus.spie bits

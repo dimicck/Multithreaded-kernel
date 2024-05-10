@@ -14,9 +14,12 @@ using routine_ptr = void(*)(void *);
 // _thread je wrapper ove klase
 class TCB final {
 
-friend class RISCV;
+    friend class RISCV;
+    friend class Sem;
 
 public:
+
+    static TCB* running; // current thread
 
     enum state {
         RUNNABLE,
@@ -25,28 +28,29 @@ public:
         FINISHED,
         BLOCKED
     };
-
-     struct Context {
+    struct Context {
         // nadogradi kasnije
         uint64 pc;
         uint64 sp;
     };
 
-     void start();
+    void start();
 
-    static int _threadCreate(TCB** handle, routine_ptr routine, void* args, void* stack_space);
+    static int _threadCreate(TCB** handle, routine_ptr routine, void* args, void* stack_space); // + time
 
     static void yield(TCB*, TCB*);
 
     static void dispatch();
 
-    static TCB* running; // tekuca nit
-    state getState() {return current_state;}
+    state getState() const {return current_state;}
     time_t getTimeSlice() const {return time_slice;}
+
     static bool isRunnable();
+
     bool isFinished() {return current_state == state::FINISHED;}
     void finish() { current_state = state::FINISHED; }
 
+    ~TCB() {delete[] stack;}
 
     void* operator new(size_t size);
     void operator delete(void* ptr);
@@ -55,14 +59,20 @@ private:
 
     static int id_count;
     static time_t time_slice_count;
+
     int id;
-    TCB* next_ready;
+
+    TCB* next_ready; // timer
     TCB* next_sleepy;
+
+    TCB* next_blocked; // scheduler
+
     time_t sleeping_time;
     time_t time_slice;
+
     routine_ptr routine;
-    void* stack;
     void* args;
+    uint64 * stack;
     Context context;
     state current_state; // pocetna vrednost ?????
     bool finished  = false;
@@ -72,6 +82,9 @@ private:
     static void contextSwitch(Context * oldContext, Context * newContext);
 
     static void wrapper();
+
+    static int _threadExit();
 };
 
+typedef TCB _thread;
 #endif //PROJECT_BASE_THREAD_HPP

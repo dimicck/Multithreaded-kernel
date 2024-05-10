@@ -19,8 +19,12 @@ void printInteger(uint64 integer) {
         x = -integer;
     } else x = integer;
 
-    do buf[i++] = digits[x % 10];
-    while ( x /= 10 != 0);
+
+    do {
+        buf[i++] = digits[x % 10];
+        x = x/10;
+    }
+    while ( x != 0);
 
     if (neg) buf[i++] = '-';
 

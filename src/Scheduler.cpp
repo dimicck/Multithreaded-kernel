@@ -1,18 +1,36 @@
 
 #include "../h/Scheduler.hpp"
 
-List<TCB> Scheduler::list;
+Scheduler::Elem* Scheduler::head = nullptr;
+Scheduler::Elem* Scheduler::tail = nullptr;
 
 TCB *Scheduler::get() {
-    return list.removeFirst();
+    if (!head) return nullptr;
+    Elem* removed = head;
+    head = head -> next;
+    if (!head) tail = nullptr;
+    TCB *ret = removed -> data;
+    delete removed;
+    return ret;
 }
 
 void Scheduler::put(TCB *newTCB) {
-    list.add(newTCB);
+
+    Elem* newElem = new Elem(newTCB, nullptr);
+    if (tail) tail = tail -> next = newElem;
+    else head = tail = newElem;
 }
 
+TCB* Scheduler::peek() {
+    if (!head) return nullptr;
+    return head -> data;}
+
 bool Scheduler::empty() {
-    return list.peek() == nullptr;
+    return peek() == nullptr;
+}
+
+void Scheduler::put_to_sleep(TCB *, time_t) {
+    // ...
 }
 
 void *Scheduler::operator new(size_t size) {
@@ -23,4 +41,5 @@ void *Scheduler::operator new(size_t size) {
 void Scheduler::operator delete(void *ptr) {
     MemoryAllocator::mem_free(ptr);
 }
+
 

@@ -1,32 +1,51 @@
-//
-// Created by os on 5/1/24.
-//
 
 #ifndef PROJECT_BASE_SEMAPHORE_HPP
 #define PROJECT_BASE_SEMAPHORE_HPP
-#include "List.hpp"
+
 #include "Scheduler.hpp"
 #include "thread.hpp"
 #include "../lib/hw.h"
 
+class Sem;
+typedef Sem* sem_t;
+
 class Sem {
 public:
 
-    // destruktor
+    enum error {
+        MEMORY_ERR = -1,
+        NEG_VALUE  = -2,
+        SEM_CLOSED = -3,
+        NO_SEM_ERR = -4
+    };
 
-    explicit Sem(unsigned int init = 1) : value(init), isClosed(false) {}
     int wait();
     int signal();
-    int timedWait(time_t);
+
+    int timedWait(time_t time);
+    int trywait();
+
+    static int open(sem_t* handle, unsigned init);  // ???
+    static int s_close(sem_t handle);
+
+    void* operator new(size_t size);
+    void operator delete(void* ptr);
+
+private:
+
+    explicit Sem(int init = 1) : value(init), isClosed(false) {}
 
     void block();
     void deblock();
 
-private:
-
     int value;
     bool isClosed;
-    List<TCB> blocked;
+
+    TCB* last = nullptr; // blocked 'list'
+    TCB* first= nullptr;
+
 };
+
+typedef Sem _sem;
 
 #endif //PROJECT_BASE_SEMAPHORE_HPP
