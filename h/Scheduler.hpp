@@ -6,6 +6,8 @@
 
 class Scheduler {
 
+    friend class RISCV;
+
 public:
     static void init_scheduler() {};
 
@@ -14,7 +16,7 @@ public:
     static TCB* peek();
     static bool empty();
 
-    static void put_to_sleep(TCB*, time_t );
+    static int put_to_sleep(TCB*, time_t );
 
     void* operator new(size_t);
     void operator delete(void *);
@@ -23,17 +25,13 @@ public:
 
 private:
 
+    static bool hasSleeping() {return  first_sleepy != nullptr;}
     Scheduler() = default;
 
-    struct Elem {
-        friend class Scheduler;
-        TCB* data;
-        Elem* next;
-        Elem(TCB *data, Elem* next) : data(data), next(next) {}
-    };
+    static void s_yield();
 
-    static Elem *tail;
-    static Elem *head;
+    static TCB* first, *last;
+    static TCB* first_sleepy, *last_sleepy;
 
 };
 

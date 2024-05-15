@@ -3,8 +3,6 @@
 #define PROJECT_BASE_SYSCALLL_C_HPP
 
 #include "../lib/hw.h"
-#include "thread.hpp"
-#include "semaphore.hpp"
 //
 //extern const void* HEAP_START_ADDR;
 //extern const void* HEAP_END_ADDR;
@@ -27,13 +25,13 @@ enum CODES {
     PUTC = 0x42
 };
 
-class TCB;
 class Sem;
+class TCB;
 
 void* mem_alloc (size_t size); //0x01
 int mem_free (void*); //0x02
 
-typedef _thread* thread_t;
+typedef TCB* thread_t;
 
 int thread_create (
         thread_t* handle,
@@ -44,7 +42,7 @@ int thread_create (
 int thread_exit (); //0x12
 void thread_dispatch (); //0x13
 
-typedef _sem* sem_t;
+typedef Sem* sem_t;
 
 int sem_open (sem_t* handle, unsigned init); //0x21
 

@@ -11,10 +11,10 @@ class RISCV {
 public:
 
     enum causes {
-        SOFTWARE = 0x800000000000001UL,
-        EXTERNAL = 0x800000000000009UL,
-        U_ECALL  = 0x000000000000008UL,
-        S_ECALL  = 0x000000000000009UL
+        SOFTWARE = 0x8000000000000001UL,
+        EXTERNAL = 0x8000000000000009UL,
+        U_ECALL  = 0x0000000000000008UL,
+        S_ECALL  = 0x0000000000000009UL
     };
 
     static void supervisor_trap();
@@ -41,13 +41,22 @@ public:
     static uint64 rd_sstatus();
     static void wr_sstatus(uint64 value);
 
-    static inline void mask_sip(uint64 mask) {
+    static inline void clear_sip(uint64 mask) {
         __asm__ volatile("csrc sip, %0" : : "r"(mask));
     }
+
+    static inline void set_sip(uint64 mask) {
+        __asm__ volatile("csrs sip, %0" : : "r"(mask));
+    }
+
 
     static inline void mask_status(uint64 mask) {
         __asm__ volatile("csrc sstatus, %0" : : "r"(mask));
     };
+
+    static inline void set_status(uint64 mask) {
+        __asm__ volatile("csrs sstatus, %0" : : "r"(mask));
+    }
 
     static void popSppSpie();
     // pop sstatus.spp and sstatus.spie bits
@@ -56,7 +65,7 @@ public:
     enum mask_sstatus {
         SIE = (1 << 1),
         SPIE =(1 << 5),
-        SSP = (1 << 8)
+        SPP = (1 << 8)
     };
 
     enum mask_sip_sie {

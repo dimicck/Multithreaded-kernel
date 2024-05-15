@@ -4,17 +4,20 @@
 #include "../h/syscall_c.h"
 #include "../h/Memoryallocator.hpp"
 #include "../h/thread.hpp"
+#include "../h/Console.hpp"
 
 extern void printInteger(uint64);
 extern void printString(char*);
+extern void handleNewChars(void*);
 
 // first time running a thread, sepc inside of wrapper
+
 
 void RISCV::popSppSpie() {
 
     // not inline ( ra reg )
     // pop sstatus spp and spie bits
-
+    if (TCB::running->routine && TCB::running->routine != handleNewChars) RISCV::mask_status(SPP);
     __asm__ volatile ("csrw sepc, ra");
     __asm__ volatile ("sret");
 
@@ -23,6 +26,7 @@ void RISCV::popSppSpie() {
 }
 
 void RISCV::handle_interrupt() {
+
     uint64 op, a1, a2, a3, a4;
     __asm__ volatile("mv %0, a0" : "=r"(op)); // operation code
     __asm__ volatile("mv %0, a1" : "=r"(a1));
@@ -33,9 +37,36 @@ void RISCV::handle_interrupt() {
     uint64 scause = rd_scause();
 
     if (scause == SOFTWARE) {
-
         // software interrupt - timer
-        mask_sip(SS);
+
+        // update running time passed for running
+        // if time >= running time slice, dispatch()
+        // reset static time passed
+        // update sleeping threads or timed wait
+
+        clear_sip(mask_sip_sie::SS);
+
+        if (Scheduler::hasSleeping()) {
+
+            Scheduler::first_sleepy -> sleeping_time --;
+
+            TCB* tcb = Scheduler::first_sleepy;
+            while (tcb) {
+                // remember first sleepy
+                if (tcb -> sleeping_time > 0) break;
+
+                tcb->current_state = TCB::RUNNABLE;
+                Scheduler::put(tcb);
+                TCB* next = tcb -> next_sleepy;
+                tcb -> next_sleepy = nullptr;
+                tcb = next;
+            }
+
+            Scheduler::first_sleepy = tcb;
+            if (!Scheduler::first_sleepy) Scheduler::last_sleepy = nullptr;
+
+        }
+
         TCB::time_slice_count ++;
         if (TCB::time_slice_count >= TCB::running->getTimeSlice())
         {
@@ -45,20 +76,48 @@ void RISCV::handle_interrupt() {
             TCB::time_slice_count = 0; // new running thread
             TCB::dispatch();
 
-            wr_sstatus(sstatus);
             wr_sepc(sepc);
+            wr_sstatus(sstatus);
 
             // first time running thread -> context not saved
             // next instruction: inside of wrapper function
         }
-        mask_sip(mask_sip_sie::SS);
 
     } else if (scause == EXTERNAL) {
         // external interrupt - console
         console_handler();
-        // plus INVALID INTERRUPT
+//
+//        uint64 sepc = rd_sepc();
+//        uint64 sstatus = rd_sstatus();
+//
+//        int irq = plic_claim();
+//        if (irq == CONSOLE_IRQ) {
+//            while (*(char *) CONSOLE_STATUS & CONSOLE_RX_STATUS_BIT) {
+//
+//                char c = *(char *) CONSOLE_RX_DATA;
+//                myConsole::kputc(c);
+//                // put new char to input buffer.
+//            }
+//        }
+//        plic_complete(irq);
+//        wr_sepc(sepc);
+//        wr_sstatus(sstatus);
+//        clear_sip(SE);
+    }
+//    else if (scause == S_ECALL) {
+//
+//        // a1 = oldRunning
+//        // a2 = newRunning
+//
+//        uint64 sepc = rd_sepc() + 4;
+//        uint64 sstatus = rd_sstatus();
+//
+//        TCB::contextSwitch( &((TCB*)a1)->context, &((TCB*)a2)->context );
+//
+//        wr_sepc(sepc);
+//        wr_sstatus(sstatus);
 
-    } else if (scause == U_ECALL || scause == S_ECALL){
+     else if (scause == U_ECALL || scause == S_ECALL){
         // environment call from user / supervisor mode
 
         uint64 sepc = rd_sepc() + 4;
@@ -78,6 +137,7 @@ void RISCV::handle_interrupt() {
                 TCB::_threadExit();
                 break;
             case THREAD_DISPATCH:
+//                TCB::time_slice_count = 0;
                 TCB::dispatch();
                 break;
             case SEM_OPEN:
@@ -87,25 +147,25 @@ void RISCV::handle_interrupt() {
                 Sem::s_close((sem_t)a1); // a1 == handle
                 break;
             case SEM_WAIT:
-                ((sem_t)a1)->wait(); // a1 <=> handle
+                Sem::wait(((sem_t)a1)); // a1 <=> handle
                 break;
             case SEM_SIGNAL:
-                ((sem_t)a1)->signal(); // a1 <=> handle
+                Sem::signal((sem_t)a1); // a1 <=> handle
                 break;
             case SEM_TIMEDWAIT:
-                ((sem_t)a1)->timedWait((time_t)a2);
+                Sem::timedWait((sem_t)a1,(time_t)a2);
                 break;
             case SEM_TRYWAIT:
-                ((sem_t)a1)->trywait();
+                Sem::trywait((sem_t)a1);
                 break;
             case TIME_SLEEP:
-                // ...
+                Scheduler::put_to_sleep((thread_t)TCB::running, (time_t)a1);
                 break;
             case GETC:
-                // ...
+                myConsole::getc();
                 break;
             case PUTC:
-                // ...
+                myConsole::putc((char)a1);
                 break;
         }
 
@@ -114,6 +174,7 @@ void RISCV::handle_interrupt() {
 
     } else {
         // INVALID INTERRUPT CODE
+        printInteger(123456789);
     }
 }
 

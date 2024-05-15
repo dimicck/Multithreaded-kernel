@@ -44,15 +44,13 @@ void TCB::wrapper() {
     // spie -> status previous int enable
 
     // came from supervisor trap (s mode)
-
-    // RISCV::popSppSpie();
-
-    if (running->routine) running->routine(running->args); // in user mode
+    RISCV::popSppSpie();
+    if (running->routine) {
+        running->routine(running->args); // in user mode
+    }
 
     running->finish();
-
-    dispatch();
-
+    thread_dispatch();
     // no return address from wrapper
 }
 
@@ -72,8 +70,11 @@ void TCB::yield(TCB* oldRunning, TCB* newRunning) {
 void TCB::dispatch() {
 
     TCB *oldRunning = TCB::running;
+
     if ( isRunnable() ) Scheduler::put(oldRunning);
+
     running = Scheduler::get();
+
     if (running != oldRunning) yield(oldRunning, running);
 }
 
@@ -89,8 +90,10 @@ void TCB::operator delete(void *ptr) {
 
 void TCB::start() {
     /// remove from thread create !
-    Scheduler::put(this);
-
+    if (current_state == CREATED) {
+        current_state = RUNNABLE;
+        Scheduler::put(this);
+    }
 }
 
 bool TCB::isRunnable() {
@@ -102,9 +105,7 @@ int TCB::_threadExit() {
     // check if semaphore signal needed ?
     // don't put in Scheduler -> call yield only
 
-    TCB* toExit = TCB::running;
-    TCB::running = Scheduler::get();
-    yield(toExit, running);
+    thread_dispatch();
 
     return 0;
 }

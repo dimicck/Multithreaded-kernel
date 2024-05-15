@@ -8,6 +8,6 @@
 #include "../lib/hw.h"
 
 extern void printInteger(uint64 integer);
-extern void printString(char const* string);
+extern void myPrintString(char const* string);
 
 #endif //PROJECT_BASE_PRINT_HPP

@@ -1,0 +1,500 @@
+GAS LISTING /tmp/ccOyrOPk.s 			page 1
+
+
+   1              		.file	"List.cpp"
+   2              		.option pic
+   3              		.option norelax
+   4              		.text
+   5              	.Ltext0:
+   6              		.align	2
+   7              		.globl	_ZN4List3addEP3TCB
+   9              	_ZN4List3addEP3TCB:
+  10              	.LFB26:
+  11              		.file 1 "src/List.cpp"
+   1:src/List.cpp  **** #include "../h/List.hpp"
+   2:src/List.cpp  **** 
+   3:src/List.cpp  **** void List::add(TCB *tcb) {
+  12              		.loc 1 3 26
+  13              		.cfi_startproc
+  14              	.LVL0:
+  15 0000 130101FE 		addi	sp,sp,-32
+  16              		.cfi_def_cfa_offset 32
+  17 0004 233C1100 		sd	ra,24(sp)
+  18 0008 23388100 		sd	s0,16(sp)
+  19 000c 23349100 		sd	s1,8(sp)
+  20 0010 23302101 		sd	s2,0(sp)
+  21              		.cfi_offset 1, -8
+  22              		.cfi_offset 8, -16
+  23              		.cfi_offset 9, -24
+  24              		.cfi_offset 18, -32
+  25 0014 13040102 		addi	s0,sp,32
+  26              		.cfi_def_cfa 8, 0
+  27 0018 93040500 		mv	s1,a0
+  28 001c 13890500 		mv	s2,a1
+   4:src/List.cpp  **** 
+   5:src/List.cpp  ****     Elem* toAdd = new Elem(tcb);
+  29              		.loc 1 5 5
+  30              		.loc 1 5 31 is_stmt 0
+  31 0020 13050001 		li	a0,16
+  32              	.LVL1:
+  33 0024 97000000 		call	_Znwm@plt
+  33      E7800000 
+  34              	.LVL2:
+  35              	.LBB5:
+  36              	.LBB6:
+  37              		.file 2 "src/../h/List.hpp"
+   1:src/../h/List.hpp **** //
+   2:src/../h/List.hpp **** // Created by os on 5/13/24.
+   3:src/../h/List.hpp **** //
+   4:src/../h/List.hpp **** 
+   5:src/../h/List.hpp **** #ifndef PROJECT_BASE_LIST_HPP
+   6:src/../h/List.hpp **** #define PROJECT_BASE_LIST_HPP
+   7:src/../h/List.hpp **** #include "thread.hpp"
+   8:src/../h/List.hpp **** 
+   9:src/../h/List.hpp **** class List {
+  10:src/../h/List.hpp **** 
+  11:src/../h/List.hpp **** public:
+  12:src/../h/List.hpp **** 
+  13:src/../h/List.hpp ****     void add(TCB* tcb);
+  14:src/../h/List.hpp ****     TCB* get();
+  15:src/../h/List.hpp ****     TCB* peek();
+GAS LISTING /tmp/ccOyrOPk.s 			page 2
+
+
+  16:src/../h/List.hpp **** 
+  17:src/../h/List.hpp **** private:
+  18:src/../h/List.hpp **** 
+  19:src/../h/List.hpp ****     struct Elem {
+  20:src/../h/List.hpp ****         TCB* data;
+  21:src/../h/List.hpp ****         Elem* next;
+  22:src/../h/List.hpp **** 
+  23:src/../h/List.hpp ****         explicit Elem(TCB* tcb) : data(tcb), next(nullptr) {}
+  38              		.loc 2 23 58
+  39 002c 23302501 		sd	s2,0(a0)
+  40 0030 23340500 		sd	zero,8(a0)
+  41              	.LVL3:
+  42              	.LBE6:
+  43              	.LBE5:
+   6:src/List.cpp  **** 
+   7:src/List.cpp  ****     if (!head) head = tail = toAdd;
+  44              		.loc 1 7 5 is_stmt 1
+  45              		.loc 1 7 10 is_stmt 0
+  46 0034 83B70400 		ld	a5,0(s1)
+  47              		.loc 1 7 5
+  48 0038 63840702 		beqz	a5,.L5
+   8:src/List.cpp  ****     else tail = tail -> next = toAdd;
+  49              		.loc 1 8 10 is_stmt 1
+  50              		.loc 1 8 17 is_stmt 0
+  51 003c 83B78400 		ld	a5,8(s1)
+  52              		.loc 1 8 30
+  53 0040 23B4A700 		sd	a0,8(a5)
+  54              		.loc 1 8 15
+  55 0044 23B4A400 		sd	a0,8(s1)
+  56              	.L1:
+   9:src/List.cpp  **** 
+  10:src/List.cpp  **** }
+  57              		.loc 1 10 1
+  58 0048 83308101 		ld	ra,24(sp)
+  59              		.cfi_remember_state
+  60              		.cfi_restore 1
+  61 004c 03340101 		ld	s0,16(sp)
+  62              		.cfi_restore 8
+  63              		.cfi_def_cfa 2, 32
+  64 0050 83348100 		ld	s1,8(sp)
+  65              		.cfi_restore 9
+  66              	.LVL4:
+  67 0054 03390100 		ld	s2,0(sp)
+  68              		.cfi_restore 18
+  69              	.LVL5:
+  70 0058 13010102 		addi	sp,sp,32
+  71              		.cfi_def_cfa_offset 0
+  72 005c 67800000 		jr	ra
+  73              	.LVL6:
+  74              	.L5:
+  75              		.cfi_restore_state
+   7:src/List.cpp  ****     else tail = tail -> next = toAdd;
+  76              		.loc 1 7 16 is_stmt 1 discriminator 1
+   7:src/List.cpp  ****     else tail = tail -> next = toAdd;
+  77              		.loc 1 7 28 is_stmt 0 discriminator 1
+  78 0060 23B4A400 		sd	a0,8(s1)
+   7:src/List.cpp  ****     else tail = tail -> next = toAdd;
+GAS LISTING /tmp/ccOyrOPk.s 			page 3
+
+
+  79              		.loc 1 7 21 discriminator 1
+  80 0064 23B0A400 		sd	a0,0(s1)
+  81 0068 6FF01FFE 		j	.L1
+  82              		.cfi_endproc
+  83              	.LFE26:
+  85              		.align	2
+  86              		.globl	_ZN4List3getEv
+  88              	_ZN4List3getEv:
+  89              	.LFB27:
+  11:src/List.cpp  **** 
+  12:src/List.cpp  **** TCB *List::get() {
+  90              		.loc 1 12 18 is_stmt 1
+  91              		.cfi_startproc
+  92              	.LVL7:
+  93 006c 130101FE 		addi	sp,sp,-32
+  94              		.cfi_def_cfa_offset 32
+  95 0070 233C1100 		sd	ra,24(sp)
+  96 0074 23388100 		sd	s0,16(sp)
+  97 0078 23349100 		sd	s1,8(sp)
+  98              		.cfi_offset 1, -8
+  99              		.cfi_offset 8, -16
+ 100              		.cfi_offset 9, -24
+ 101 007c 13040102 		addi	s0,sp,32
+ 102              		.cfi_def_cfa 8, 0
+ 103 0080 93070500 		mv	a5,a0
+  13:src/List.cpp  **** 
+  14:src/List.cpp  ****     if (!head) return nullptr;
+ 104              		.loc 1 14 5
+ 105              		.loc 1 14 10 is_stmt 0
+ 106 0084 03350500 		ld	a0,0(a0)
+ 107              	.LVL8:
+ 108              		.loc 1 14 5
+ 109 0088 630E0502 		beqz	a0,.L9
+  15:src/List.cpp  **** 
+  16:src/List.cpp  ****     TCB* tcb = head -> data;
+ 110              		.loc 1 16 5 is_stmt 1
+ 111              		.loc 1 16 10 is_stmt 0
+ 112 008c 83340500 		ld	s1,0(a0)
+ 113              	.LVL9:
+  17:src/List.cpp  ****     Elem* oldHead = head;
+ 114              		.loc 1 17 5 is_stmt 1
+  18:src/List.cpp  ****     head = head -> next;
+ 115              		.loc 1 18 5
+ 116              		.loc 1 18 20 is_stmt 0
+ 117 0090 03378500 		ld	a4,8(a0)
+ 118              		.loc 1 18 10
+ 119 0094 23B0E700 		sd	a4,0(a5)
+  19:src/List.cpp  **** 
+  20:src/List.cpp  ****     if (!head) tail = nullptr;
+ 120              		.loc 1 20 5 is_stmt 1
+ 121 0098 63020702 		beqz	a4,.L11
+ 122              	.L8:
+  21:src/List.cpp  **** 
+  22:src/List.cpp  ****     delete oldHead;
+ 123              		.loc 1 22 5
+ 124              		.loc 1 22 12 is_stmt 0
+ 125 009c 97000000 		call	_ZdlPv@plt
+GAS LISTING /tmp/ccOyrOPk.s 			page 4
+
+
+ 125      E7800000 
+ 126              	.LVL10:
+  23:src/List.cpp  ****     return tcb;
+ 127              		.loc 1 23 5 is_stmt 1
+ 128              	.L6:
+  24:src/List.cpp  **** }
+ 129              		.loc 1 24 1 is_stmt 0
+ 130 00a4 13850400 		mv	a0,s1
+ 131 00a8 83308101 		ld	ra,24(sp)
+ 132              		.cfi_remember_state
+ 133              		.cfi_restore 1
+ 134 00ac 03340101 		ld	s0,16(sp)
+ 135              		.cfi_restore 8
+ 136              		.cfi_def_cfa 2, 32
+ 137 00b0 83348100 		ld	s1,8(sp)
+ 138              		.cfi_restore 9
+ 139 00b4 13010102 		addi	sp,sp,32
+ 140              		.cfi_def_cfa_offset 0
+ 141 00b8 67800000 		jr	ra
+ 142              	.LVL11:
+ 143              	.L11:
+ 144              		.cfi_restore_state
+  20:src/List.cpp  **** 
+ 145              		.loc 1 20 16 is_stmt 1 discriminator 1
+  20:src/List.cpp  **** 
+ 146              		.loc 1 20 21 is_stmt 0 discriminator 1
+ 147 00bc 23B40700 		sd	zero,8(a5)
+ 148 00c0 6FF0DFFD 		j	.L8
+ 149              	.LVL12:
+ 150              	.L9:
+  14:src/List.cpp  **** 
+ 151              		.loc 1 14 23
+ 152 00c4 93040500 		mv	s1,a0
+ 153 00c8 6FF0DFFD 		j	.L6
+ 154              		.cfi_endproc
+ 155              	.LFE27:
+ 157              		.align	2
+ 158              		.globl	_ZN4List4peekEv
+ 160              	_ZN4List4peekEv:
+ 161              	.LFB28:
+  25:src/List.cpp  **** 
+  26:src/List.cpp  **** TCB *List::peek() {
+ 162              		.loc 1 26 19 is_stmt 1
+ 163              		.cfi_startproc
+ 164              	.LVL13:
+ 165 00cc 130101FF 		addi	sp,sp,-16
+ 166              		.cfi_def_cfa_offset 16
+ 167 00d0 23348100 		sd	s0,8(sp)
+ 168              		.cfi_offset 8, -8
+ 169 00d4 13040101 		addi	s0,sp,16
+ 170              		.cfi_def_cfa 8, 0
+  27:src/List.cpp  ****     if (head) return head->data;
+ 171              		.loc 1 27 5
+ 172              		.loc 1 27 9 is_stmt 0
+ 173 00d8 03350500 		ld	a0,0(a0)
+ 174              	.LVL14:
+ 175              		.loc 1 27 5
+GAS LISTING /tmp/ccOyrOPk.s 			page 5
+
+
+ 176 00dc 63040500 		beqz	a0,.L12
+ 177              		.loc 1 27 15 is_stmt 1 discriminator 1
+ 178              		.loc 1 27 28 is_stmt 0 discriminator 1
+ 179 00e0 03350500 		ld	a0,0(a0)
+ 180              	.L12:
+  28:src/List.cpp  ****     else return nullptr;
+  29:src/List.cpp  **** }
+ 181              		.loc 1 29 1
+ 182 00e4 03348100 		ld	s0,8(sp)
+ 183              		.cfi_restore 8
+ 184              		.cfi_def_cfa 2, 16
+ 185 00e8 13010101 		addi	sp,sp,16
+ 186              		.cfi_def_cfa_offset 0
+ 187 00ec 67800000 		jr	ra
+ 188              		.cfi_endproc
+ 189              	.LFE28:
+ 191              	.Letext0:
+ 192              		.file 3 "src/../h/../lib/hw.h"
+ 193              		.file 4 "src/../h/../h/Memoryallocator.hpp"
+ 194              		.file 5 "src/../h/thread.hpp"
+GAS LISTING /tmp/ccOyrOPk.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 List.cpp
+     /tmp/ccOyrOPk.s:9      .text:0000000000000000 _ZN4List3addEP3TCB
+     /tmp/ccOyrOPk.s:13     .text:0000000000000000 .L0 
+     /tmp/ccOyrOPk.s:15     .text:0000000000000000 .L0 
+     /tmp/ccOyrOPk.s:16     .text:0000000000000004 .L0 
+     /tmp/ccOyrOPk.s:21     .text:0000000000000014 .L0 
+     /tmp/ccOyrOPk.s:22     .text:0000000000000014 .L0 
+     /tmp/ccOyrOPk.s:23     .text:0000000000000014 .L0 
+     /tmp/ccOyrOPk.s:24     .text:0000000000000014 .L0 
+     /tmp/ccOyrOPk.s:26     .text:0000000000000018 .L0 
+     /tmp/ccOyrOPk.s:30     .text:0000000000000020 .L0 
+     /tmp/ccOyrOPk.s:31     .text:0000000000000020 .L0 
+     /tmp/ccOyrOPk.s:39     .text:000000000000002c .L0 
+     /tmp/ccOyrOPk.s:45     .text:0000000000000034 .L0 
+     /tmp/ccOyrOPk.s:46     .text:0000000000000034 .L0 
+     /tmp/ccOyrOPk.s:48     .text:0000000000000038 .L0 
+     /tmp/ccOyrOPk.s:50     .text:000000000000003c .L0 
+     /tmp/ccOyrOPk.s:51     .text:000000000000003c .L0 
+     /tmp/ccOyrOPk.s:53     .text:0000000000000040 .L0 
+     /tmp/ccOyrOPk.s:55     .text:0000000000000044 .L0 
+     /tmp/ccOyrOPk.s:58     .text:0000000000000048 .L0 
+     /tmp/ccOyrOPk.s:59     .text:000000000000004c .L0 
+     /tmp/ccOyrOPk.s:60     .text:000000000000004c .L0 
+     /tmp/ccOyrOPk.s:62     .text:0000000000000050 .L0 
+     /tmp/ccOyrOPk.s:63     .text:0000000000000050 .L0 
+     /tmp/ccOyrOPk.s:65     .text:0000000000000054 .L0 
+     /tmp/ccOyrOPk.s:68     .text:0000000000000058 .L0 
+     /tmp/ccOyrOPk.s:71     .text:000000000000005c .L0 
+     /tmp/ccOyrOPk.s:75     .text:0000000000000060 .L0 
+     /tmp/ccOyrOPk.s:77     .text:0000000000000060 .L0 
+     /tmp/ccOyrOPk.s:78     .text:0000000000000060 .L0 
+     /tmp/ccOyrOPk.s:80     .text:0000000000000064 .L0 
+     /tmp/ccOyrOPk.s:82     .text:000000000000006c .L0 
+     /tmp/ccOyrOPk.s:88     .text:000000000000006c _ZN4List3getEv
+     /tmp/ccOyrOPk.s:91     .text:000000000000006c .L0 
+     /tmp/ccOyrOPk.s:93     .text:000000000000006c .L0 
+     /tmp/ccOyrOPk.s:94     .text:0000000000000070 .L0 
+     /tmp/ccOyrOPk.s:98     .text:000000000000007c .L0 
+     /tmp/ccOyrOPk.s:99     .text:000000000000007c .L0 
+     /tmp/ccOyrOPk.s:100    .text:000000000000007c .L0 
+     /tmp/ccOyrOPk.s:102    .text:0000000000000080 .L0 
+     /tmp/ccOyrOPk.s:105    .text:0000000000000084 .L0 
+     /tmp/ccOyrOPk.s:106    .text:0000000000000084 .L0 
+     /tmp/ccOyrOPk.s:109    .text:0000000000000088 .L0 
+     /tmp/ccOyrOPk.s:111    .text:000000000000008c .L0 
+     /tmp/ccOyrOPk.s:112    .text:000000000000008c .L0 
+     /tmp/ccOyrOPk.s:115    .text:0000000000000090 .L0 
+     /tmp/ccOyrOPk.s:116    .text:0000000000000090 .L0 
+     /tmp/ccOyrOPk.s:117    .text:0000000000000090 .L0 
+     /tmp/ccOyrOPk.s:119    .text:0000000000000094 .L0 
+     /tmp/ccOyrOPk.s:121    .text:0000000000000098 .L0 
+     /tmp/ccOyrOPk.s:124    .text:000000000000009c .L0 
+     /tmp/ccOyrOPk.s:125    .text:000000000000009c .L0 
+     /tmp/ccOyrOPk.s:129    .text:00000000000000a4 .L0 
+     /tmp/ccOyrOPk.s:130    .text:00000000000000a4 .L0 
+     /tmp/ccOyrOPk.s:132    .text:00000000000000ac .L0 
+GAS LISTING /tmp/ccOyrOPk.s 			page 7
+
+
+     /tmp/ccOyrOPk.s:133    .text:00000000000000ac .L0 
+     /tmp/ccOyrOPk.s:135    .text:00000000000000b0 .L0 
+     /tmp/ccOyrOPk.s:136    .text:00000000000000b0 .L0 
+     /tmp/ccOyrOPk.s:138    .text:00000000000000b4 .L0 
+     /tmp/ccOyrOPk.s:140    .text:00000000000000b8 .L0 
+     /tmp/ccOyrOPk.s:144    .text:00000000000000bc .L0 
+     /tmp/ccOyrOPk.s:146    .text:00000000000000bc .L0 
+     /tmp/ccOyrOPk.s:147    .text:00000000000000bc .L0 
+     /tmp/ccOyrOPk.s:152    .text:00000000000000c4 .L0 
+     /tmp/ccOyrOPk.s:154    .text:00000000000000cc .L0 
+     /tmp/ccOyrOPk.s:160    .text:00000000000000cc _ZN4List4peekEv
+     /tmp/ccOyrOPk.s:163    .text:00000000000000cc .L0 
+     /tmp/ccOyrOPk.s:165    .text:00000000000000cc .L0 
+     /tmp/ccOyrOPk.s:166    .text:00000000000000d0 .L0 
+     /tmp/ccOyrOPk.s:168    .text:00000000000000d4 .L0 
+     /tmp/ccOyrOPk.s:170    .text:00000000000000d8 .L0 
+     /tmp/ccOyrOPk.s:172    .text:00000000000000d8 .L0 
+     /tmp/ccOyrOPk.s:173    .text:00000000000000d8 .L0 
+     /tmp/ccOyrOPk.s:176    .text:00000000000000dc .L0 
+     /tmp/ccOyrOPk.s:178    .text:00000000000000e0 .L0 
+     /tmp/ccOyrOPk.s:179    .text:00000000000000e0 .L0 
+     /tmp/ccOyrOPk.s:182    .text:00000000000000e4 .L0 
+     /tmp/ccOyrOPk.s:183    .text:00000000000000e8 .L0 
+     /tmp/ccOyrOPk.s:184    .text:00000000000000e8 .L0 
+     /tmp/ccOyrOPk.s:186    .text:00000000000000ec .L0 
+     /tmp/ccOyrOPk.s:188    .text:00000000000000f0 .L0 
+     /tmp/ccOyrOPk.s:195    .text:00000000000000f0 .L0 
+     /tmp/ccOyrOPk.s:74     .text:0000000000000060 .L5
+     /tmp/ccOyrOPk.s:56     .text:0000000000000048 .L1
+     /tmp/ccOyrOPk.s:150    .text:00000000000000c4 .L9
+     /tmp/ccOyrOPk.s:143    .text:00000000000000bc .L11
+     /tmp/ccOyrOPk.s:122    .text:000000000000009c .L8
+     /tmp/ccOyrOPk.s:128    .text:00000000000000a4 .L6
+     /tmp/ccOyrOPk.s:180    .text:00000000000000e4 .L12
+     /tmp/ccOyrOPk.s:971    .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+     /tmp/ccOyrOPk.s:2140   .debug_str:0000000000000409 .LASF78
+     /tmp/ccOyrOPk.s:2158   .debug_str:0000000000000558 .LASF79
+     /tmp/ccOyrOPk.s:2028   .debug_str:0000000000000160 .LASF80
+     /tmp/ccOyrOPk.s:5      .text:0000000000000000 .Ltext0
+     /tmp/ccOyrOPk.s:191    .text:00000000000000f0 .Letext0
+     /tmp/ccOyrOPk.s:1976   .debug_line:0000000000000000 .Ldebug_line0
+     /tmp/ccOyrOPk.s:2078   .debug_str:000000000000029a .LASF0
+     /tmp/ccOyrOPk.s:2094   .debug_str:00000000000002eb .LASF1
+     /tmp/ccOyrOPk.s:2072   .debug_str:000000000000026b .LASF2
+     /tmp/ccOyrOPk.s:2046   .debug_str:00000000000001f3 .LASF4
+     /tmp/ccOyrOPk.s:2126   .debug_str:00000000000003a6 .LASF3
+     /tmp/ccOyrOPk.s:1996   .debug_str:000000000000006e .LASF5
+     /tmp/ccOyrOPk.s:2014   .debug_str:000000000000010a .LASF6
+     /tmp/ccOyrOPk.s:2096   .debug_str:00000000000002fe .LASF7
+     /tmp/ccOyrOPk.s:2076   .debug_str:0000000000000287 .LASF8
+     /tmp/ccOyrOPk.s:2150   .debug_str:000000000000051d .LASF9
+     /tmp/ccOyrOPk.s:2034   .debug_str:00000000000001ae .LASF10
+     /tmp/ccOyrOPk.s:2102   .debug_str:0000000000000325 .LASF11
+     /tmp/ccOyrOPk.s:2144   .debug_str:00000000000004d5 .LASF12
+     /tmp/ccOyrOPk.s:1998   .debug_str:0000000000000075 .LASF13
+     /tmp/ccOyrOPk.s:1980   .debug_str:000000000000000c .LASF14
+     /tmp/ccOyrOPk.s:2004   .debug_str:00000000000000c2 .LASF15
+GAS LISTING /tmp/ccOyrOPk.s 			page 8
+
+
+     /tmp/ccOyrOPk.s:2118   .debug_str:0000000000000376 .LASF16
+     /tmp/ccOyrOPk.s:2008   .debug_str:00000000000000df .LASF17
+     /tmp/ccOyrOPk.s:2040   .debug_str:00000000000001cf .LASF18
+     /tmp/ccOyrOPk.s:1978   .debug_str:0000000000000000 .LASF19
+     /tmp/ccOyrOPk.s:1992   .debug_str:000000000000004f .LASF81
+     /tmp/ccOyrOPk.s:1988   .debug_str:0000000000000038 .LASF20
+     /tmp/ccOyrOPk.s:1986   .debug_str:000000000000002f .LASF21
+     /tmp/ccOyrOPk.s:2142   .debug_str:00000000000004cd .LASF22
+     /tmp/ccOyrOPk.s:2132   .debug_str:00000000000003d6 .LASF23
+     /tmp/ccOyrOPk.s:2048   .debug_str:00000000000001fa .LASF24
+     /tmp/ccOyrOPk.s:1984   .debug_str:0000000000000027 .LASF82
+     /tmp/ccOyrOPk.s:2112   .debug_str:000000000000035c .LASF25
+     /tmp/ccOyrOPk.s:2088   .debug_str:00000000000002d1 .LASF26
+     /tmp/ccOyrOPk.s:2020   .debug_str:000000000000012d .LASF83
+     /tmp/ccOyrOPk.s:2092   .debug_str:00000000000002e5 .LASF27
+     /tmp/ccOyrOPk.s:2070   .debug_str:000000000000025b .LASF29
+     /tmp/ccOyrOPk.s:2122   .debug_str:0000000000000392 .LASF28
+     /tmp/ccOyrOPk.s:2002   .debug_str:000000000000009a .LASF30
+     /tmp/ccOyrOPk.s:2120   .debug_str:000000000000038c .LASF43
+     /tmp/ccOyrOPk.s:2000   .debug_str:0000000000000085 .LASF45
+     /tmp/ccOyrOPk.s:2082   .debug_str:00000000000002bd .LASF59
+     /tmp/ccOyrOPk.s:2024   .debug_str:0000000000000148 .LASF61
+     /tmp/ccOyrOPk.s:2058   .debug_str:000000000000021f .LASF31
+     /tmp/ccOyrOPk.s:2042   .debug_str:00000000000001da .LASF33
+     /tmp/ccOyrOPk.s:2064   .debug_str:0000000000000243 .LASF32
+     /tmp/ccOyrOPk.s:1994   .debug_str:0000000000000055 .LASF34
+     /tmp/ccOyrOPk.s:1982   .debug_str:000000000000001c .LASF84
+     /tmp/ccOyrOPk.s:2080   .debug_str:00000000000002a7 .LASF85
+     /tmp/ccOyrOPk.s:2098   .debug_str:0000000000000311 .LASF35
+     /tmp/ccOyrOPk.s:2060   .debug_str:0000000000000228 .LASF36
+     /tmp/ccOyrOPk.s:2056   .debug_str:0000000000000218 .LASF37
+     /tmp/ccOyrOPk.s:2160   .debug_str:0000000000000565 .LASF38
+     /tmp/ccOyrOPk.s:2018   .debug_str:0000000000000128 .LASF39
+     /tmp/ccOyrOPk.s:2110   .debug_str:0000000000000350 .LASF40
+     /tmp/ccOyrOPk.s:2156   .debug_str:000000000000054b .LASF41
+     /tmp/ccOyrOPk.s:2138   .debug_str:00000000000003fd .LASF42
+     /tmp/ccOyrOPk.s:2010   .debug_str:00000000000000f5 .LASF44
+     /tmp/ccOyrOPk.s:2116   .debug_str:0000000000000369 .LASF46
+     /tmp/ccOyrOPk.s:2100   .debug_str:000000000000031c .LASF47
+     /tmp/ccOyrOPk.s:2006   .debug_str:00000000000000ce .LASF48
+     /tmp/ccOyrOPk.s:2038   .debug_str:00000000000001c4 .LASF49
+     /tmp/ccOyrOPk.s:2128   .debug_str:00000000000003b8 .LASF50
+     /tmp/ccOyrOPk.s:2074   .debug_str:0000000000000279 .LASF51
+     /tmp/ccOyrOPk.s:2108   .debug_str:0000000000000345 .LASF52
+     /tmp/ccOyrOPk.s:2030   .debug_str:000000000000017e .LASF53
+     /tmp/ccOyrOPk.s:2086   .debug_str:00000000000002cc .LASF54
+     /tmp/ccOyrOPk.s:2084   .debug_str:00000000000002c6 .LASF55
+     /tmp/ccOyrOPk.s:2054   .debug_str:0000000000000210 .LASF56
+     /tmp/ccOyrOPk.s:1990   .debug_str:0000000000000041 .LASF57
+     /tmp/ccOyrOPk.s:2052   .debug_str:0000000000000207 .LASF58
+     /tmp/ccOyrOPk.s:2146   .debug_str:00000000000004e4 .LASF86
+     /tmp/ccOyrOPk.s:2154   .debug_str:000000000000053d .LASF87
+     /tmp/ccOyrOPk.s:2032   .debug_str:0000000000000186 .LASF88
+     /tmp/ccOyrOPk.s:2136   .debug_str:00000000000003f5 .LASF89
+     /tmp/ccOyrOPk.s:2130   .debug_str:00000000000003c4 .LASF90
+     /tmp/ccOyrOPk.s:2104   .debug_str:0000000000000334 .LASF60
+     /tmp/ccOyrOPk.s:2016   .debug_str:0000000000000111 .LASF62
+GAS LISTING /tmp/ccOyrOPk.s 			page 9
+
+
+     /tmp/ccOyrOPk.s:2026   .debug_str:000000000000015b .LASF63
+     /tmp/ccOyrOPk.s:2044   .debug_str:00000000000001ee .LASF64
+     /tmp/ccOyrOPk.s:2062   .debug_str:000000000000023e .LASF67
+     /tmp/ccOyrOPk.s:2114   .debug_str:0000000000000364 .LASF65
+     /tmp/ccOyrOPk.s:2162   .debug_str:0000000000000576 .LASF66
+     /tmp/ccOyrOPk.s:2148   .debug_str:0000000000000507 .LASF68
+     /tmp/ccOyrOPk.s:2022   .debug_str:0000000000000135 .LASF91
+     /tmp/ccOyrOPk.s:2090   .debug_str:00000000000002d6 .LASF92
+     /tmp/ccOyrOPk.s:2050   .debug_str:0000000000000202 .LASF69
+     /tmp/ccOyrOPk.s:2152   .debug_str:000000000000052d .LASF70
+     /tmp/ccOyrOPk.s:2012   .debug_str:0000000000000105 .LASF71
+     /tmp/ccOyrOPk.s:2066   .debug_str:0000000000000250 .LASF72
+     /tmp/ccOyrOPk.s:161    .text:00000000000000cc .LFB28
+     /tmp/ccOyrOPk.s:189    .text:00000000000000f0 .LFE28
+     /tmp/ccOyrOPk.s:2106   .debug_str:0000000000000340 .LASF73
+     /tmp/ccOyrOPk.s:1847   .debug_loc:0000000000000000 .LLST7
+     /tmp/ccOyrOPk.s:89     .text:000000000000006c .LFB27
+     /tmp/ccOyrOPk.s:155    .text:00000000000000cc .LFE27
+     /tmp/ccOyrOPk.s:1861   .debug_loc:0000000000000039 .LLST4
+     /tmp/ccOyrOPk.s:1883   .debug_loc:0000000000000098 .LLST5
+     /tmp/ccOyrOPk.s:2036   .debug_str:00000000000001bc .LASF74
+     /tmp/ccOyrOPk.s:1894   .debug_loc:00000000000000ce .LLST6
+     /tmp/ccOyrOPk.s:126    .text:00000000000000a4 .LVL10
+     /tmp/ccOyrOPk.s:10     .text:0000000000000000 .LFB26
+     /tmp/ccOyrOPk.s:83     .text:000000000000006c .LFE26
+     /tmp/ccOyrOPk.s:1905   .debug_loc:0000000000000104 .LLST0
+     /tmp/ccOyrOPk.s:1927   .debug_loc:0000000000000163 .LLST1
+     /tmp/ccOyrOPk.s:2068   .debug_str:0000000000000255 .LASF75
+     /tmp/ccOyrOPk.s:35     .text:000000000000002c .LBB5
+     /tmp/ccOyrOPk.s:43     .text:0000000000000034 .LBE5
+     /tmp/ccOyrOPk.s:1949   .debug_loc:00000000000001c2 .LLST2
+     /tmp/ccOyrOPk.s:1956   .debug_loc:00000000000001e5 .LLST3
+     /tmp/ccOyrOPk.s:34     .text:000000000000002c .LVL2
+     /tmp/ccOyrOPk.s:2134   .debug_str:00000000000003df .LASF93
+     /tmp/ccOyrOPk.s:2164   .debug_str:000000000000057b .LASF76
+     /tmp/ccOyrOPk.s:2124   .debug_str:00000000000003a0 .LASF77
+     /tmp/ccOyrOPk.s:164    .text:00000000000000cc .LVL13
+     /tmp/ccOyrOPk.s:174    .text:00000000000000dc .LVL14
+     /tmp/ccOyrOPk.s:92     .text:000000000000006c .LVL7
+     /tmp/ccOyrOPk.s:107    .text:0000000000000088 .LVL8
+     /tmp/ccOyrOPk.s:142    .text:00000000000000bc .LVL11
+     /tmp/ccOyrOPk.s:113    .text:0000000000000090 .LVL9
+     /tmp/ccOyrOPk.s:149    .text:00000000000000c4 .LVL12
+     /tmp/ccOyrOPk.s:14     .text:0000000000000000 .LVL0
+     /tmp/ccOyrOPk.s:32     .text:0000000000000024 .LVL1
+     /tmp/ccOyrOPk.s:66     .text:0000000000000054 .LVL4
+     /tmp/ccOyrOPk.s:73     .text:0000000000000060 .LVL6
+     /tmp/ccOyrOPk.s:69     .text:0000000000000058 .LVL5
+     /tmp/ccOyrOPk.s:41     .text:0000000000000034 .LVL3
+     /tmp/ccOyrOPk.s:196    .debug_info:0000000000000000 .Ldebug_info0
+
+UNDEFINED SYMBOLS
+_Znwm
+_ZdlPv

@@ -1,32 +1,27 @@
 #include "../lib/console.h"
 #include "../h/print.hpp"
+#include "../h/syscall_c.h"
 
-void printString(char const* string) {
+void myPrintString(char const* string) {
     while (*string != '\0') {
         __putc(*string);
         string++;
     }
 }
 
-void printInteger(uint64 integer) {
-    static char digits[] = "0123456789";
-    char buf[16];
-    int i = 0, neg = 0;
-    uint x;
-
-    if (integer < 0) {
-        neg = 1;
-        x = -integer;
-    } else x = integer;
-
-
-    do {
-        buf[i++] = digits[x % 10];
-        x = x/10;
+void printInteger(uint64 num) {
+    __putc('\n');
+    if (!num) __putc('0');
+    uint64 num2 = 0, zero_count = 0;
+    while (num) {
+        num2 *= 10;
+        num2 += num % 10;
+        if (!num2) ++zero_count;
+        num /= 10;
     }
-    while ( x != 0);
-
-    if (neg) buf[i++] = '-';
-
-    while (--i >= 0) __putc(buf[i]);
+    while (num2) {
+        __putc(num2 % 10 + '0');
+        num2 /= 10;
+    }
+    while (zero_count--) __putc('0');
 }

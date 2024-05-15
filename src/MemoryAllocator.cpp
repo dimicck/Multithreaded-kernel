@@ -8,12 +8,12 @@ MemoryAllocator::MemoryBlock* MemoryAllocator::used_mem_head = nullptr;
 
 MemoryAllocator* MemoryAllocator::getAllocator() {
 
-    if (allocator == 0) {
+    if (!allocator) {
         free_mem_head = (MemoryBlock*)HEAP_START_ADDR;
         free_mem_head->next = nullptr;
         free_mem_head->prev = nullptr;
         free_mem_head->size = (size_t)HEAP_END_ADDR - (size_t)HEAP_START_ADDR + 1;
-        allocator = (MemoryAllocator*)MemoryAllocator::mem_alloc(sizeof(MemoryAllocator));
+        allocator = (MemoryAllocator*)MemoryAllocator::mem_alloc((sizeof(MemoryAllocator) + mem_h_size + MEM_BLOCK_SIZE - 1 )/ MEM_BLOCK_SIZE);
     }
     return allocator;
 }
@@ -125,10 +125,14 @@ int MemoryAllocator::tryToJoin(MemoryAllocator::MemoryBlock *curr) {
     return 0;
 }
 
+extern void printInteger(uint64);
+
 void MemoryAllocator::print() {
 
     for (MemoryBlock* b = free_mem_head; b != nullptr; b = b->next) {
         __putc('f');
+        __putc('\n');
+        printInteger(b->size);
         __putc('\n');
     }
 
@@ -136,6 +140,8 @@ void MemoryAllocator::print() {
 
     for (MemoryBlock* b = used_mem_head; b != nullptr; b = b->next) {
         __putc('u');
+        __putc('\n');
+        printInteger(b->size);
         __putc('\n');
     }
 

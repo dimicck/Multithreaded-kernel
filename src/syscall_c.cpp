@@ -47,6 +47,7 @@ int thread_exit() {
 
 void thread_dispatch() {
     system_call(THREAD_DISPATCH);
+
 }
 
 int sem_open(sem_t* handle, unsigned init) {

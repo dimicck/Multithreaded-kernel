@@ -8,6 +8,9 @@
 #include "../lib/hw.h"
 #include "../h/Memoryallocator.hpp"
 #include "../h/riscv.hpp"
+#include "../h/syscall_c.h"
+
+//extern void thread_dispatch();
 
 using routine_ptr = void(*)(void *);
 
@@ -16,6 +19,7 @@ class TCB final {
 
     friend class RISCV;
     friend class Sem;
+    friend class Scheduler;
 
 public:
 
@@ -24,7 +28,7 @@ public:
     enum state {
         RUNNABLE,
         SLEEPING,
-        JOINED,
+        CREATED,
         FINISHED,
         BLOCKED
     };
@@ -32,6 +36,8 @@ public:
         // nadogradi kasnije
         uint64 pc;
         uint64 sp;
+        uint64 sstatus;
+        uint64 sepc;
     };
 
     void start();
@@ -62,10 +68,9 @@ private:
 
     int id;
 
-    TCB* next_ready; // timer
-    TCB* next_sleepy;
+    TCB* next_ready; // scheduler
 
-    TCB* next_blocked; // scheduler
+    TCB* next_sleepy;
 
     time_t sleeping_time;
     time_t time_slice;
@@ -86,5 +91,4 @@ private:
     static int _threadExit();
 };
 
-typedef TCB _thread;
 #endif //PROJECT_BASE_THREAD_HPP

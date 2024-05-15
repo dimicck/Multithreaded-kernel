@@ -5,6 +5,7 @@
 #include "Scheduler.hpp"
 #include "thread.hpp"
 #include "../lib/hw.h"
+#include "List.hpp"
 
 class Sem;
 typedef Sem* sem_t;
@@ -12,18 +13,18 @@ typedef Sem* sem_t;
 class Sem {
 public:
 
+ // puno praznih pokazivaca, razmisli o listi
+
     enum error {
         MEMORY_ERR = -1,
-        NEG_VALUE  = -2,
-        SEM_CLOSED = -3,
-        NO_SEM_ERR = -4
+        SEM_CLOSED = -3
     };
 
-    int wait();
-    int signal();
+    static int wait(sem_t);
+    static int signal(sem_t);
 
-    int timedWait(time_t time);
-    int trywait();
+    static int timedWait(sem_t, time_t time);
+    static int trywait(sem_t);
 
     static int open(sem_t* handle, unsigned init);  // ???
     static int s_close(sem_t handle);
@@ -33,17 +34,15 @@ public:
 
 private:
 
-    explicit Sem(int init = 1) : value(init), isClosed(false) {}
+    explicit Sem(int init = 1) : value(init) {}
 
     void block();
     void deblock();
 
     int value;
-    bool isClosed;
+    // bool isClosed;
 
-    TCB* last = nullptr; // blocked 'list'
-    TCB* first= nullptr;
-
+    List blocked;
 };
 
 typedef Sem _sem;

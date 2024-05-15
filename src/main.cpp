@@ -1,6 +1,7 @@
 
 #include "../h/Memoryallocator.hpp"
 #include "../h/Scheduler.hpp"
+#include "../h/Console.hpp"
 #include "../h/syscall_c.h"
 #include "../lib/console.h"
 #include "../h/thread.hpp"
@@ -31,63 +32,88 @@ void testCMemory() {
     MemoryAllocator::print();
 }
 
-sem_t mySem = nullptr;
 
-void workerA(void * args) {
-    for (int i = 0; i < 3; i++) {
-        sem_wait(mySem);
-        sem_signal(mySem);
-        __putc('A');
-        __putc('\n');
-        thread_dispatch();
-    }
-    for (int  i = 0; i<2; i++) {
-        sem_wait(mySem);
-        __putc('A');
-        thread_dispatch();
-    }
+//sem_t mySem = nullptr;
 
+void workerA(void*) {
+    for (int i = 0; i < 4; ++i) {
+        printInteger(i);
+        __putc('(');
+        __putc('A');
+        __putc(')');
+        for (int j = 0; j < 10000; ++j) {
+            for (int k = 0; k < 30000; ++k) {}
+            thread_dispatch();
+        }
+    }
 }
-
-void workerB(void * args) {
-    for (int i = 0; i < 5; i++){
-        sem_wait(mySem);
-        sem_signal(mySem);
+void workerB(void*) {
+    for (int i = 0; i < 16; ++i) {
+        printInteger(i);
+        __putc('(');
         __putc('B');
-        __putc('\n');
-        thread_dispatch();
+        __putc(')');
+        for (int j = 0; j < 10000; ++j) {
+            for (int k = 0; k < 30000; ++k) {}
+            thread_dispatch();
+        }
     }
 }
 
-thread_t threads[3];
+void testConsole(void *args) {
+    putc('a');
+}
+
+void handleNewChars(void * args) {
+
+    while (true) {
+        while (*(char *) CONSOLE_STATUS & CONSOLE_TX_STATUS_BIT) {
+            // console controller is ready for new char
+            char c = myConsole::kgetc();
+            *(char *) CONSOLE_TX_DATA = c;
+            // pop from output buffer and wr to TX DATA
+        }
+    }
+}
+
+thread_t threads[5];
+
+void userMain();
+
+void userWrapper(void* args) {
+    userMain();
+}
 
 int main() {
 
     RISCV::wr_stvec((uint64)&RISCV::supervisor_trap);
-
-    //RISCV::mask_status(RISCV::SIE);
-
     MemoryAllocator::getAllocator();
     Scheduler::init_scheduler();
+//    myConsole::init();
 
 //    testMemoryAllocator();
 //    testCMemory();
 
     thread_create(&threads[0], nullptr, nullptr); // main
-
-    //printInteger(r);
-
     TCB::running = threads[0];
 
-    sem_open(&mySem, 1); // mutex
-    //printInteger(r);
-    thread_create(&threads[1], &workerA, nullptr);
-    thread_create(&threads[2], &workerB, nullptr);
+//    thread_create(&threads[1], handleNewChars, nullptr);
+    RISCV::set_status(RISCV::SIE); // interrupts enabled
 
-    while (!threads[1]->isFinished() || !threads[2]->isFinished()) thread_dispatch();
-//    if (!threads[0]) __putc('n');
-//    thread_create(&threads[1], workerA, nullptr);
+    //sem_open(&mySem, 1); // mutex
+
+    thread_create(&threads[1], workerA, nullptr);
 //    thread_create(&threads[2], workerB, nullptr);
 //    while (!threads[1]->isFinished() || !threads[2]->isFinished()) thread_dispatch();
+
+//    thread_t userMainThread;
+//    thread_create(&userMainThread, userWrapper, nullptr);
+//    while (!userMainThread->isFinished()) {thread_dispatch();}
+
+//    char c = getc();
+//    putc(c);
+
+    while (true) thread_dispatch();
+
     return 0;
 }
