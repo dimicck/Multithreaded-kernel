@@ -4,7 +4,7 @@
 
 void myPrintString(char const* string) {
     while (*string != '\0') {
-        __putc(*string);
+        putc(*string);
         string++;
     }
 }

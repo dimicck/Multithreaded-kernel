@@ -22,6 +22,7 @@ void operator delete(void *ptr) noexcept {
 Thread::Thread(void (*body)(void *), void *arg) {
     this->body = body;
     this->arg = arg;
+    this->myHandle = nullptr;
 }
 
 int Thread::sleep(time_t time) {
@@ -33,26 +34,28 @@ void Thread::dispatch() {
 }
 
 int Thread::start() {
-    return thread_create(&myHandle, &wrapper, this);
+    return thread_create(&myHandle, this->body, this->arg);
 }
 
 Thread::Thread() {
-    this->body = nullptr;
-    this->arg  = nullptr;
+    this->body = wrapper;
+    this->arg  = (void*) this;
+    this->myHandle = nullptr;
 }
 
 Thread::~Thread() {
-    if (this->myHandle->isFinished()) delete myHandle;
+    delete &this->myHandle;
 }
 
 void Thread::wrapper(void *arg) {
     // prosledjuje se sistemskom pozivu
     // treba da pokrene run metodu prosledjenog objekta
-    Thread* t = (Thread*) arg;
-    if (t->body) t->body(t->arg);
+    auto* t = (Thread*) arg;
+    t->run();
 }
 
 Semaphore::Semaphore(unsigned int init) {
+    myHandle = nullptr;
     sem_open(&myHandle, init);
 }
 
@@ -77,11 +80,11 @@ int Semaphore::tryWait() {
 }
 
 char Console::getc() {
-    return getc();
+    return ::getc();
 }
 
 void Console::putc(char c) {
-    putc(c);
+    ::putc(c);
 }
 
 PeriodicThread::PeriodicThread(time_t period) : period(period) {}

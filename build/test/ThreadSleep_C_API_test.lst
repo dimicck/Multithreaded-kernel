@@ -1,4 +1,4 @@
-GAS LISTING /tmp/ccxZled1.s 			page 1
+GAS LISTING /tmp/ccXGepdm.s 			page 1
 
 
    1              		.file	"ThreadSleep_C_API_test.cpp"
@@ -17,7 +17,7 @@ GAS LISTING /tmp/ccxZled1.s 			page 1
   13              		.text
   14              		.align	2
   16              	_ZL9sleepyRunPv:
-  17              	.LFB34:
+  17              	.LFB0:
   18              		.file 1 "test/ThreadSleep_C_API_test.cpp"
    1:test/ThreadSleep_C_API_test.cpp **** #include "../h/syscall_c.h"
    2:test/ThreadSleep_C_API_test.cpp **** 
@@ -58,7 +58,7 @@ GAS LISTING /tmp/ccxZled1.s 			page 1
   45 0020 9B84F4FF 		addiw	s1,s1,-1
   46              	.LVL3:
   47 0024 63549004 		blez	s1,.L2
-GAS LISTING /tmp/ccxZled1.s 			page 2
+GAS LISTING /tmp/ccXGepdm.s 			page 2
 
 
   11:test/ThreadSleep_C_API_test.cpp **** 
@@ -118,7 +118,7 @@ GAS LISTING /tmp/ccxZled1.s 			page 1
   86 008c 83308101 		ld	ra,24(sp)
   87              		.cfi_restore 1
   88 0090 03340101 		ld	s0,16(sp)
-GAS LISTING /tmp/ccxZled1.s 			page 3
+GAS LISTING /tmp/ccXGepdm.s 			page 3
 
 
   89              		.cfi_restore 8
@@ -131,11 +131,11 @@ GAS LISTING /tmp/ccxZled1.s 			page 1
   96              		.cfi_def_cfa_offset 0
   97 00a0 67800000 		jr	ra
   98              		.cfi_endproc
-  99              	.LFE34:
+  99              	.LFE0:
  101              		.align	2
  102              		.globl	_Z12testSleepingv
  104              	_Z12testSleepingv:
- 105              	.LFB35:
+ 105              	.LFB1:
   19:test/ThreadSleep_C_API_test.cpp **** 
   20:test/ThreadSleep_C_API_test.cpp **** void testSleeping() {
  106              		.loc 1 20 21 is_stmt 1
@@ -178,7 +178,7 @@ GAS LISTING /tmp/ccxZled1.s 			page 1
  137 00d0 93973400 		slli	a5,s1,3
  138              		.loc 1 26 22
  139 00d4 130604FD 		addi	a2,s0,-48
-GAS LISTING /tmp/ccxZled1.s 			page 4
+GAS LISTING /tmp/ccXGepdm.s 			page 4
 
 
  140 00d8 3306F600 		add	a2,a2,a5
@@ -229,7 +229,7 @@ GAS LISTING /tmp/ccxZled1.s 			page 1
  175              		.cfi_def_cfa_offset 0
  176 0128 67800000 		jr	ra
  177              		.cfi_endproc
- 178              	.LFE35:
+ 178              	.LFE1:
  180              		.bss
  181              		.align	3
  182              		.set	.LANCHOR0,. + 0
@@ -238,233 +238,173 @@ GAS LISTING /tmp/ccxZled1.s 			page 1
  187              		.text
  188              	.Letext0:
  189              		.file 2 "test/../h/../lib/hw.h"
-GAS LISTING /tmp/ccxZled1.s 			page 5
+GAS LISTING /tmp/ccXGepdm.s 			page 5
 
 
- 190              		.file 3 "test/../h/../h/Memoryallocator.hpp"
- 191              		.file 4 "test/../h/thread.hpp"
- 192              		.file 5 "test/../h/syscall_c.h"
- 193              		.file 6 "test/printing.hpp"
-GAS LISTING /tmp/ccxZled1.s 			page 6
+ 190              		.file 3 "test/../h/syscall_c.h"
+ 191              		.file 4 "test/printing.hpp"
+GAS LISTING /tmp/ccXGepdm.s 			page 6
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 ThreadSleep_C_API_test.cpp
-     /tmp/ccxZled1.s:16     .text:0000000000000000 _ZL9sleepyRunPv
-     /tmp/ccxZled1.s:20     .text:0000000000000000 .L0 
-     /tmp/ccxZled1.s:22     .text:0000000000000000 .L0 
-     /tmp/ccxZled1.s:23     .text:0000000000000004 .L0 
-     /tmp/ccxZled1.s:28     .text:0000000000000014 .L0 
-     /tmp/ccxZled1.s:29     .text:0000000000000014 .L0 
-     /tmp/ccxZled1.s:30     .text:0000000000000014 .L0 
-     /tmp/ccxZled1.s:31     .text:0000000000000014 .L0 
-     /tmp/ccxZled1.s:33     .text:0000000000000018 .L0 
-     /tmp/ccxZled1.s:35     .text:0000000000000018 .L0 
-     /tmp/ccxZled1.s:36     .text:0000000000000018 .L0 
-     /tmp/ccxZled1.s:39     .text:000000000000001c .L0 
-     /tmp/ccxZled1.s:40     .text:000000000000001c .L0 
-     /tmp/ccxZled1.s:44     .text:0000000000000020 .L0 
-     /tmp/ccxZled1.s:45     .text:0000000000000020 .L0 
-     /tmp/ccxZled1.s:49     .text:0000000000000028 .L0 
-     /tmp/ccxZled1.s:50     .text:0000000000000028 .L0 
-     /tmp/ccxZled1.s:54     .text:0000000000000038 .L0 
-     /tmp/ccxZled1.s:55     .text:0000000000000038 .L0 
-     /tmp/ccxZled1.s:61     .text:000000000000004c .L0 
-     /tmp/ccxZled1.s:62     .text:000000000000004c .L0 
-     /tmp/ccxZled1.s:66     .text:000000000000005c .L0 
-     /tmp/ccxZled1.s:67     .text:000000000000005c .L0 
-     /tmp/ccxZled1.s:71     .text:0000000000000068 .L0 
-     /tmp/ccxZled1.s:74     .text:000000000000006c .L0 
-     /tmp/ccxZled1.s:75     .text:000000000000006c .L0 
-     /tmp/ccxZled1.s:79     .text:0000000000000074 .L0 
-     /tmp/ccxZled1.s:81     .text:0000000000000078 .L0 
-     /tmp/ccxZled1.s:86     .text:000000000000008c .L0 
-     /tmp/ccxZled1.s:87     .text:0000000000000090 .L0 
-     /tmp/ccxZled1.s:89     .text:0000000000000094 .L0 
-     /tmp/ccxZled1.s:90     .text:0000000000000094 .L0 
-     /tmp/ccxZled1.s:92     .text:0000000000000098 .L0 
-     /tmp/ccxZled1.s:94     .text:000000000000009c .L0 
-     /tmp/ccxZled1.s:96     .text:00000000000000a0 .L0 
-     /tmp/ccxZled1.s:98     .text:00000000000000a4 .L0 
-     /tmp/ccxZled1.s:104    .text:00000000000000a4 _Z12testSleepingv
-     /tmp/ccxZled1.s:107    .text:00000000000000a4 .L0 
-     /tmp/ccxZled1.s:108    .text:00000000000000a4 .L0 
-     /tmp/ccxZled1.s:109    .text:00000000000000a8 .L0 
-     /tmp/ccxZled1.s:113    .text:00000000000000b4 .L0 
-     /tmp/ccxZled1.s:114    .text:00000000000000b4 .L0 
-     /tmp/ccxZled1.s:115    .text:00000000000000b4 .L0 
-     /tmp/ccxZled1.s:117    .text:00000000000000b8 .L0 
-     /tmp/ccxZled1.s:120    .text:00000000000000b8 .L0 
-     /tmp/ccxZled1.s:121    .text:00000000000000b8 .L0 
-     /tmp/ccxZled1.s:122    .text:00000000000000b8 .L0 
-     /tmp/ccxZled1.s:127    .text:00000000000000c8 .L0 
-     /tmp/ccxZled1.s:130    .text:00000000000000c8 .L0 
-     /tmp/ccxZled1.s:131    .text:00000000000000c8 .L0 
-     /tmp/ccxZled1.s:136    .text:00000000000000d0 .L0 
-     /tmp/ccxZled1.s:137    .text:00000000000000d0 .L0 
-     /tmp/ccxZled1.s:139    .text:00000000000000d4 .L0 
-     /tmp/ccxZled1.s:147    .text:00000000000000f4 .L0 
-     /tmp/ccxZled1.s:151    .text:00000000000000f8 .L0 
-GAS LISTING /tmp/ccxZled1.s 			page 7
+     /tmp/ccXGepdm.s:16     .text:0000000000000000 _ZL9sleepyRunPv
+     /tmp/ccXGepdm.s:20     .text:0000000000000000 .L0 
+     /tmp/ccXGepdm.s:22     .text:0000000000000000 .L0 
+     /tmp/ccXGepdm.s:23     .text:0000000000000004 .L0 
+     /tmp/ccXGepdm.s:28     .text:0000000000000014 .L0 
+     /tmp/ccXGepdm.s:29     .text:0000000000000014 .L0 
+     /tmp/ccXGepdm.s:30     .text:0000000000000014 .L0 
+     /tmp/ccXGepdm.s:31     .text:0000000000000014 .L0 
+     /tmp/ccXGepdm.s:33     .text:0000000000000018 .L0 
+     /tmp/ccXGepdm.s:35     .text:0000000000000018 .L0 
+     /tmp/ccXGepdm.s:36     .text:0000000000000018 .L0 
+     /tmp/ccXGepdm.s:39     .text:000000000000001c .L0 
+     /tmp/ccXGepdm.s:40     .text:000000000000001c .L0 
+     /tmp/ccXGepdm.s:44     .text:0000000000000020 .L0 
+     /tmp/ccXGepdm.s:45     .text:0000000000000020 .L0 
+     /tmp/ccXGepdm.s:49     .text:0000000000000028 .L0 
+     /tmp/ccXGepdm.s:50     .text:0000000000000028 .L0 
+     /tmp/ccXGepdm.s:54     .text:0000000000000038 .L0 
+     /tmp/ccXGepdm.s:55     .text:0000000000000038 .L0 
+     /tmp/ccXGepdm.s:61     .text:000000000000004c .L0 
+     /tmp/ccXGepdm.s:62     .text:000000000000004c .L0 
+     /tmp/ccXGepdm.s:66     .text:000000000000005c .L0 
+     /tmp/ccXGepdm.s:67     .text:000000000000005c .L0 
+     /tmp/ccXGepdm.s:71     .text:0000000000000068 .L0 
+     /tmp/ccXGepdm.s:74     .text:000000000000006c .L0 
+     /tmp/ccXGepdm.s:75     .text:000000000000006c .L0 
+     /tmp/ccXGepdm.s:79     .text:0000000000000074 .L0 
+     /tmp/ccXGepdm.s:81     .text:0000000000000078 .L0 
+     /tmp/ccXGepdm.s:86     .text:000000000000008c .L0 
+     /tmp/ccXGepdm.s:87     .text:0000000000000090 .L0 
+     /tmp/ccXGepdm.s:89     .text:0000000000000094 .L0 
+     /tmp/ccXGepdm.s:90     .text:0000000000000094 .L0 
+     /tmp/ccXGepdm.s:92     .text:0000000000000098 .L0 
+     /tmp/ccXGepdm.s:94     .text:000000000000009c .L0 
+     /tmp/ccXGepdm.s:96     .text:00000000000000a0 .L0 
+     /tmp/ccXGepdm.s:98     .text:00000000000000a4 .L0 
+     /tmp/ccXGepdm.s:104    .text:00000000000000a4 _Z12testSleepingv
+     /tmp/ccXGepdm.s:107    .text:00000000000000a4 .L0 
+     /tmp/ccXGepdm.s:108    .text:00000000000000a4 .L0 
+     /tmp/ccXGepdm.s:109    .text:00000000000000a8 .L0 
+     /tmp/ccXGepdm.s:113    .text:00000000000000b4 .L0 
+     /tmp/ccXGepdm.s:114    .text:00000000000000b4 .L0 
+     /tmp/ccXGepdm.s:115    .text:00000000000000b4 .L0 
+     /tmp/ccXGepdm.s:117    .text:00000000000000b8 .L0 
+     /tmp/ccXGepdm.s:120    .text:00000000000000b8 .L0 
+     /tmp/ccXGepdm.s:121    .text:00000000000000b8 .L0 
+     /tmp/ccXGepdm.s:122    .text:00000000000000b8 .L0 
+     /tmp/ccXGepdm.s:127    .text:00000000000000c8 .L0 
+     /tmp/ccXGepdm.s:130    .text:00000000000000c8 .L0 
+     /tmp/ccXGepdm.s:131    .text:00000000000000c8 .L0 
+     /tmp/ccXGepdm.s:136    .text:00000000000000d0 .L0 
+     /tmp/ccXGepdm.s:137    .text:00000000000000d0 .L0 
+     /tmp/ccXGepdm.s:139    .text:00000000000000d4 .L0 
+     /tmp/ccXGepdm.s:147    .text:00000000000000f4 .L0 
+     /tmp/ccXGepdm.s:151    .text:00000000000000f8 .L0 
+GAS LISTING /tmp/ccXGepdm.s 			page 7
 
 
-     /tmp/ccxZled1.s:156    .text:0000000000000100 .L0 
-     /tmp/ccxZled1.s:157    .text:0000000000000100 .L0 
-     /tmp/ccxZled1.s:158    .text:0000000000000100 .L0 
-     /tmp/ccxZled1.s:160    .text:0000000000000108 .L0 
-     /tmp/ccxZled1.s:162    .text:000000000000010c .L0 
-     /tmp/ccxZled1.s:164    .text:0000000000000114 .L0 
-     /tmp/ccxZled1.s:166    .text:0000000000000118 .L0 
-     /tmp/ccxZled1.s:167    .text:000000000000011c .L0 
-     /tmp/ccxZled1.s:169    .text:0000000000000120 .L0 
-     /tmp/ccxZled1.s:170    .text:0000000000000120 .L0 
-     /tmp/ccxZled1.s:172    .text:0000000000000124 .L0 
-     /tmp/ccxZled1.s:175    .text:0000000000000128 .L0 
-     /tmp/ccxZled1.s:177    .text:000000000000012c .L0 
-     /tmp/ccxZled1.s:182    .bss:0000000000000000 .LANCHOR0
-     /tmp/ccxZled1.s:185    .bss:0000000000000000 _ZL8finished
-     /tmp/ccxZled1.s:194    .text:000000000000012c .L0 
-     /tmp/ccxZled1.s:8      .rodata.str1.8:0000000000000000 .LC0
-     /tmp/ccxZled1.s:50     .text:0000000000000028 .L0 
-     /tmp/ccxZled1.s:11     .rodata.str1.8:0000000000000008 .LC1
-     /tmp/ccxZled1.s:62     .text:000000000000004c .L0 
-     /tmp/ccxZled1.s:81     .text:0000000000000078 .L0 
-     /tmp/ccxZled1.s:141    .text:00000000000000dc .L0 
-     /tmp/ccxZled1.s:158    .text:0000000000000100 .L0 
-     /tmp/ccxZled1.s:162    .text:000000000000010c .L0 
-     /tmp/ccxZled1.s:72     .text:000000000000006c .L2
-     /tmp/ccxZled1.s:42     .text:0000000000000020 .L3
-     /tmp/ccxZled1.s:149    .text:00000000000000f8 .L7
-     /tmp/ccxZled1.s:134    .text:00000000000000d0 .L10
-     /tmp/ccxZled1.s:153    .text:0000000000000100 .L8
-     /tmp/ccxZled1.s:979    .debug_abbrev:0000000000000000 .Ldebug_abbrev0
-     /tmp/ccxZled1.s:1938   .debug_str:000000000000042a .LASF80
-     /tmp/ccxZled1.s:1874   .debug_str:0000000000000287 .LASF81
-     /tmp/ccxZled1.s:1848   .debug_str:00000000000001c3 .LASF82
-     /tmp/ccxZled1.s:5      .text:0000000000000000 .Ltext0
-     /tmp/ccxZled1.s:188    .text:000000000000012c .Letext0
-     /tmp/ccxZled1.s:1788   .debug_line:0000000000000000 .Ldebug_line0
-     /tmp/ccxZled1.s:1854   .debug_str:00000000000001fb .LASF0
-     /tmp/ccxZled1.s:1864   .debug_str:0000000000000242 .LASF1
-     /tmp/ccxZled1.s:1906   .debug_str:0000000000000364 .LASF2
-     /tmp/ccxZled1.s:1910   .debug_str:000000000000037e .LASF4
-     /tmp/ccxZled1.s:1856   .debug_str:0000000000000208 .LASF3
-     /tmp/ccxZled1.s:1796   .debug_str:0000000000000044 .LASF5
-     /tmp/ccxZled1.s:1892   .debug_str:000000000000031e .LASF6
-     /tmp/ccxZled1.s:1886   .debug_str:00000000000002f2 .LASF7
-     /tmp/ccxZled1.s:1860   .debug_str:0000000000000226 .LASF8
-     /tmp/ccxZled1.s:1846   .debug_str:00000000000001b3 .LASF9
-     /tmp/ccxZled1.s:1852   .debug_str:00000000000001ed .LASF10
-     /tmp/ccxZled1.s:1814   .debug_str:00000000000000b7 .LASF11
-     /tmp/ccxZled1.s:1844   .debug_str:00000000000001a4 .LASF12
-     /tmp/ccxZled1.s:1820   .debug_str:00000000000000e2 .LASF13
-     /tmp/ccxZled1.s:1812   .debug_str:00000000000000a7 .LASF14
-     /tmp/ccxZled1.s:1928   .debug_str:00000000000003ed .LASF15
-     /tmp/ccxZled1.s:1836   .debug_str:000000000000014a .LASF16
-     /tmp/ccxZled1.s:1922   .debug_str:00000000000003b6 .LASF17
-     /tmp/ccxZled1.s:1896   .debug_str:000000000000032d .LASF18
-     /tmp/ccxZled1.s:1858   .debug_str:000000000000021a .LASF19
-     /tmp/ccxZled1.s:1832   .debug_str:0000000000000130 .LASF83
-GAS LISTING /tmp/ccxZled1.s 			page 8
+     /tmp/ccXGepdm.s:156    .text:0000000000000100 .L0 
+     /tmp/ccXGepdm.s:157    .text:0000000000000100 .L0 
+     /tmp/ccXGepdm.s:158    .text:0000000000000100 .L0 
+     /tmp/ccXGepdm.s:160    .text:0000000000000108 .L0 
+     /tmp/ccXGepdm.s:162    .text:000000000000010c .L0 
+     /tmp/ccXGepdm.s:164    .text:0000000000000114 .L0 
+     /tmp/ccXGepdm.s:166    .text:0000000000000118 .L0 
+     /tmp/ccXGepdm.s:167    .text:000000000000011c .L0 
+     /tmp/ccXGepdm.s:169    .text:0000000000000120 .L0 
+     /tmp/ccXGepdm.s:170    .text:0000000000000120 .L0 
+     /tmp/ccXGepdm.s:172    .text:0000000000000124 .L0 
+     /tmp/ccXGepdm.s:175    .text:0000000000000128 .L0 
+     /tmp/ccXGepdm.s:177    .text:000000000000012c .L0 
+     /tmp/ccXGepdm.s:182    .bss:0000000000000000 .LANCHOR0
+     /tmp/ccXGepdm.s:185    .bss:0000000000000000 _ZL8finished
+     /tmp/ccXGepdm.s:192    .text:000000000000012c .L0 
+     /tmp/ccXGepdm.s:8      .rodata.str1.8:0000000000000000 .LC0
+     /tmp/ccXGepdm.s:50     .text:0000000000000028 .L0 
+     /tmp/ccXGepdm.s:11     .rodata.str1.8:0000000000000008 .LC1
+     /tmp/ccXGepdm.s:62     .text:000000000000004c .L0 
+     /tmp/ccXGepdm.s:81     .text:0000000000000078 .L0 
+     /tmp/ccXGepdm.s:141    .text:00000000000000dc .L0 
+     /tmp/ccXGepdm.s:158    .text:0000000000000100 .L0 
+     /tmp/ccXGepdm.s:162    .text:000000000000010c .L0 
+     /tmp/ccXGepdm.s:72     .text:000000000000006c .L2
+     /tmp/ccXGepdm.s:42     .text:0000000000000020 .L3
+     /tmp/ccXGepdm.s:149    .text:00000000000000f8 .L7
+     /tmp/ccXGepdm.s:134    .text:00000000000000d0 .L10
+     /tmp/ccXGepdm.s:153    .text:0000000000000100 .L8
+     /tmp/ccXGepdm.s:578    .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+     /tmp/ccXGepdm.s:1045   .debug_str:0000000000000129 .LASF33
+     /tmp/ccXGepdm.s:1021   .debug_str:000000000000005e .LASF34
+     /tmp/ccXGepdm.s:1063   .debug_str:000000000000025a .LASF35
+     /tmp/ccXGepdm.s:5      .text:0000000000000000 .Ltext0
+     /tmp/ccXGepdm.s:188    .text:000000000000012c .Letext0
+     /tmp/ccXGepdm.s:1003   .debug_line:0000000000000000 .Ldebug_line0
+     /tmp/ccXGepdm.s:1049   .debug_str:00000000000001fc .LASF0
+     /tmp/ccXGepdm.s:1035   .debug_str:00000000000000e7 .LASF1
+     /tmp/ccXGepdm.s:1029   .debug_str:00000000000000b3 .LASF2
+     /tmp/ccXGepdm.s:1013   .debug_str:0000000000000033 .LASF4
+     /tmp/ccXGepdm.s:1033   .debug_str:00000000000000d5 .LASF3
+     /tmp/ccXGepdm.s:1009   .debug_str:000000000000001e .LASF5
+     /tmp/ccXGepdm.s:1055   .debug_str:0000000000000224 .LASF6
+     /tmp/ccXGepdm.s:1007   .debug_str:000000000000000b .LASF7
+     /tmp/ccXGepdm.s:1023   .debug_str:000000000000007e .LASF8
+     /tmp/ccXGepdm.s:1057   .debug_str:000000000000022b .LASF9
+     /tmp/ccXGepdm.s:1011   .debug_str:0000000000000025 .LASF10
+     /tmp/ccXGepdm.s:1081   .debug_str:00000000000002fb .LASF11
+     /tmp/ccXGepdm.s:1025   .debug_str:0000000000000091 .LASF12
+     /tmp/ccXGepdm.s:1077   .debug_str:00000000000002df .LASF13
+     /tmp/ccXGepdm.s:1053   .debug_str:0000000000000214 .LASF14
+     /tmp/ccXGepdm.s:1041   .debug_str:0000000000000111 .LASF15
+     /tmp/ccXGepdm.s:1019   .debug_str:0000000000000048 .LASF16
+     /tmp/ccXGepdm.s:1059   .debug_str:000000000000023b .LASF17
+     /tmp/ccXGepdm.s:1061   .debug_str:0000000000000251 .LASF18
+     /tmp/ccXGepdm.s:1015   .debug_str:000000000000003a .LASF19
+     /tmp/ccXGepdm.s:1039   .debug_str:0000000000000108 .LASF20
+GAS LISTING /tmp/ccXGepdm.s 			page 8
 
 
-     /tmp/ccxZled1.s:1862   .debug_str:0000000000000239 .LASF20
-     /tmp/ccxZled1.s:1816   .debug_str:00000000000000c6 .LASF21
-     /tmp/ccxZled1.s:1894   .debug_str:0000000000000325 .LASF22
-     /tmp/ccxZled1.s:1808   .debug_str:0000000000000090 .LASF23
-     /tmp/ccxZled1.s:1876   .debug_str:00000000000002a7 .LASF24
-     /tmp/ccxZled1.s:1932   .debug_str:000000000000040f .LASF84
-     /tmp/ccxZled1.s:1960   .debug_str:0000000000000571 .LASF25
-     /tmp/ccxZled1.s:1940   .debug_str:00000000000004ee .LASF26
-     /tmp/ccxZled1.s:1936   .debug_str:0000000000000422 .LASF85
-     /tmp/ccxZled1.s:1968   .debug_str:00000000000005a2 .LASF27
-     /tmp/ccxZled1.s:1956   .debug_str:0000000000000555 .LASF29
-     /tmp/ccxZled1.s:1810   .debug_str:0000000000000099 .LASF28
-     /tmp/ccxZled1.s:1842   .debug_str:000000000000017c .LASF30
-     /tmp/ccxZled1.s:1866   .debug_str:0000000000000255 .LASF43
-     /tmp/ccxZled1.s:1802   .debug_str:0000000000000068 .LASF45
-     /tmp/ccxZled1.s:1828   .debug_str:0000000000000119 .LASF59
-     /tmp/ccxZled1.s:1818   .debug_str:00000000000000cf .LASF61
-     /tmp/ccxZled1.s:1914   .debug_str:000000000000038a .LASF31
-     /tmp/ccxZled1.s:1918   .debug_str:0000000000000399 .LASF33
-     /tmp/ccxZled1.s:1868   .debug_str:000000000000025b .LASF32
-     /tmp/ccxZled1.s:1948   .debug_str:000000000000051e .LASF34
-     /tmp/ccxZled1.s:1798   .debug_str:000000000000004b .LASF86
-     /tmp/ccxZled1.s:1870   .debug_str:0000000000000268 .LASF87
-     /tmp/ccxZled1.s:1934   .debug_str:0000000000000417 .LASF35
-     /tmp/ccxZled1.s:1930   .debug_str:00000000000003f9 .LASF36
-     /tmp/ccxZled1.s:1878   .debug_str:00000000000002af .LASF37
-     /tmp/ccxZled1.s:1822   .debug_str:00000000000000f2 .LASF38
-     /tmp/ccxZled1.s:1912   .debug_str:0000000000000385 .LASF39
-     /tmp/ccxZled1.s:1794   .debug_str:0000000000000038 .LASF40
-     /tmp/ccxZled1.s:1974   .debug_str:00000000000005b7 .LASF41
-     /tmp/ccxZled1.s:1850   .debug_str:00000000000001e1 .LASF42
-     /tmp/ccxZled1.s:1790   .debug_str:0000000000000000 .LASF44
-     /tmp/ccxZled1.s:1882   .debug_str:00000000000002c4 .LASF46
-     /tmp/ccxZled1.s:1872   .debug_str:000000000000027e .LASF47
-     /tmp/ccxZled1.s:1904   .debug_str:0000000000000353 .LASF48
-     /tmp/ccxZled1.s:1804   .debug_str:000000000000007d .LASF49
-     /tmp/ccxZled1.s:1908   .debug_str:0000000000000372 .LASF50
-     /tmp/ccxZled1.s:1830   .debug_str:0000000000000122 .LASF51
-     /tmp/ccxZled1.s:1900   .debug_str:000000000000033d .LASF52
-     /tmp/ccxZled1.s:1826   .debug_str:0000000000000111 .LASF53
-     /tmp/ccxZled1.s:1970   .debug_str:00000000000005a8 .LASF54
-     /tmp/ccxZled1.s:1916   .debug_str:0000000000000393 .LASF55
-     /tmp/ccxZled1.s:1946   .debug_str:0000000000000516 .LASF56
-     /tmp/ccxZled1.s:1880   .debug_str:00000000000002b6 .LASF57
-     /tmp/ccxZled1.s:1920   .debug_str:00000000000003ad .LASF58
-     /tmp/ccxZled1.s:1976   .debug_str:00000000000005c4 .LASF88
-     /tmp/ccxZled1.s:1824   .debug_str:0000000000000103 .LASF89
-     /tmp/ccxZled1.s:1792   .debug_str:0000000000000010 .LASF90
-     /tmp/ccxZled1.s:1950   .debug_str:0000000000000537 .LASF91
-     /tmp/ccxZled1.s:1800   .debug_str:0000000000000056 .LASF92
-     /tmp/ccxZled1.s:1958   .debug_str:0000000000000565 .LASF60
-     /tmp/ccxZled1.s:1942   .debug_str:00000000000004f3 .LASF62
-     /tmp/ccxZled1.s:1898   .debug_str:0000000000000338 .LASF63
-     /tmp/ccxZled1.s:1806   .debug_str:0000000000000088 .LASF64
-     /tmp/ccxZled1.s:1954   .debug_str:000000000000054c .LASF65
-     /tmp/ccxZled1.s:1952   .debug_str:000000000000053f .LASF66
-     /tmp/ccxZled1.s:1962   .debug_str:0000000000000579 .LASF67
-GAS LISTING /tmp/ccxZled1.s 			page 9
-
-
-     /tmp/ccxZled1.s:105    .text:00000000000000a4 .LFB35
-     /tmp/ccxZled1.s:178    .text:000000000000012c .LFE35
-     /tmp/ccxZled1.s:1834   .debug_str:0000000000000136 .LASF68
-     /tmp/ccxZled1.s:1944   .debug_str:000000000000050a .LASF69
-     /tmp/ccxZled1.s:1840   .debug_str:000000000000016f .LASF70
-     /tmp/ccxZled1.s:129    .text:00000000000000c8 .LBB2
-     /tmp/ccxZled1.s:154    .text:0000000000000100 .LBE2
-     /tmp/ccxZled1.s:1730   .debug_loc:0000000000000000 .LLST3
-     /tmp/ccxZled1.s:145    .text:00000000000000f4 .LVL12
-     /tmp/ccxZled1.s:1972   .debug_str:00000000000005ad .LASF93
-     /tmp/ccxZled1.s:17     .text:0000000000000000 .LFB34
-     /tmp/ccxZled1.s:99     .text:00000000000000a4 .LFE34
-     /tmp/ccxZled1.s:1742   .debug_loc:0000000000000037 .LLST0
-     /tmp/ccxZled1.s:1964   .debug_str:000000000000058b .LASF71
-     /tmp/ccxZled1.s:1756   .debug_loc:0000000000000070 .LLST1
-     /tmp/ccxZled1.s:1763   .debug_loc:0000000000000093 .LLST2
-     /tmp/ccxZled1.s:52     .text:0000000000000038 .LVL4
-     /tmp/ccxZled1.s:59     .text:000000000000004c .LVL5
-     /tmp/ccxZled1.s:64     .text:000000000000005c .LVL6
-     /tmp/ccxZled1.s:69     .text:0000000000000068 .LVL7
-     /tmp/ccxZled1.s:1884   .debug_str:00000000000002d1 .LASF72
-     /tmp/ccxZled1.s:1926   .debug_str:00000000000003df .LASF74
-     /tmp/ccxZled1.s:1924   .debug_str:00000000000003cc .LASF73
-     /tmp/ccxZled1.s:1966   .debug_str:0000000000000596 .LASF75
-     /tmp/ccxZled1.s:1838   .debug_str:0000000000000160 .LASF76
-     /tmp/ccxZled1.s:1888   .debug_str:0000000000000305 .LASF77
-     /tmp/ccxZled1.s:1890   .debug_str:000000000000030e .LASF78
-     /tmp/ccxZled1.s:1902   .debug_str:0000000000000348 .LASF79
-     /tmp/ccxZled1.s:128    .text:00000000000000c8 .LVL10
-     /tmp/ccxZled1.s:133    .text:00000000000000d0 .LVL11
-     /tmp/ccxZled1.s:173    .text:0000000000000124 .LVL14
-     /tmp/ccxZled1.s:21     .text:0000000000000000 .LVL0
-     /tmp/ccxZled1.s:41     .text:0000000000000020 .LVL2
-     /tmp/ccxZled1.s:37     .text:000000000000001c .LVL1
-     /tmp/ccxZled1.s:77     .text:0000000000000074 .LVL8
-     /tmp/ccxZled1.s:46     .text:0000000000000024 .LVL3
-     /tmp/ccxZled1.s:195    .debug_info:0000000000000000 .Ldebug_info0
+     /tmp/ccXGepdm.s:1075   .debug_str:00000000000002d2 .LASF36
+     /tmp/ccXGepdm.s:1065   .debug_str:0000000000000278 .LASF37
+     /tmp/ccXGepdm.s:105    .text:00000000000000a4 .LFB1
+     /tmp/ccXGepdm.s:178    .text:000000000000012c .LFE1
+     /tmp/ccXGepdm.s:1031   .debug_str:00000000000000c1 .LASF21
+     /tmp/ccXGepdm.s:1043   .debug_str:000000000000011d .LASF22
+     /tmp/ccXGepdm.s:1067   .debug_str:000000000000028a .LASF23
+     /tmp/ccXGepdm.s:129    .text:00000000000000c8 .LBB2
+     /tmp/ccXGepdm.s:154    .text:0000000000000100 .LBE2
+     /tmp/ccXGepdm.s:945    .debug_loc:0000000000000000 .LLST3
+     /tmp/ccXGepdm.s:145    .text:00000000000000f4 .LVL12
+     /tmp/ccXGepdm.s:1071   .debug_str:00000000000002b8 .LASF38
+     /tmp/ccXGepdm.s:17     .text:0000000000000000 .LFB0
+     /tmp/ccXGepdm.s:99     .text:00000000000000a4 .LFE0
+     /tmp/ccXGepdm.s:957    .debug_loc:0000000000000037 .LLST0
+     /tmp/ccXGepdm.s:1005   .debug_str:0000000000000000 .LASF24
+     /tmp/ccXGepdm.s:971    .debug_loc:0000000000000070 .LLST1
+     /tmp/ccXGepdm.s:978    .debug_loc:0000000000000093 .LLST2
+     /tmp/ccXGepdm.s:52     .text:0000000000000038 .LVL4
+     /tmp/ccXGepdm.s:59     .text:000000000000004c .LVL5
+     /tmp/ccXGepdm.s:64     .text:000000000000005c .LVL6
+     /tmp/ccXGepdm.s:69     .text:0000000000000068 .LVL7
+     /tmp/ccXGepdm.s:1069   .debug_str:0000000000000297 .LASF25
+     /tmp/ccXGepdm.s:1037   .debug_str:00000000000000fa .LASF27
+     /tmp/ccXGepdm.s:1027   .debug_str:00000000000000a0 .LASF26
+     /tmp/ccXGepdm.s:1079   .debug_str:00000000000002ef .LASF28
+     /tmp/ccXGepdm.s:1047   .debug_str:00000000000001ed .LASF29
+     /tmp/ccXGepdm.s:1017   .debug_str:000000000000003f .LASF30
+     /tmp/ccXGepdm.s:1073   .debug_str:00000000000002c2 .LASF31
+     /tmp/ccXGepdm.s:1051   .debug_str:0000000000000209 .LASF32
+     /tmp/ccXGepdm.s:128    .text:00000000000000c8 .LVL10
+     /tmp/ccXGepdm.s:133    .text:00000000000000d0 .LVL11
+     /tmp/ccXGepdm.s:173    .text:0000000000000124 .LVL14
+     /tmp/ccXGepdm.s:21     .text:0000000000000000 .LVL0
+     /tmp/ccXGepdm.s:41     .text:0000000000000020 .LVL2
+     /tmp/ccXGepdm.s:37     .text:000000000000001c .LVL1
+     /tmp/ccXGepdm.s:77     .text:0000000000000074 .LVL8
+     /tmp/ccXGepdm.s:46     .text:0000000000000024 .LVL3
+     /tmp/ccXGepdm.s:193    .debug_info:0000000000000000 .Ldebug_info0
 
 UNDEFINED SYMBOLS
 _Z11printStringPKc

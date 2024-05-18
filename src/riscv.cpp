@@ -16,8 +16,8 @@ extern void handleNewChars(void*);
 void RISCV::popSppSpie() {
 
     // not inline ( ra reg )
-    // pop sstatus spp and spie bits
-    if (TCB::running->routine && TCB::running->routine != handleNewChars) RISCV::mask_status(SPP);
+
+    if (TCB::running->routine != handleNewChars) RISCV::mask_status(SPP);
     __asm__ volatile ("csrw sepc, ra");
     __asm__ volatile ("sret");
 
@@ -63,7 +63,6 @@ void RISCV::handle_interrupt() {
             }
 
             Scheduler::first_sleepy = tcb;
-            if (!Scheduler::first_sleepy) Scheduler::last_sleepy = nullptr;
 
         }
 
@@ -85,24 +84,28 @@ void RISCV::handle_interrupt() {
 
     } else if (scause == EXTERNAL) {
         // external interrupt - console
-        console_handler();
-//
-//        uint64 sepc = rd_sepc();
-//        uint64 sstatus = rd_sstatus();
-//
-//        int irq = plic_claim();
-//        if (irq == CONSOLE_IRQ) {
-//            while (*(char *) CONSOLE_STATUS & CONSOLE_RX_STATUS_BIT) {
-//
-//                char c = *(char *) CONSOLE_RX_DATA;
-//                myConsole::kputc(c);
-//                // put new char to input buffer.
-//            }
-//        }
-//        plic_complete(irq);
-//        wr_sepc(sepc);
-//        wr_sstatus(sstatus);
-//        clear_sip(SE);
+        //console_handler();
+
+        uint64 sepc = rd_sepc();
+        uint64 sstatus = rd_sstatus();
+
+        int irq = plic_claim();
+        if (irq == CONSOLE_IRQ) {
+
+            while (*(char *) CONSOLE_STATUS & CONSOLE_RX_STATUS_BIT && !myConsole::inputBuffer->full()) {
+
+                char c = *(char *) CONSOLE_RX_DATA;
+                myConsole::input_putc(c);
+                // put new char to input buffer.
+            }
+
+            plic_complete(irq);
+        }
+
+        wr_sepc(sepc);
+        wr_sstatus(sstatus);
+        clear_sip(SE);
+
     }
 //    else if (scause == S_ECALL) {
 //
@@ -137,7 +140,7 @@ void RISCV::handle_interrupt() {
                 TCB::_threadExit();
                 break;
             case THREAD_DISPATCH:
-//                TCB::time_slice_count = 0;
+                TCB::time_slice_count = 0;
                 TCB::dispatch();
                 break;
             case SEM_OPEN:
@@ -162,10 +165,10 @@ void RISCV::handle_interrupt() {
                 Scheduler::put_to_sleep((thread_t)TCB::running, (time_t)a1);
                 break;
             case GETC:
-                myConsole::getc();
+                myConsole::input_getc();
                 break;
             case PUTC:
-                myConsole::putc((char)a1);
+                myConsole::output_putc((char) a1);
                 break;
         }
 

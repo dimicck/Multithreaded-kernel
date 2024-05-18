@@ -4,11 +4,16 @@
 TCB* Scheduler::first = nullptr;
 TCB* Scheduler::last  = nullptr;
 TCB* Scheduler::first_sleepy = nullptr;
-TCB* Scheduler::last_sleepy  = nullptr;
+TCB* Scheduler::idle = nullptr;
+
+[[noreturn]] void idleWrapper(void*) {
+    // nothing to do
+    while (true);
+}
 
 TCB *Scheduler::get() {
 
-    if (!first) return nullptr; // idle thread
+    if (!first) return idle; // idle thread
 
     TCB* tcb = first;
 
@@ -22,6 +27,10 @@ TCB *Scheduler::get() {
 
 void Scheduler::put(TCB *newTCB) {
 
+    if (newTCB == idle) {
+        idle->current_state = TCB::RUNNABLE;
+        return;
+    }
     if (!first) first = last = newTCB;
     else last = last -> next_ready = newTCB;
 
@@ -43,7 +52,7 @@ int Scheduler::put_to_sleep(TCB *tcb, time_t time) {
     // RAZMISLI O THREAD::PUT_TO_SLEEP !!!
 
     if (!first_sleepy) {
-        first_sleepy = last_sleepy = tcb;
+        first_sleepy = tcb;
         tcb -> sleeping_time = time;
         s_yield();
         return 0;
@@ -84,7 +93,7 @@ int Scheduler::put_to_sleep(TCB *tcb, time_t time) {
 
     // insert at the end, has previous
     tcb -> sleeping_time = time - time_sum;
-    prev -> next_sleepy = tcb;
+    if (prev) prev -> next_sleepy = tcb;
 
     s_yield();
     return 0;
@@ -109,6 +118,10 @@ void Scheduler::s_yield() {
     TCB::running = get(); // Scheduler::get
     TCB::yield(oldRunning, TCB::running);
 
+}
+
+void Scheduler::init_scheduler() {
+    thread_create(&idle, idleWrapper, nullptr);
 }
 
 

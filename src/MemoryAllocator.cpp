@@ -20,7 +20,8 @@ MemoryAllocator* MemoryAllocator::getAllocator() {
 
 void* MemoryAllocator::mem_alloc(size_t size) {
 
-    //size je broj blokova koje zelimo zauzeti
+    //size = block number
+
     if (size <= 0) return nullptr;
 
     MemoryBlock* curr = nullptr;
@@ -35,7 +36,7 @@ void* MemoryAllocator::mem_alloc(size_t size) {
                 if (curr->prev) curr->prev->next = curr->next;
                 else free_mem_head = curr->next;
                 // first free seg
-                continue;
+
             } else {
                 // allocate
                 auto *remaining = (MemoryBlock *) ((char *) curr + byte_size);
@@ -50,11 +51,17 @@ void* MemoryAllocator::mem_alloc(size_t size) {
 
             // update used list
             MemoryBlock* prev;
-            if (curr < used_mem_head || used_mem_head == 0) prev = 0;
-            else for (prev = used_mem_head; prev->next != 0; prev = prev->next);
+            if (curr < used_mem_head || !used_mem_head) prev = nullptr;
+            else for (prev = used_mem_head; prev->next && (char*)curr >= (char *) prev + prev->size; prev = prev->next) {
+                // prev addr < addr and prev-next addr > addr + size
+                if ((char*)prev->next >= (char*)curr + byte_size) break;
+            }
 
-            curr->size = byte_size;
+            // dodavanje na kraj?
+
+            curr->size = byte_size - mem_h_size;
             curr->prev = prev;
+
             if (prev) {
                 curr->next = prev->next;
                 prev->next = curr;
@@ -70,7 +77,8 @@ void* MemoryAllocator::mem_alloc(size_t size) {
     return nullptr;
 }
 
-int MemoryAllocator::mem_free(const void* addr) {
+int MemoryAllocator::mem_free(void* addr) {
+
     if (!addr || addr > HEAP_END_ADDR || addr < HEAP_START_ADDR) return -1; // error
 
     auto* block = (MemoryBlock*)((char*)addr - sizeof(MemoryBlock));
@@ -86,15 +94,16 @@ int MemoryAllocator::mem_free(const void* addr) {
 
     // free mem
     if (!free_mem_head || (char*)block < (char*)free_mem_head) tmp = nullptr;
-    else for (tmp = free_mem_head; tmp->next != 0 && (char*)block > (char*)(tmp->next); tmp = tmp->next);
+    else for (tmp = free_mem_head; tmp->next && (char*)block > (char*)(tmp->next); tmp = tmp->next);
 
     // tmp == previous
 
     if (tmp == nullptr) {
-        block -> prev = tmp;
+        block -> prev = nullptr;
         if (free_mem_head) {
             free_mem_head->prev = block;
             block->next = free_mem_head;
+            free_mem_head = block;
             tryToJoin(block);
         }
         else block -> next = nullptr;
@@ -127,25 +136,27 @@ int MemoryAllocator::tryToJoin(MemoryAllocator::MemoryBlock *curr) {
 
 extern void printInteger(uint64);
 
+
 void MemoryAllocator::print() {
-
-    for (MemoryBlock* b = free_mem_head; b != nullptr; b = b->next) {
-        __putc('f');
-        __putc('\n');
-        printInteger(b->size);
-        __putc('\n');
-    }
-
-    if (!used_mem_head) __putc('x');
-
-    for (MemoryBlock* b = used_mem_head; b != nullptr; b = b->next) {
-        __putc('u');
-        __putc('\n');
-        printInteger(b->size);
-        __putc('\n');
-    }
-
     __putc('\n');
+    __putc('M');
+    __putc(':');
+    __putc(' ');
+    for (MemoryBlock* tmp = free_mem_head; tmp; tmp = tmp -> next) {
+        printInteger(tmp -> size);
+        __putc(' ');
+        printInteger((uint64)tmp);
+        __putc(' ');
+        __putc('f');
+    }
+    __putc('\t');
+    for (MemoryBlock* tmp = used_mem_head; tmp; tmp = tmp -> next) {
+        printInteger(tmp -> size);
+        __putc(' ');
+        printInteger((uint64)tmp);
+        __putc(' ');
+        __putc('u');
+    }
 }
 
 

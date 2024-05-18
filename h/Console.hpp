@@ -15,13 +15,15 @@ public:
 
     static void init();
 
-    static char getc();       // from input buffer
-    static void putc(char c); // to output buffer
+    static char input_getc();       // from input buffer
+    static void output_putc(char c); // to output buffer
 
-    static char kgetc();      // from output buffer
-    static void kputc(char c);      // to input buffer
+    static char output_getc();            // from output buffer
+    static void input_putc(char c);      // to input buffer
 
     //for console controller
+    static TCB* char_handler;
+    static void char_handler_wrapper(void*);
 };
 
 #endif //PROJECT_BASE_CONSOLE_HPP

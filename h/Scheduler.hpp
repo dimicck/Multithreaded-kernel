@@ -9,7 +9,7 @@ class Scheduler {
     friend class RISCV;
 
 public:
-    static void init_scheduler() {};
+    static void init_scheduler();
 
     static TCB* get();
     static void put(TCB*);
@@ -29,6 +29,8 @@ private:
     Scheduler() = default;
 
     static void s_yield();
+
+    static TCB* idle;
 
     static TCB* first, *last;
     static TCB* first_sleepy, *last_sleepy;

@@ -40,21 +40,25 @@ void Sem::deblock() {
     // needs modification for timedWait
 
     TCB* tcb = blocked.get();
+
     if (!tcb) return; // should not happen
+
     tcb->current_state = TCB::RUNNABLE;
     Scheduler::put(tcb);
 
 }
 
 int Sem::timedWait(sem_t, time_t) {
-    // after timer implementation
+
+    // list of timed waiting for every sem?
+    // list of sems ?
+
     return 0;
 }
 
 int Sem::open(sem_t *handle, unsigned int init) { // ne ovde
-    auto newSem = (sem_t) MemoryAllocator::mem_alloc( (sizeof(Sem) + mem_h_size + MEM_BLOCK_SIZE - 1) / MEM_BLOCK_SIZE);
+    auto newSem = new Sem((int)init);
     if (!newSem) return MEMORY_ERR;
-    newSem -> value = (int)init;
     *handle = newSem;
     return 0;
 }
@@ -79,3 +83,8 @@ void Sem::operator delete(void *ptr) {
 void *Sem::operator new(size_t size) {
     return MemoryAllocator::mem_alloc((mem_h_size + size + MEM_BLOCK_SIZE - 1) / MEM_BLOCK_SIZE);
 }
+
+int Sem::getValue() const {
+    return value;
+}
+

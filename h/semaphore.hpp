@@ -23,6 +23,8 @@ public:
     static int wait(sem_t);
     static int signal(sem_t);
 
+    int getValue() const;
+
     static int timedWait(sem_t, time_t time);
     static int trywait(sem_t);
 
@@ -34,7 +36,7 @@ public:
 
 private:
 
-    explicit Sem(int init = 1) : value(init) {}
+    explicit Sem(int init = 1) : value(init), blocked() {}
 
     void block();
     void deblock();

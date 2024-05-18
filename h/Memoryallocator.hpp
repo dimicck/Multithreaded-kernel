@@ -35,7 +35,7 @@ public:
     static MemoryAllocator* getAllocator();
 
     static void* mem_alloc(size_t);
-    static int mem_free(const void*);
+    static int mem_free( void*);
 
     // pomocne -> brisi
     static void print();

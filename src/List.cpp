@@ -14,12 +14,11 @@ TCB *List::get() {
     if (!head) return nullptr;
 
     TCB* tcb = head -> data;
-    Elem* oldHead = head;
+//    Elem* oldHead = head;
     head = head -> next;
 
     if (!head) tail = nullptr;
 
-    delete oldHead;
     return tcb;
 }
 
@@ -27,3 +26,5 @@ TCB *List::peek() {
     if (head) return head->data;
     else return nullptr;
 }
+
+List::Elem::Elem(TCB *tcb) : data(tcb), next(nullptr) {}

@@ -44,9 +44,10 @@ void TCB::wrapper() {
     // spie -> status previous int enable
 
     // came from supervisor trap (s mode)
-    RISCV::popSppSpie();
-    if (running->routine) {
-        running->routine(running->args); // in user mode
+    if ( running->routine ) {
+        RISCV::popSppSpie();
+        running->routine(running->args);
+        // in user mode IF not char-handler
     }
 
     running->finish();
@@ -80,7 +81,7 @@ void TCB::dispatch() {
 
 void *TCB::operator new(size_t size) {
     // mem alloc (Memory Allocator klasa) prima broj blokova
-    size_t blocks = (size + sizeof(MemoryAllocator::MemoryBlock) + MEM_BLOCK_SIZE - 1) / MEM_BLOCK_SIZE;
+    size_t blocks = (size + mem_h_size + MEM_BLOCK_SIZE - 1) / MEM_BLOCK_SIZE;
     return MemoryAllocator::mem_alloc(blocks);
 }
 

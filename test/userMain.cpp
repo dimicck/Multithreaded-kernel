@@ -1,6 +1,6 @@
 #include "printing.hpp"
 
-#define LEVEL_1_IMPLEMENTED 1
+#define LEVEL_1_IMPLEMENTED 0
 #define LEVEL_2_IMPLEMENTED 1
 #define LEVEL_3_IMPLEMENTED 1
 #define LEVEL_4_IMPLEMENTED 1
@@ -65,7 +65,7 @@ void userMain() {
             break;
         case 2:
 #if LEVEL_2_IMPLEMENTED == 1
-            //Threads_CPP_API_test();
+            Threads_CPP_API_test();
             printString("TEST 2 (zadatak 2., niti CPP API i sinhrona promena konteksta)\n");
 #endif
             break;
@@ -77,7 +77,7 @@ void userMain() {
             break;
         case 4:
 #if LEVEL_3_IMPLEMENTED == 1
-            //producerConsumer_CPP_Sync_API();
+            producerConsumer_CPP_Sync_API();
             printString("TEST 4 (zadatak 3., kompletan CPP API sa semaforima, sinhrona promena konteksta)\n");
 #endif
             break;
@@ -89,7 +89,7 @@ void userMain() {
             break;
         case 6:
 #if LEVEL_4_IMPLEMENTED == 1
-            //testConsumerProducer();
+            testConsumerProducer();
             printString("TEST 6 (zadatak 4. CPP API i asinhrona promena konteksta)\n");
 #endif
             break;

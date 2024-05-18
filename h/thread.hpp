@@ -89,6 +89,7 @@ private:
     static void wrapper();
 
     static int _threadExit();
+
 };
 
 #endif //PROJECT_BASE_THREAD_HPP
