@@ -46,6 +46,8 @@ void RISCV::handle_interrupt() {
 
         clear_sip(mask_sip_sie::SS);
 
+        // UPDATE SLEEPING THREADS IF SLEEPING_TIME > 0
+
         if (Scheduler::hasSleeping()) {
 
             Scheduler::first_sleepy -> sleeping_time --;
@@ -65,6 +67,32 @@ void RISCV::handle_interrupt() {
             Scheduler::first_sleepy = tcb;
 
         }
+
+        // UPDATE TIMED WAITING ON SEMAPHORES
+
+        for (Sem* s = Sem::first; s; s = s->next) {
+            int count = s->timedBlock;
+            for (List<TCB>::Elem* e = s->blocked.head ; e && count > 0; e = e->next) {
+                TCB* t = e->data;
+                if (t->time_on_sem > 0) {       // if timed waiting
+                    count--;
+                    t->time_on_sem--;
+                    if ( !t->time_on_sem && t != Scheduler::peek() ) {
+                        // scheduler -> fifo, peek is next running
+
+                        s->blocked.remove(t);  // time expired
+                        t->current_state = TCB::RUNNABLE;
+
+                        // timed block count updated in timed_wait
+
+                        Scheduler::put(t);
+
+                    }
+                }
+            }
+        }
+
+        // CHECK IF RUNNING THREAD TIME SLICE EXPIRED
 
         TCB::time_slice_count ++;
         if (TCB::time_slice_count >= TCB::running->getTimeSlice())
@@ -107,18 +135,6 @@ void RISCV::handle_interrupt() {
         clear_sip(SE);
 
     }
-//    else if (scause == S_ECALL) {
-//
-//        // a1 = oldRunning
-//        // a2 = newRunning
-//
-//        uint64 sepc = rd_sepc() + 4;
-//        uint64 sstatus = rd_sstatus();
-//
-//        TCB::contextSwitch( &((TCB*)a1)->context, &((TCB*)a2)->context );
-//
-//        wr_sepc(sepc);
-//        wr_sstatus(sstatus);
 
      else if (scause == U_ECALL || scause == S_ECALL){
         // environment call from user / supervisor mode

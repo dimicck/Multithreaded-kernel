@@ -25,6 +25,16 @@ Thread::Thread(void (*body)(void *), void *arg) {
     this->myHandle = nullptr;
 }
 
+Thread::Thread() {
+    this->body = wrapper;
+    this->arg  = (void*) this;
+    this->myHandle = nullptr;
+}
+
+Thread::~Thread() {
+    delete &this->myHandle;
+}
+
 int Thread::sleep(time_t time) {
     return time_sleep(time);
 }
@@ -35,16 +45,6 @@ void Thread::dispatch() {
 
 int Thread::start() {
     return thread_create(&myHandle, this->body, this->arg);
-}
-
-Thread::Thread() {
-    this->body = wrapper;
-    this->arg  = (void*) this;
-    this->myHandle = nullptr;
-}
-
-Thread::~Thread() {
-    delete &this->myHandle;
 }
 
 void Thread::wrapper(void *arg) {
@@ -60,23 +60,27 @@ Semaphore::Semaphore(unsigned int init) {
 }
 
 Semaphore::~Semaphore() {
-    sem_close(myHandle);
+    if (myHandle) sem_close(myHandle);
 }
 
 int Semaphore::wait() {
-    return sem_wait(myHandle);
+    if (myHandle) return sem_wait(myHandle);
+    return -1;
 }
 
 int Semaphore::signal() {
-    return sem_signal(myHandle);
+    if (myHandle) return sem_signal(myHandle);
+    return -1;
 }
 
 int Semaphore::timedWait(time_t time) {
-    return sem_timedwait(myHandle, time);
+    if (myHandle) return sem_timedwait(myHandle, time);
+    return -1;
 }
 
 int Semaphore::tryWait() {
-    return sem_trywait(myHandle);
+    if (myHandle) return sem_trywait(myHandle);
+    return -1;
 }
 
 char Console::getc() {
@@ -93,3 +97,9 @@ void PeriodicThread::terminate() {
     thread_exit();
 }
 
+void PeriodicThread::run() {
+    while (true) {
+        periodicActivation();
+        time_sleep(period);
+    }
+}

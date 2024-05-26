@@ -7,6 +7,7 @@ void myPrintString(char const* string) {
         putc(*string);
         string++;
     }
+    putc('\n'); // delete later
 }
 
 void printInteger(uint64 num) {

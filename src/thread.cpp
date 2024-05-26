@@ -17,6 +17,7 @@ TCB::TCB(routine_ptr fun, void *args, void *stack, Context c) : context(c) {
     this->current_state = RUNNABLE;
     this->next_ready = nullptr;
     this->next_sleepy= nullptr;
+    this->time_on_sem = 0;
     this->sleeping_time = 0;
     this->time_slice = DEFAULT_TIME_SLICE; // add in constructor
 }
@@ -50,8 +51,7 @@ void TCB::wrapper() {
         // in user mode IF not char-handler
     }
 
-    running->finish();
-    thread_dispatch();
+    ::thread_exit();
     // no return address from wrapper
 }
 
@@ -74,9 +74,15 @@ void TCB::dispatch() {
 
     if ( isRunnable() ) Scheduler::put(oldRunning);
 
+    if ( isFinished() ) {
+        MemoryAllocator::mem_free(TCB::running->stack);
+
+    }
+
+    time_slice_count = 0;
     running = Scheduler::get();
 
-    if (running != oldRunning) yield(oldRunning, running);
+    yield(oldRunning, running);
 }
 
 void *TCB::operator new(size_t size) {
@@ -87,14 +93,6 @@ void *TCB::operator new(size_t size) {
 
 void TCB::operator delete(void *ptr) {
     MemoryAllocator::mem_free(ptr);
-}
-
-void TCB::start() {
-    /// remove from thread create !
-    if (current_state == CREATED) {
-        current_state = RUNNABLE;
-        Scheduler::put(this);
-    }
 }
 
 bool TCB::isRunnable() {

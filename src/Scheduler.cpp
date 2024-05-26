@@ -49,7 +49,7 @@ int Scheduler::put_to_sleep(TCB *tcb, time_t time) {
 
     // napravi static put (*head, *last)
 
-    // RAZMISLI O THREAD::PUT_TO_SLEEP !!!
+    if (time == 0) return -1;
 
     if (!first_sleepy) {
         first_sleepy = tcb;

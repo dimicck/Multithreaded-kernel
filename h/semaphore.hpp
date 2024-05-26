@@ -13,11 +13,15 @@ typedef Sem* sem_t;
 class Sem {
 public:
 
+    friend class RISCV;
+
  // puno praznih pokazivaca, razmisli o listi
 
     enum error {
-        MEMORY_ERR = -1,
-        SEM_CLOSED = -3
+        MEMORY_ERR = -3,
+        SEM_CLOSED = -4,
+        SEMDEAD = -1,
+        TIMEOUT = -2
     };
 
     static int wait(sem_t);
@@ -34,19 +38,30 @@ public:
     void* operator new(size_t size);
     void operator delete(void* ptr);
 
+//    static ListSEM semaphores;
+    static Sem* first, *last;
+
 private:
 
-    explicit Sem(int init = 1) : value(init), blocked() {}
+    explicit Sem(int init = 1) : value(init), next(nullptr), blocked() {}
 
     void block();
     void deblock();
 
     int value;
-    // bool isClosed;
+    Sem* next = nullptr;
 
-    List blocked;
+    // bool isClosed
+
+    ListTCB blocked;
+    int timedBlock = 0;
+
+    static void semAdd(Sem* toAdd);
+    static void semRemove(Sem* toDelete);
+
+    // zameniti sa glubalnom listAdd (first, last, new) i listGet (first, last)
 };
 
-typedef Sem _sem;
+
 
 #endif //PROJECT_BASE_SEMAPHORE_HPP

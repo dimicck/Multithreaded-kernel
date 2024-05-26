@@ -28,31 +28,6 @@ void testCMemory() {
     MemoryAllocator::print();
 }
 
-
-//sem_t mySem = nullptr;
-//
-//void workerA(void*) {
-//    for (int i = 0; i < 4; ++i) {
-//        printInteger(i);
-//        __putc('(');
-//        __putc('A');
-//        __putc(')');
-//        for (int j = 0; j < 10000; ++j) {
-//            for (int k = 0; k < 30000; ++k) {}
-//            thread_dispatch();
-//        }
-//    }
-//}
-
-//void workerB(void*) {
-//
-//    while (true) {
-//        char c = getc();
-//        putc(c);
-//        c+=1;
-//    }
-//}
-
 void testConsole(void *args) {
     while (true) {
         char c1 = getc();
@@ -74,10 +49,45 @@ void handleNewChars(void * args) {
             *(char *) CONSOLE_TX_DATA = c;
             // pop from output buffer and wr to TX DATA
         }
+
+        // no more work to do, move on
+        thread_dispatch();
     }
 }
 
-thread_t mythreads[5];
+void testTimedWait(void* args) {
+
+}
+
+sem_t mySem;
+
+void semWaiter(void* ) {
+    sem_wait(mySem);
+}
+
+
+thread_t mythreads[10];
+
+void runningForever(void* args) {
+
+    //char * arg = (char*)args;
+
+    while (!mythreads[2] -> isFinished()) {
+        putc('a');
+    }
+}
+
+
+void timedWaiter(void *) {
+    int result = sem_timedwait(mySem, 1);
+    if (result == Sem::TIMEOUT) putc('t');
+    thread_exit();
+}
+
+thread_t mainThread;
+thread_t consoleThread;
+thread_t userMainThread;
+
 
 extern void userMain();
 
@@ -95,16 +105,26 @@ int main() {
 //    testMemoryAllocator();
 //    testCMemory();
 
-    thread_create(&mythreads[0], nullptr, nullptr); // main
-    TCB::running = mythreads[0];
+    thread_create(&mainThread, nullptr, nullptr); // main
 
-    thread_create(&mythreads[3], handleNewChars, nullptr);
-//    thread_create(&mythreads[1], testConsole, nullptr);
+    TCB::running = mainThread;
+
     RISCV::set_status(RISCV::SIE); // interrupts enabled
 
-    thread_create(&mythreads[1], userWrapper, nullptr);
+    thread_create(&consoleThread, handleNewChars, nullptr);
 
-    while ( true ) { thread_dispatch(); }
+//    thread_create(&mythreads[0], runningForever, (void *)('b'));
+//    thread_create(&mythreads[1], runningForever, (void *)('a'));
+//    thread_create(&mythreads[3], runningForever, (void *)('b'));
+//    thread_create(&mythreads[4], semWaiter, (void *)('a'));
+//    thread_create(&mythreads[5], semWaiter, (void *)('b'));
+//
+//    thread_create(&mythreads[2], timedWaiter, nullptr);
 
+    thread_create(&userMainThread, userWrapper, nullptr);
+
+//    sem_open(&mySem, 1); // mutex
+
+     while (true) thread_dispatch();
     return 0;
 }

@@ -40,8 +40,6 @@ public:
         uint64 sepc;
     };
 
-    void start();
-
     static int _threadCreate(TCB** handle, routine_ptr routine, void* args, void* stack_space); // + time
 
     static void yield(TCB*, TCB*);
@@ -53,7 +51,7 @@ public:
 
     static bool isRunnable();
 
-    bool isFinished() {return current_state == state::FINISHED;}
+    static bool isFinished() {return TCB::running->current_state == state::FINISHED;}
     void finish() { current_state = state::FINISHED; }
 
     ~TCB() {delete[] stack;}
@@ -72,6 +70,7 @@ private:
 
     TCB* next_sleepy;
 
+    time_t time_on_sem;
     time_t sleeping_time;
     time_t time_slice;
 
@@ -79,8 +78,7 @@ private:
     void* args;
     uint64 * stack;
     Context context;
-    state current_state; // pocetna vrednost ?????
-    bool finished  = false;
+    state current_state;
 
     TCB(routine_ptr fun, void* args, void * stack, Context);
 

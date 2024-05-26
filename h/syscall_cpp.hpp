@@ -54,9 +54,12 @@ public:
 protected:
     PeriodicThread (time_t period);
     virtual void periodicActivation () {}
+    virtual void run() override;
 private:
     time_t period;
 };
+
+
 class Console {
 public:
     static char getc ();
