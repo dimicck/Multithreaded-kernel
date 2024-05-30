@@ -18,11 +18,11 @@ public:
         size_t size;
     };
 
-private:
-
     MemoryAllocator() = default;
     MemoryAllocator(MemoryAllocator&) = delete;
     MemoryAllocator& operator==(MemoryAllocator&) = delete;
+
+private:
 
     static MemoryBlock* free_mem_head;
     static MemoryBlock* used_mem_head;
@@ -36,9 +36,6 @@ public:
 
     static void* mem_alloc(size_t);
     static int mem_free( void*);
-
-    // pomocne -> brisi
-    static void print();
 
 };
 

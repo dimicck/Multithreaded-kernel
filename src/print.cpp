@@ -1,4 +1,4 @@
-#include "../lib/console.h"
+
 #include "../h/print.hpp"
 #include "../h/syscall_c.hpp"
 
@@ -11,8 +11,8 @@ void myPrintString(char const* string) {
 }
 
 void printInteger(uint64 num) {
-    __putc('\n');
-    if (!num) __putc('0');
+    putc('\n');
+    if (!num) putc('0');
     uint64 num2 = 0, zero_count = 0;
     while (num) {
         num2 *= 10;
@@ -21,8 +21,8 @@ void printInteger(uint64 num) {
         num /= 10;
     }
     while (num2) {
-        __putc(num2 % 10 + '0');
+        putc(num2 % 10 + '0');
         num2 /= 10;
     }
-    while (zero_count--) __putc('0');
+    while (zero_count--) putc('0');
 }

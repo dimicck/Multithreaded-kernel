@@ -137,32 +137,6 @@ int MemoryAllocator::tryToJoin(MemoryAllocator::MemoryBlock *curr) {
 extern void printInteger(uint64);
 
 
-void MemoryAllocator::print() {
-    __putc('\n');
-    __putc('M');
-    __putc(':');
-    __putc(' ');
-    for (MemoryBlock* tmp = free_mem_head; tmp; tmp = tmp -> next) {
-        printInteger(tmp -> size);
-        __putc(' ');
-        printInteger((uint64)tmp);
-        __putc(' ');
-        __putc('f');
-    }
-    __putc('\t');
-    for (MemoryBlock* tmp = used_mem_head; tmp; tmp = tmp -> next) {
-        printInteger(tmp -> size);
-        __putc(' ');
-        printInteger((uint64)tmp);
-        __putc(' ');
-        __putc('u');
-    }
-}
-
-
-
-
-
 
 
 

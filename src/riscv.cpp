@@ -73,18 +73,27 @@ void RISCV::handle_interrupt() {
 
         for (Sem* s = Sem::first; s; s = s->next) {
             int count = s->timedBlock;
-            for (List<TCB>::Elem* e = s->blocked.head ; e && count > 0; e = e->next) {
+            for (List<TCB>::Elem* e = s->blocked.head ; e && count > 0; ) {
+
                 TCB* t = e->data;
+
                 if (t->time_on_sem > 0) { // if timed waiting
                     count--;
                     // time on sem == 0 will return TIMEOUT
-                    if ( --t->time_on_sem == 0) {
+                    if ( --t->time_on_sem <= 0) {
                         // time expired
+
+                        e = e -> next;
                         s->blocked.remove(t);
+                        s->value++;
+                        s->timedBlock--;
+
                         t->current_state = TCB::RUNNABLE;
                         Scheduler::put(t);
+                        continue;
                     }
                 }
+                e = e->next;
             }
         }
 

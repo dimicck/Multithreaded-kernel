@@ -46,14 +46,13 @@ public:
 
     static void dispatch();
 
-    state getState() const {return current_state;}
     time_t getTimeSlice() const {return time_slice;}
 
     static bool isRunnable();
 
-    static bool isFinished() {return TCB::running->current_state == state::FINISHED;}
+    bool isFinished() {return current_state == state::FINISHED;}
+
     void finish() { current_state = state::FINISHED; }
-    bool all_work_done() {return current_state == state::FINISHED;}
 
     ~TCB() {delete[] stack;}
 

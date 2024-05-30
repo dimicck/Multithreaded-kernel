@@ -71,6 +71,10 @@ void Sem::deblock() {
 
     if (!tcb) return; // should not happen
 
+    if (tcb->time_on_sem > 0) {
+        timedBlock--;
+    }
+
     tcb->current_state = TCB::RUNNABLE;
     Scheduler::put(tcb);
 
@@ -96,7 +100,6 @@ int Sem::timedwait(sem_t handle, time_t time) {
 
         if (!handle) return SEMDEAD;
 
-        handle->timedBlock--;
         // time on sem < 0 if timeout
         if (!TCB::running->time_on_sem) return TIMEOUT;
         else TCB::running->time_on_sem = 0;

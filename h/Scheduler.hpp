@@ -30,10 +30,8 @@ private:
 
     static void s_yield();
 
-    static TCB* idle;
-
     static TCB* first, *last;
-    static TCB* first_sleepy, *last_sleepy;
+    static TCB* first_sleepy;
 
 };
 

@@ -8,6 +8,8 @@ class myConsole {
 
 public:
 
+    static bool no_work_for_con();
+
     myConsole() = default;
     myConsole(const myConsole &) = delete;
 

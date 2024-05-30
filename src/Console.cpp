@@ -23,3 +23,7 @@ char myConsole::output_getc() {
 void myConsole::input_putc(char c) {
     inputBuffer->put(c);
 }
+
+bool myConsole::no_work_for_con() {
+    return outputBuffer->empty();
+}

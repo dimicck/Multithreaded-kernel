@@ -4,17 +4,10 @@
 TCB* Scheduler::first = nullptr;
 TCB* Scheduler::last  = nullptr;
 TCB* Scheduler::first_sleepy = nullptr;
-TCB* Scheduler::idle = nullptr;
-
-[[noreturn]] void idleWrapper(void*) {
-    // nothing to do
-    while (true);
-}
 
 TCB *Scheduler::get() {
 
-    if (!first) return idle; // idle thread
-
+    if (!first) return nullptr;
     TCB* tcb = first;
 
     first = first -> next_ready;
@@ -22,18 +15,12 @@ TCB *Scheduler::get() {
     tcb -> next_ready = nullptr;
 
     return tcb;
-
 }
 
 void Scheduler::put(TCB *newTCB) {
 
-    if (newTCB == idle) {
-        idle->current_state = TCB::RUNNABLE;
-        return;
-    }
     if (!first) first = last = newTCB;
     else last = last -> next_ready = newTCB;
-
 }
 
 TCB* Scheduler::peek() {
@@ -118,8 +105,5 @@ void Scheduler::s_yield() {
 
 }
 
-void Scheduler::init_scheduler() {
-    thread_create(&idle, idleWrapper, nullptr);
-}
 
 

@@ -91,11 +91,11 @@ void Console::putc(char c) {
 PeriodicThread::PeriodicThread(time_t period) : period(period) {}
 
 void PeriodicThread::terminate() {
-    thread_exit();
+    period = time_t(-1); // max uint64, invalid value
 }
 
 void PeriodicThread::run() {
-    while (true) {
+    while (period != time_t(-1)) {
         periodicActivation();
         time_sleep(period);
     }

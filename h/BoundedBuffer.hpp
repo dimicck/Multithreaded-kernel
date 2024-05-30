@@ -30,7 +30,6 @@ private:
 
     sem_t space_available;
     sem_t item_available;
-    sem_t mutex;
 
     char buffer[bufferSize];
 };

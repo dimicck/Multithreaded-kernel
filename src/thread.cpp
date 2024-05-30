@@ -72,7 +72,8 @@ void TCB::dispatch() {
 
     TCB *oldRunning = TCB::running;
     if ( isRunnable() ) Scheduler::put(oldRunning);
-    if ( isFinished() ) {
+
+    if ( running->isFinished() ) {
         MemoryAllocator::mem_free(TCB::running->stack);
     }
 
