@@ -48,14 +48,11 @@ int Thread::start() {
 }
 
 void Thread::wrapper(void *arg) {
-    // prosledjuje se sistemskom pozivu
-    // treba da pokrene run metodu prosledjenog objekta
     auto* t = (Thread*) arg;
     t->run();
 }
 
-Semaphore::Semaphore(unsigned int init) {
-    myHandle = nullptr;
+Semaphore::Semaphore(unsigned int init) : myHandle(nullptr) {
     sem_open(&myHandle, init);
 }
 
@@ -74,7 +71,7 @@ int Semaphore::signal() {
 }
 
 int Semaphore::timedWait(time_t time) {
-    if (myHandle) return sem_timedwait(myHandle, time);
+    if (myHandle && time) return sem_timedwait(myHandle, time);
     return -1;
 }
 

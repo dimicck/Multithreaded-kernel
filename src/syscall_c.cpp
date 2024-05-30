@@ -1,4 +1,4 @@
-#include "../h/syscall_c.h"
+#include "../h/syscall_c.hpp"
 #include "../h/Memoryallocator.hpp"
 
 
@@ -26,13 +26,13 @@ int mem_free(void* ptr) {
     return a0;
 }
 
-// sistemski poziv thread_create prima
-// dodatno void* stack_space
-
 int thread_create(thread_t *handle, void (*start_routine)(void *), void *arg) {
     int volatile ret;
     void* stack_space = nullptr;
-    if (start_routine) stack_space = mem_alloc(DEFAULT_STACK_SIZE);
+    if (start_routine) {
+        stack_space = mem_alloc(DEFAULT_STACK_SIZE);
+        if (!stack_space) return -1; // memory allocation error
+    }
     system_call(THREAD_CREATE, (uint64)handle, (uint64)start_routine, (uint64)arg, (uint64)stack_space);
     __asm__ volatile("mv %0, a0" : "=r"(ret));
     return ret;
@@ -50,7 +50,6 @@ void thread_dispatch() {
 }
 
 int sem_open(sem_t* handle, unsigned init) {
-    //if (init <= 0 || !handle) return -1;
     int volatile a0;
     system_call(SEM_OPEN, (uint64)handle, init);
     __asm__ volatile("mv %0, a0" : "=r"(a0));

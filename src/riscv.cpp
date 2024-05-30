@@ -1,7 +1,6 @@
 #include "../lib/hw.h"
-#include "../lib/console.h"
 #include "../h/riscv.hpp"
-#include "../h/syscall_c.h"
+#include "../h/syscall_c.hpp"
 #include "../h/Memoryallocator.hpp"
 #include "../h/thread.hpp"
 #include "../h/Console.hpp"
@@ -11,7 +10,6 @@ extern void printString(char*);
 extern void handleNewChars(void*);
 
 // first time running a thread, sepc inside of wrapper
-
 
 void RISCV::popSppSpie() {
 
@@ -23,6 +21,10 @@ void RISCV::popSppSpie() {
 
     // => pop spp and spie !
     // exit from supervisor mode
+}
+
+uint64 RISCV::return_value(uint64 value) {
+    return value; // move to a0 reg
 }
 
 void RISCV::handle_interrupt() {
@@ -65,7 +67,6 @@ void RISCV::handle_interrupt() {
             }
 
             Scheduler::first_sleepy = tcb;
-
         }
 
         // UPDATE TIMED WAITING ON SEMAPHORES
@@ -74,19 +75,14 @@ void RISCV::handle_interrupt() {
             int count = s->timedBlock;
             for (List<TCB>::Elem* e = s->blocked.head ; e && count > 0; e = e->next) {
                 TCB* t = e->data;
-                if (t->time_on_sem > 0) {       // if timed waiting
+                if (t->time_on_sem > 0) { // if timed waiting
                     count--;
-                    t->time_on_sem--;
-                    if ( !t->time_on_sem && t != Scheduler::peek() ) {
-                        // scheduler -> fifo, peek is next running
-
-                        s->blocked.remove(t);  // time expired
+                    // time on sem == 0 will return TIMEOUT
+                    if ( --t->time_on_sem == 0) {
+                        // time expired
+                        s->blocked.remove(t);
                         t->current_state = TCB::RUNNABLE;
-
-                        // timed block count updated in timed_wait
-
                         Scheduler::put(t);
-
                     }
                 }
             }
@@ -172,13 +168,13 @@ void RISCV::handle_interrupt() {
                 Sem::signal((sem_t)a1); // a1 <=> handle
                 break;
             case SEM_TIMEDWAIT:
-                Sem::timedWait((sem_t)a1,(time_t)a2);
+                Sem::timedwait((sem_t)a1,(time_t)a2);
                 break;
             case SEM_TRYWAIT:
                 Sem::trywait((sem_t)a1);
                 break;
             case TIME_SLEEP:
-                Scheduler::put_to_sleep((thread_t)TCB::running, (time_t)a1);
+                Scheduler::time_sleep((thread_t)TCB::running, (time_t)a1);
                 break;
             case GETC:
                 myConsole::input_getc();

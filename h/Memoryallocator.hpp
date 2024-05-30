@@ -32,7 +32,7 @@ private:
 public:
 
     static MemoryAllocator* allocator;
-    static MemoryAllocator* getAllocator();
+    static MemoryAllocator* init_allocator();
 
     static void* mem_alloc(size_t);
     static int mem_free( void*);

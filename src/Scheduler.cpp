@@ -45,9 +45,7 @@ bool Scheduler::empty() {
     return first != nullptr;
 }
 
-int Scheduler::put_to_sleep(TCB *tcb, time_t time) {
-
-    // napravi static put (*head, *last)
+int Scheduler::time_sleep(TCB *tcb, time_t time) {
 
     if (time == 0) return -1;
 

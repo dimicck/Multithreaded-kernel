@@ -23,6 +23,8 @@ public:
     static void push_regs();
     static void pop_regs();
 
+    static uint64 return_value(uint64 value);
+
     static uint64 rd_scause();
     static void wr_scause(uint64 value);
 
@@ -41,26 +43,15 @@ public:
     static uint64 rd_sstatus();
     static void wr_sstatus(uint64 value);
 
-    static inline void clear_sip(uint64 mask) {
-        __asm__ volatile("csrc sip, %0" : : "r"(mask));
-    }
+    static void clear_sip(uint64 mask);
+    static void set_sip(uint64 mask);
 
-    static inline void set_sip(uint64 mask) {
-        __asm__ volatile("csrs sip, %0" : : "r"(mask));
-    }
-
-
-    static inline void mask_status(uint64 mask) {
-        __asm__ volatile("csrc sstatus, %0" : : "r"(mask));
-    };
-
-    static inline void set_status(uint64 mask) {
-        __asm__ volatile("csrs sstatus, %0" : : "r"(mask));
-    }
+    static void mask_status(uint64 mask);
+    static void set_status(uint64 mask);
 
     static void popSppSpie();
     // pop sstatus.spp and sstatus.spie bits
-    // must be in cpp !!!
+    // must be in cpp, not inline
 
     enum mask_sstatus {
         SIE = (1 << 1),
@@ -134,5 +125,23 @@ inline uint64 RISCV::rd_sstatus() {
 inline void RISCV::wr_sstatus(uint64 value) {
     __asm__ volatile ("csrw sstatus, %0" : : "r"(value));
 }
+
+inline void RISCV::clear_sip(uint64 mask) {
+    __asm__ volatile("csrc sip, %0" : : "r"(mask));
+}
+
+inline void RISCV::set_sip(uint64 mask) {
+    __asm__ volatile("csrs sip, %0" : : "r"(mask));
+}
+
+inline void RISCV::mask_status(uint64 mask) {
+    __asm__ volatile("csrc sstatus, %0" : : "r"(mask));
+};
+
+inline void RISCV::set_status(uint64 mask) {
+    __asm__ volatile("csrs sstatus, %0" : : "r"(mask));
+}
+
+
 
 #endif //PROJECT_BASE_RISCV_HPP

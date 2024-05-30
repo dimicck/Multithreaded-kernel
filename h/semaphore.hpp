@@ -27,9 +27,9 @@ public:
     static int wait(sem_t);
     static int signal(sem_t);
 
-    int getValue() const;
+    int get_value() const;
 
-    static int timedWait(sem_t, time_t time);
+    static int timedwait(sem_t, time_t time);
     static int trywait(sem_t);
 
     static int open(sem_t* handle, unsigned init);  // ???
@@ -56,8 +56,8 @@ private:
     ListTCB blocked;
     int timedBlock = 0;
 
-    static void semAdd(Sem* toAdd);
-    static void semRemove(Sem* toDelete);
+    static void sem_add(Sem* toAdd);
+    static void sem_remove(Sem* toDelete);
 
     // zameniti sa glubalnom listAdd (first, last, new) i listGet (first, last)
 };

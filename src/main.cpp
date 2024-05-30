@@ -5,6 +5,13 @@
 #include "../lib/console.h"
 #include "../h/print.hpp"
 
+thread_t mythreads[10];
+sem_t mySem;
+
+thread_t mainThread;
+thread_t consoleThread;
+thread_t userMainThread;
+
 void testMemoryAllocator() {
 
     void *addr = MemoryAllocator::mem_alloc(1);
@@ -41,7 +48,7 @@ void testConsole(void *args) {
 
 void handleNewChars(void * args) {
 
-    while (true) {
+    while (true ) {
         while (*(char *) CONSOLE_STATUS & CONSOLE_TX_STATUS_BIT) {
             // console controller is ready for new char
             char c = myConsole::output_getc();
@@ -59,14 +66,10 @@ void testTimedWait(void* args) {
 
 }
 
-sem_t mySem;
 
 void semWaiter(void* ) {
     sem_wait(mySem);
 }
-
-
-thread_t mythreads[10];
 
 void runningForever(void* args) {
 
@@ -77,17 +80,11 @@ void runningForever(void* args) {
     }
 }
 
-
 void timedWaiter(void *) {
     int result = sem_timedwait(mySem, 1);
     if (result == Sem::TIMEOUT) putc('t');
     thread_exit();
 }
-
-thread_t mainThread;
-thread_t consoleThread;
-thread_t userMainThread;
-
 
 extern void userMain();
 
@@ -98,9 +95,10 @@ void userWrapper(void* args) {
 int main() {
 
     RISCV::wr_stvec((uint64)&RISCV::supervisor_trap);
-    MemoryAllocator::getAllocator();
+
+    MemoryAllocator::init_allocator();
     Scheduler::init_scheduler();
-    myConsole::init();
+    myConsole::init_myconsole();
 
 //    testMemoryAllocator();
 //    testCMemory();
@@ -118,13 +116,13 @@ int main() {
 //    thread_create(&mythreads[3], runningForever, (void *)('b'));
 //    thread_create(&mythreads[4], semWaiter, (void *)('a'));
 //    thread_create(&mythreads[5], semWaiter, (void *)('b'));
-//
 //    thread_create(&mythreads[2], timedWaiter, nullptr);
 
     thread_create(&userMainThread, userWrapper, nullptr);
 
 //    sem_open(&mySem, 1); // mutex
 
-     while (true) thread_dispatch();
-    return 0;
+     while (!userMainThread -> all_work_done()) thread_dispatch();
+
+     return 0;
 }

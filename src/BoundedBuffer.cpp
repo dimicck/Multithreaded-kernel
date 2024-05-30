@@ -23,8 +23,9 @@ void BoundedBuffer::put(char c) {
 }
 
 char BoundedBuffer::get() {
-    Sem::wait(item_available);
+    int ret = Sem::wait(item_available);
     //Sem::wait(mutex);
+    if (ret != 0) return EOF; // unsuccessful
     char  c = buffer[head++];
     head %= bufferSize;
     //Sem::signal(mutex);
@@ -41,10 +42,10 @@ void BoundedBuffer::operator delete(void *addr) {
 }
 
 bool BoundedBuffer::empty() const {
-    return !item_available->getValue();
+    return !item_available->get_value();
 }
 
 bool BoundedBuffer::full() const {
-    return !space_available->getValue();
+    return !space_available->get_value();
 };
 

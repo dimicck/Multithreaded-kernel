@@ -1,6 +1,6 @@
 #include "../lib/console.h"
 #include "../h/print.hpp"
-#include "../h/syscall_c.h"
+#include "../h/syscall_c.hpp"
 
 void myPrintString(char const* string) {
     while (*string != '\0') {

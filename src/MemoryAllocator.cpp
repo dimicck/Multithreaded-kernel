@@ -6,7 +6,7 @@ MemoryAllocator* MemoryAllocator::allocator = nullptr;
 MemoryAllocator::MemoryBlock* MemoryAllocator::free_mem_head = nullptr;
 MemoryAllocator::MemoryBlock* MemoryAllocator::used_mem_head = nullptr;
 
-MemoryAllocator* MemoryAllocator::getAllocator() {
+MemoryAllocator* MemoryAllocator::init_allocator() {
 
     if (!allocator) {
         free_mem_head = (MemoryBlock*)HEAP_START_ADDR;

@@ -8,7 +8,7 @@
 #include "../lib/hw.h"
 #include "../h/Memoryallocator.hpp"
 #include "../h/riscv.hpp"
-#include "../h/syscall_c.h"
+#include "../h/syscall_c.hpp"
 
 //extern void thread_dispatch();
 
@@ -53,6 +53,7 @@ public:
 
     static bool isFinished() {return TCB::running->current_state == state::FINISHED;}
     void finish() { current_state = state::FINISHED; }
+    bool all_work_done() {return current_state == state::FINISHED;}
 
     ~TCB() {delete[] stack;}
 
@@ -67,7 +68,6 @@ private:
     int id;
 
     TCB* next_ready; // scheduler
-
     TCB* next_sleepy;
 
     time_t time_on_sem;
@@ -85,9 +85,7 @@ private:
     static void contextSwitch(Context * oldContext, Context * newContext);
 
     static void wrapper();
-
     static int _threadExit();
-
 };
 
 #endif //PROJECT_BASE_THREAD_HPP

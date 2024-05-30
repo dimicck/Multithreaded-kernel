@@ -71,18 +71,15 @@ void TCB::yield(TCB* oldRunning, TCB* newRunning) {
 void TCB::dispatch() {
 
     TCB *oldRunning = TCB::running;
-
     if ( isRunnable() ) Scheduler::put(oldRunning);
-
     if ( isFinished() ) {
         MemoryAllocator::mem_free(TCB::running->stack);
-
     }
 
     time_slice_count = 0;
     running = Scheduler::get();
 
-    yield(oldRunning, running);
+    if (oldRunning != running) yield(oldRunning, running);
 }
 
 void *TCB::operator new(size_t size) {
@@ -99,13 +96,11 @@ bool TCB::isRunnable() {
     return running->current_state == RUNNABLE; }
 
 int TCB::_threadExit() {
+
+    if (TCB::running == nullptr) return -1; // error
+
     TCB::running -> finish();
-
-    // check if semaphore signal needed ?
-    // don't put in Scheduler -> call yield only
-
     thread_dispatch();
-
     return 0;
 }
 

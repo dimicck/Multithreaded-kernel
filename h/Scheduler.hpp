@@ -16,7 +16,7 @@ public:
     static TCB* peek();
     static bool empty();
 
-    static int put_to_sleep(TCB*, time_t );
+    static int time_sleep(TCB*, time_t );
 
     void* operator new(size_t);
     void operator delete(void *);
