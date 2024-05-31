@@ -25,7 +25,7 @@ void handleNewChars(void * args) {
 
 extern void userMain();
 
-void userWrapper(void* args) {
+void userWrapper(void*) {
     userMain();
 }
 

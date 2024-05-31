@@ -4,6 +4,7 @@
 #include "../h/Memoryallocator.hpp"
 #include "../h/thread.hpp"
 #include "../h/Console.hpp"
+#include "../h/print.hpp"
 
 extern void printInteger(uint64);
 extern void printString(char*);
@@ -198,7 +199,7 @@ void RISCV::handle_interrupt() {
 
     } else {
         // INVALID INTERRUPT CODE
-        printInteger(123456789);
+        myPrintString("Error");
     }
 }
 
