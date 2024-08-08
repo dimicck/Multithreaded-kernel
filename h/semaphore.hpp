@@ -15,8 +15,6 @@ public:
 
     friend class RISCV;
 
- // puno praznih pokazivaca, razmisli o listi
-
     enum error {
         MEMORY_ERR = -3,
         SEM_CLOSED = -4,
@@ -32,13 +30,12 @@ public:
     static int timedwait(sem_t, time_t time);
     static int trywait(sem_t);
 
-    static int open(sem_t* handle, unsigned init);  // ???
+    static int open(sem_t* handle, unsigned init); 
     static int s_close(sem_t handle);
 
     void* operator new(size_t size);
     void operator delete(void* ptr);
 
-//    static ListSEM semaphores;
     static Sem* first, *last;
 
 private:
@@ -51,17 +48,11 @@ private:
     int value;
     Sem* next = nullptr;
 
-    // bool isClosed
-
     ListTCB blocked;
     int timedBlock = 0;
 
     static void sem_add(Sem* toAdd);
     static void sem_remove(Sem* toDelete);
-
-    // zameniti sa glubalnom listAdd (first, last, new) i listGet (first, last)
 };
-
-
 
 #endif //PROJECT_BASE_SEMAPHORE_HPP
