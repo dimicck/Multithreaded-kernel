@@ -3,10 +3,6 @@
 #define PROJECT_BASE_SYSCALLL_C_HPP
 
 #include "../lib/hw.h"
-//
-//extern const void* HEAP_START_ADDR;
-//extern const void* HEAP_END_ADDR;
-//extern const size_t MEM_BLOCK_SIZE;
 
 enum CODES {
     MEM_ALLOC = 0x01,
