@@ -56,9 +56,6 @@ void* MemoryAllocator::mem_alloc(size_t size) {
                 // prev addr < addr and prev-next addr > addr + size
                 if ((char*)prev->next >= (char*)curr + byte_size) break;
             }
-
-            // dodavanje na kraj?
-
             curr->size = byte_size - mem_h_size;
             curr->prev = prev;
 
@@ -69,11 +66,10 @@ void* MemoryAllocator::mem_alloc(size_t size) {
             else used_mem_head = curr;
             if (curr->next) curr->next->prev = curr;
             return (void*)((char*)curr + sizeof(MemoryBlock));
-
         }
     }
 
-    // free memory not found :(
+    // free memory not found
     return nullptr;
 }
 
@@ -122,7 +118,6 @@ int MemoryAllocator::mem_free(void* addr) {
 }
 
 // try to join with next free segment
-
 int MemoryAllocator::tryToJoin(MemoryAllocator::MemoryBlock *curr) {
     if (!curr) return 0;
     if (curr->next && (char*)curr + curr->size == (char*)curr->next) {
@@ -135,15 +130,3 @@ int MemoryAllocator::tryToJoin(MemoryAllocator::MemoryBlock *curr) {
 }
 
 extern void printInteger(uint64);
-
-
-
-
-
-
-
-
-
-
-
-
