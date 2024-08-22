@@ -1,7 +1,3 @@
-//
-// Created by os on 4/9/24.
-//
-
 #ifndef PROJECT_BASE_THREAD_HPP
 #define PROJECT_BASE_THREAD_HPP
 
@@ -10,11 +6,8 @@
 #include "../h/riscv.hpp"
 #include "../h/syscall_c.hpp"
 
-//extern void thread_dispatch();
-
 using routine_ptr = void(*)(void *);
 
-// _thread je wrapper ove klase
 class TCB final {
 
     friend class RISCV;
@@ -23,7 +16,7 @@ class TCB final {
 
 public:
 
-    static TCB* running; // current thread
+    static TCB* running; 
 
     enum state {
         RUNNABLE,
@@ -33,28 +26,27 @@ public:
         BLOCKED
     };
     struct Context {
-        // nadogradi kasnije
         uint64 pc;
         uint64 sp;
         uint64 sstatus;
         uint64 sepc;
     };
 
-    static int _threadCreate(TCB** handle, routine_ptr routine, void* args, void* stack_space); // + time
+    static int _threadCreate(TCB** handle, routine_ptr routine, void* args, void* stack_space); 
 
     static void yield(TCB*, TCB*);
 
     static void dispatch();
 
-    time_t getTimeSlice() const {return time_slice;}
+    time_t getTimeSlice() const { return time_slice; }
 
     static bool isRunnable();
 
-    bool isFinished() {return current_state == state::FINISHED;}
+    bool isFinished() { return current_state == state::FINISHED; }
 
     void finish() { current_state = state::FINISHED; }
 
-    ~TCB() {delete[] stack;}
+    ~TCB() { delete[] stack; }
 
     void* operator new(size_t size);
     void operator delete(void* ptr);
@@ -66,8 +58,8 @@ private:
 
     int id;
 
-    TCB* next_ready; // scheduler
-    TCB* next_sleepy;
+    TCB* next_ready; // next in scheduler
+    TCB* next_sleepy; // next in time sleep
 
     time_t time_on_sem;
     time_t sleeping_time;
